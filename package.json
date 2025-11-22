@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/SimoGuu/Tutto-Fumo-Niente-Smog/issues"
   },
-  "homepage": "https://github.com/SimoGuu/Tutto-Fumo-Niente-Smog#readme"
+  "homepage": "https://github.com/SimoGuu/Tutto-Fumo-Niente-Smog#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
