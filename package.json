@@ -1,0 +1,23 @@
+{
+  "name": "progettoingsw",
+  "version": "1.0.0",
+  "description": "Ciao. Chissà a che servirà questa repo (e tutto il progetto tbf). Comunque ce la faremo, spero.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SimoGuu/Tutto-Fumo-Niente-Smog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SimoGuu/Tutto-Fumo-Niente-Smog/issues"
+  },
+  "homepage": "https://github.com/SimoGuu/Tutto-Fumo-Niente-Smog#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
