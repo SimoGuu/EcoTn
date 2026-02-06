@@ -6,33 +6,7 @@ body {
     margin: 0;
 }
 
-.card {
-    border: 4px solid #97cac0;
-    border-left: 14px solid #096682;
-    border-radius: 33px 100px 33px 100px;
-    border-right: 14px solid #096682;
-    height: auto;
-    margin: 50px auto auto auto;
-    display: block;
-    width: 50%;
-    text-align: center;
-    padding: 10px;
-}
 
-.sfondo {
-    background-color: #b8f5e9;
-    padding: 0px;
-}
-
-.titolo {
-    font-size: 46px;
-    height: 100%;
-    text-align: center;
-    width: 100%;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 700;
-    margin: 20px;
-}
 
 #idwu46 {
     min-height: 100px;

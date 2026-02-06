@@ -1,0 +1,68 @@
+.testocard {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 20px;
+    margin: 0px 0px 0px 0px;
+    text-align: center;
+    color: #001e6a;
+}
+
+.card {
+    border: 4px solid #97cac0;
+    border-left: 14px solid #096682;
+    border-radius: 33px 100px 33px 100px;
+    border-right: 14px solid #096682;
+    height: auto;
+    margin: 50px auto auto auto;
+    display: block;
+    width: 50%;
+    text-align: center;
+    padding: 10px;
+}
+
+.sfondo {
+    background-color: #b8f5e9;
+    padding: 0px;
+}
+
+.titolo {
+    font-size: 46px;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    margin: 20px;
+}
+
+.testo_impostazioni {
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+    margin: auto;
+    color: #000000;
+    display: inline-block;
+    text-align: center;
+}
+
+.etichetta {
+    color: #003d52;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    margin: 0px;
+}
+
+.collegamento {
+    color: #003d52;
+    font-family: "Montserrat", sans-serif;
+    margin: -5px;
+    text-align: center;
+}
+
+
+.divform {
+    margin: 10px;
+}
+
+.container_impianto {
+    background-color: #97cac0;
+    border-bottom: 4px groove #00154b;
+}

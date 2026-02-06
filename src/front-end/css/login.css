@@ -6,18 +6,6 @@ body {
     margin: 0;
 }
 
-.card {
-    border: 4px solid #97cac0;
-    border-left: 14px solid #096682;
-    border-radius: 33px 100px 33px 100px;
-    border-right: 14px solid #096682;
-    height: auto;
-    margin: 50px auto auto auto;
-    display: block;
-    width: 50%;
-    text-align: center;
-    padding: 10px;
-}
 
 #iegqn {
     outline: #000000;
@@ -86,19 +74,6 @@ body {
     min-height: 100px;
 }
 
-.etichetta {
-    color: #003d52;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 700;
-    margin: 0px;
-}
-
-.collegamento {
-    color: #003d52;
-    font-family: "Montserrat", sans-serif;
-    margin: -5px;
-    text-align: center;
-}
 
 #i9r7g-2 {
     padding: 10px;
@@ -134,10 +109,6 @@ body {
     font-weight: 700;
 }
 
-.sfondo {
-    background-color: #b8f5e9;
-    padding: 0px;
-}
 
 @media (max-width: 992px) {
     #i7shz {

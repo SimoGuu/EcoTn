@@ -6,10 +6,6 @@ body {
     margin: 0;
 }
 
-.sfondo {
-    background-color: #b8f5e9;
-    padding: 0px;
-}
 
 #iaay92 {
     background-attachment: scroll;
@@ -24,25 +20,12 @@ body {
     padding: 10px;
 }
 
-.titolo {
-    font-size: 46px;
-    height: 100%;
-    text-align: center;
-    width: 100%;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 700;
-    margin: 20px;
-}
 
 #ir2aqr {
     min-height: 100px;
     border: 1px solid #dd1717;
 }
 
-.container_impianto {
-    background-color: #97cac0;
-    border-bottom: 4px groove #00154b;
-}
 
 #i4g4af {
     color: black;

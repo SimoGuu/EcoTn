@@ -6,36 +6,10 @@ body {
     margin: 0;
 }
 
-.card {
-    border: 4px solid #97cac0;
-    border-left: 14px solid #096682;
-    border-radius: 33px 100px 33px 100px;
-    border-right: 14px solid #096682;
-    height: auto;
-    margin: 50px auto auto auto;
-    display: block;
-    width: 50%;
-    text-align: center;
-    padding: 10px;
-}
 
-.divform {
-    margin: 10px;
-}
 
-.etichetta {
-    color: #003d52;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 700;
-    margin: 0px;
-}
 
-.collegamento {
-    color: #003d52;
-    font-family: "Montserrat", sans-serif;
-    margin: -5px;
-    text-align: center;
-}
+
 
 #ia76a-2 {
     color: black;
