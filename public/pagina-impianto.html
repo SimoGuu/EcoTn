@@ -5,9 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Silex v3.6.1">
-    <link rel="stylesheet"
-        href="css/pagina-impianto.css" />
-        <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/pagina-impianto.css" />
+    <link rel="stylesheet" href="css/style.css" />
 
 
 
@@ -41,8 +40,38 @@
         </div>
         <div id="itnt5y-4" class="card"><img id="i2yznk-2" src="/assets/download.png" /></div>
     </div>
-    <div id="iaubeb" class="card"><img id="i25agp-2" src="/assets/Grafico_storico_consumi_v1.png" /></div>
+
+
+
+    <!-- Grafico consumi-->
+    <div id="iaubeb" class="card">
+
+        <select id="periodo" onchange="gestisciPeriodo()">
+            <option value="">Seleziona periodo</option>
+            <option value="oggi">Oggi</option>
+            <option value="settimana">Questa settimana</option>
+            <option value="mese">Questo mese</option>
+            <option value="custom">Periodo personalizzato</option>
+        </select>
+
+        <div id="customDates" style="display:none">
+            <input type="date" id="startDate">
+            <input type="date" id="endDate">
+        </div>
+
+        <button onclick="caricaConsumi()">Mostra</button>
+
+
+        <img id="i25agp-2" src="/assets/Grafico_storico_consumi_v1.png" />
+    </div>
     <div id="ifhz94"></div>
+
+    <script src="scripts/pagina-impianto.js"></script>
+    <script>function caricaConsumi(){
+        console.log("a");
+    }
+    
+    </script>
 </body>
 
 </html>
