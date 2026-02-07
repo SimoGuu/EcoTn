@@ -7,44 +7,27 @@ body {
 }
 
 
-#iqcrku {
-    min-height: 100px;
-    text-decoration: #000000;
-    background-color: #ffffff;
-}
 
-#ib8uta {
+.blocco_impostazioni {
     height: auto;
     padding: 20px;
     display: block;
     width: 50%;
 }
 
-#iziycg {
-    padding: 10px;
-    display: inline-block;
-}
 
-#i1uahy {
+
+.chk {
     width: 30px;
     height: 30px;
     margin: 0px;
 }
 
 
-#iziycg-2 {
-    padding: 10px;
-    display: inline-block;
-}
 
-#ib8uta-2 {
-    height: auto;
-    padding: 20px;
-    display: block;
-    width: 50%;
-}
 
-#ite9f6 {
+
+.menu_tendina {
     height: 40px;
     width: 100px;
     font-family: "Montserrat", sans-serif;
@@ -52,61 +35,8 @@ body {
     padding: 5px 10px 10px 10px;
 }
 
-#ipizbp {
-    min-height: 100px;
-}
 
-#iws1y2-2 {
-    text-align: center;
-}
-
-#ispink {
-    padding: 10px;
-    display: inline-block;
-}
-
-#ik1xv4 {
-    width: 30px;
-    height: 30px;
-}
-
-#ispink-2 {
-    padding: 10px;
-    display: inline-block;
-}
-
-#ik1xv4-2 {
-    width: 30px;
-    height: 30px;
-}
-
-#i2n2zp {
+#txt_soglia {
     height: 30px;
     margin: 0px 0px 0px 30px;
-}
-
-#ispink-3 {
-    padding: 10px;
-    display: inline-block;
-}
-
-#ik1xv4-3 {
-    width: 30px;
-    height: 30px;
-}
-
-#iziycg-3 {
-    padding: 10px;
-    display: inline-block;
-}
-
-#ib8uta-3 {
-    height: auto;
-    padding: 20px;
-    display: block;
-    width: 50%;
-}
-
-#iwvikl {
-    color: #780101;
 }

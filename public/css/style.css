@@ -1,16 +1,47 @@
+:root {
+    --bg-page: #b8f5e9;
+    --bg-card: #ffffff;
+    --text-main: #001e6a;
+    --text-base-color: #000000;
+    --title-color: #000000;
+
+    --card-border: #97cac0;
+    --card-border-strong: #096682;
+
+    --accent: #003d52;
+    --label-text: #096682;
+}
+
+body.dark {
+    --bg-page: #0f172a;
+    --bg-card: #1e293b;
+    --text-main: #e5e7eb;
+    --text-base-color: #ffffff;
+    --title-color: #f8fafc;
+
+    --card-border: #334155;
+    --card-border-strong: #38bdf8;
+
+    --accent: #7dd3fc;
+    --label-text: #096682;
+}
+
+
+
+
 .testocard {
     font-family: Verdana, Geneva, sans-serif;
     font-size: 20px;
     margin: 0px 0px 0px 0px;
     text-align: center;
-    color: #001e6a;
+    color: var(--text-main);
 }
 
 .card {
-    border: 4px solid #97cac0;
-    border-left: 14px solid #096682;
+    border: 4px solid var( --card-border);
+    border-left: 14px solid var(--card-border-strong);
     border-radius: 33px 100px 33px 100px;
-    border-right: 14px solid #096682;
+    border-right: 14px solid var(--card-border-strong);
     height: auto;
     margin: 50px auto auto auto;
     display: block;
@@ -20,7 +51,7 @@
 }
 
 .sfondo {
-    background-color: #b8f5e9;
+    background-color: var(--bg-page);
     padding: 0px;
 }
 
@@ -34,24 +65,36 @@
     margin: 20px;
 }
 
+.titolo_block {
+    background-color: #ffffff;
+    border-bottom: 4px solid #00154b;
+    padding: 20px;
+    font-size: 46px;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+}
+
 .testo_impostazioni {
     font-family: "Montserrat", sans-serif;
     font-size: 20px;
     margin: auto;
-    color: #000000;
+    color: var(--text-base-color);
     display: inline-block;
     text-align: center;
 }
 
 .etichetta {
-    color: #003d52;
+    color: var(--label-text);
     font-family: "Montserrat", sans-serif;
     font-weight: 700;
-    margin: 0px;
+    margin: 10px;
 }
 
 .collegamento {
-    color: #003d52;
+    color: var(--accent);
     font-family: "Montserrat", sans-serif;
     margin: -5px;
     text-align: center;
@@ -62,7 +105,10 @@
     margin: 10px;
 }
 
-.container_impianto {
-    background-color: #97cac0;
-    border-bottom: 4px groove #00154b;
+
+
+.box_titolo {
+    height: 100px;
+    color: var(--text-base-color);
+    background-color: var(--bg-card);
 }

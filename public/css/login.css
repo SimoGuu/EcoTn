@@ -7,11 +7,9 @@ body {
 }
 
 
-#iegqn {
-    outline: #000000;
-}
 
-#i7shz {
+
+#blocco_form {
     background-attachment: scroll;
     background-image: linear-gradient(#ffffff 0%, #ffffff 100%);
     background-position: left top;
@@ -26,18 +24,15 @@ body {
     width: 400px;
 }
 
-#ia76a {
+#immagine_login {
     color: black;
     height: 150px;
     margin: auto auto 30px auto;
 }
 
-#i0lee {
+#decorazione {
     background-attachment: scroll;
-    background-image: linear-gradient(rgba(9, 102, 130, 0.2) 0%, rgba(9, 102, 130, 0.2) 100%);
-    background-position: left top;
-    background-repeat: repeat;
-    background-size: auto;
+    background-color: #97cac0;
     border-radius: 50px 50px 100px 100px;
     outline: #096682;
     padding: 20px;
@@ -47,20 +42,10 @@ body {
     margin: 10px;
 }
 
-#ift4f {
-    margin: 10px;
-}
 
-#iba48 {
-    margin: 10px;
-}
 
-#i50n7 {
-    background-attachment: scroll;
-    background-image: linear-gradient(#096682 0%, #096682 100%);
-    background-position: left top;
-    background-repeat: repeat;
-    background-size: auto;
+#bottone {
+    background-color: #096682;
     border: 0px solid;
     border-radius: 10px;
     color: #ffffff;
@@ -69,10 +54,6 @@ body {
     text-align: center;
 }
 
-#ic8om {
-    margin: auto;
-    min-height: 100px;
-}
 
 
 #i9r7g-2 {

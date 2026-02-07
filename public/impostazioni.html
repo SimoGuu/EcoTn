@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Silex v3.6.1">
     <link rel="stylesheet" href="css/impostazioni.css" />
-    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/style.css" />
 
 
 
@@ -19,36 +19,97 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 
-<body id="ikvwig" class="sfondo">
-    <div id="iqcrku">
-        <div id="i40848" class="titolo">IMPOSTAZIONI</div>
+<body class="sfondo">
+    <div class="box_titolo">
+        <div class="titolo">IMPOSTAZIONI</div>
     </div>
-    <div id="ib8uta" class="card">
-        <div id="iziycg" class="testo_impostazioni">Tema Scuro<br id="i60meh" /></div><input type="checkbox"
-            id="i1uahy" />
-    </div>
-    <div id="ib8uta-2" class="card">
-        <div id="iziycg-2" class="testo_impostazioni">Lingua<br id="i60meh-2" /></div><select id="ite9f6">
-            <option value="Italiano" id="ijbuxl">Italiano</option>
-            <option value="English" id="i3hy13">English</option>
-            <option value="Deutsche" id="iv7bc5">Deutsche</option>
-        </select>
-    </div>
-    <div id="ipizbp" class="card">
-        <div id="iws1y2">
-            <div id="ispink" class="testo_impostazioni">Notifiche news</div><input type="checkbox" id="ik1xv4" />
+
+
+    <div  class="card">
+        <div class="testo_impostazioni blocco_impostazioni">
+            Tema Scuro
         </div>
-        <div id="iws1y2-2">
-            <div id="ispink-2" class="testo_impostazioni">Soglia consumi</div><input type="checkbox"
-                id="ik1xv4-2" /><input type="text" id="i2n2zp" />
-            <div id="iws1y2">
-                <div id="ispink" class="testo_impostazioni">Notifiche news</div><input type="checkbox" id="ik1xv4" />
+        <input type="checkbox" class="chk" id="chk_tema" />
+    </div>
+
+
+    <!--Selezione Lingua-->
+    <div class="card">
+        <div class="testo_impostazioni blocco_impostazioni">Lingua</div>
+            <select class="menu_tendina">
+                <option value="Italiano" >Italiano</option>
+                <option value="English" >English</option>
+                <option value="Deutsche" >Deutsche</option>
+            </select>
+    </div>
+
+
+    <!-- Impostazioni notifiche-->
+    <div class="card">
+
+        <!-- Abilita/Disabilita news -->
+        <div >
+            <div class="testo_impostazioni blocco_impostazioni">
+                Notifiche news
             </div>
+            <input type="checkbox" class="chk" />
+        </div>
+
+        <!-- Soglie consumi -->
+        <div >
+            <div class="testo_impostazioni blocco_impostazioni">
+                Soglia consumi
+            </div>
+            <input type="checkbox" id="chk_soglia" class="chk"/>
+            <input type="number" id="txt_soglia"  />
+            <!-- 
+            <div id="iws1y2">
+                <div id="ispink" class="testo_impostazioni">
+                    Notifiche news</div><input type="checkbox" id="ik1xv4" />
+            </div>
+            -->
         </div>
     </div>
-    <div id="ib8uta-3" class="card">
-        <div id="iziycg-3" class="testo_impostazioni"><b id="iwvikl">Log Out</b><br id="i60meh-3" /></div>
+
+    <!-- Log out -->
+    <div  class="card blocco_impostazioni">
+        <div  class="testo_impostazioni blocco_impostazioni">
+            <b onclick="LogOut();">Log Out</b>
+        </div>
     </div>
+
+
+
 </body>
+
+
+
+<script>
+    const toggle = document.getElementById("chk_tema");
+
+    // carica preferenza
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        toggle.checked = true;
+    }
+
+    toggle.addEventListener("change", () => {
+        if (toggle.checked) {
+            document.body.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            document.body.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        }
+    });
+
+    function LogOut(){
+        window.location.href = 'login.html'
+    }
+
+
+
+</script>
 
 </html>

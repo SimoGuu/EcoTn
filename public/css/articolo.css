@@ -6,63 +6,50 @@ body {
     margin: 0;
 }
 
-
-
-#im5ae7 {
-    min-height: 100px;
-    background-color: #ffffff;
-    margin: 0px 0px 30px 0px;
-}
-
-#iamt0g {
-    padding: 10px;
-}
-
-#idazix {
+#div_immagine {
     min-height: 100px;
     max-height: 300px;
     text-align: center;
 }
 
-#ip7qjh {
-    color: black;
+#immagine {
     height: 100%;
     width: 50%;
     max-height: 300px;
     border-radius: 20px;
 }
 
-#is6yad {
+#corpo_articolo {
     min-height: 100px;
     padding: 20px;
 }
 
-#iv97pk {
+#testo {
     padding: 10px;
 }
 
-#ibytog {
+#footer {
     min-height: 100px;
-    background-color: #ffffff;
+    background-color: var(--bg-card);
     margin: 30px 0px 0px 0px;
     text-align: center;
 }
 
-#icnddu {
+#chiavi {
     padding: 10px;
 }
 
-#ijjszz {
+#elenco_chiavi {
     padding: 10px;
     display: block;
 }
 
 @media (max-width: 480px) {
-    #is6yad {
+    #immagine {
         width: 100%;
     }
 
-    #ip7qjh {
+    #corpo_articolo {
         width: 100%;
     }
 

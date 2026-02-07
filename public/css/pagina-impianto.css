@@ -8,121 +8,37 @@ body {
 
 
 
-#idwu46 {
+#impianto_card {
     min-height: 100px;
     padding: 50px;
     height: auto;
 }
 
-#ii0305 {
-    background-color: #ffffff;
-    min-height: 100px;
+#trittica {
     text-align: center;
 }
 
-#i2vb9m {
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    margin: 0px auto 0px auto;
-    padding: 10px;
-}
 
-#ic8d04 {
-    background-color: #000000;
-    display: inline;
-    min-height: 100px;
-    width: 100px;
-}
+.cardina {
+    border: 4px solid var( --card-border);
+    border-left: 14px solid var(--card-border-strong);
+    border-radius: 33px 100px 33px 100px;
+    border-right: 14px solid var(--card-border-strong);
 
-#ixs06g {
-    display: block;
-    min-height: 100px;
-}
-
-#iaubeb {
-    min-height: 100px;
-}
-
-#ikofft {
-    min-height: 100px;
-}
-
-#iqa47g {
-    padding: 10px;
+    margin: 50px auto auto auto;
     text-align: center;
-    font-weight: 800;
-    font-family: Tahoma, Geneva, sans-serif;
-}
-
-#i25agp {
-    color: black;
-}
-
-#i25agp-2 {
-    color: black;
-}
-
-#ifhz94 {
-    min-height: 100px;
-}
-
-#itnt5y {
     min-height: 100px;
     display: inline-block;
     width: 20%;
     padding: 20px 10px 20px 10px;
-    height: 150px;
+    height: 150px ;
+
+    color: var( --text-base-color);
 }
 
-#iye0wh {
+#trittica_carda {
     min-height: 100px;
     text-align: center;
     padding: 20px;
 }
 
-#i2yznk {
-    color: black;
-    width: 100px;
-}
-
-#i2yznk-2 {
-    color: black;
-    width: 100px;
-}
-
-#itnt5y-4 {
-    min-height: 100px;
-    display: inline-block;
-    width: 20%;
-    padding: 20px 10px 20px 10px;
-    height: 150px;
-}
-
-#itnt5y-2 {
-    min-height: 100px;
-    display: inline-block;
-    width: 20%;
-    padding: 20px 10px 20px 10px;
-    height: 150px;
-}
-
-#i2g39w {
-    padding: 10px;
-}
-
-#ioh09d {
-    padding: 10px;
-}
-
-#i1e1w3 {
-    padding: 10px;
-}
-
-#is3ika {
-    font-family: "Montserrat", sans-serif;
-    font-weight: 800;
-}
-
-#iye0wh:hover {
-    color: #000000;
-}

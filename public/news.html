@@ -18,21 +18,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 
-<body id="irlq4i" class="sfondo">
-    <div id="i535yb">
-        <div id="ihijhi" class="titolo">News</div>
-        <div id="ioljd5">
-            <div id="ijed1h" class="testo_impostazioni">Inserisci una chiave di ricerca</div><input type="text"
-                id="imgrth" />
+<body class="sfondo">
+    <div class="titolo_block">
+        News
+    </div>
+    
+        
+            <div id="div_chiavi" class="testo_impostazioni">
+                Inserisci una chiave di ricerca
+                 <input type="text" id="txt_chiave" />
+            </div>
+           
+        
+    <div class="box_news">
+        <div  class="card">
+            <img  src="/assets/impianto_placeholder.jpg" />
+            <div>
+                <div class="testo_impostazioni titolo_news">Titolo News</div>
+            </div>
+
+            <div class="testo_impostazioni titolo_chiavi">Chiavi: </div>
+            <div  class="elenco_chiavi">#Ecologia #Eolico<br id="izf9uc" /></div>
         </div>
     </div>
-    <div id="iyy3bl">
-        <div id="i00lpd" class="card"><img id="il4b28" src="/assets/impianto_placeholder.jpg" />
-            <div id="ipv7oz" class="testo_impostazioni">Titolo News</div>
-            <div id="ivr75k" class="testo_impostazioni">Chiavi: </div>
-            <div id="ij5gpr" class="testo_impostazioni">#Ecologia #Eolico<br id="izf9uc" /></div>
-        </div>
-    </div>
+
+    <script>
+
+        //Set tema
+        if (localStorage.getItem("theme") == "dark") {
+            document.body.classList.add("dark");
+        } else {
+            document.body.classList.remove("dark");
+        }
+
+
+    </script>
 </body>
 
 </html>

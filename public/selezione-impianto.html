@@ -19,13 +19,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 
-<body id="i8elat" class="sfondo">
-    <div id="iaay92">
-        <div id="if81mf" class="titolo">Seleziona l'Impianto<br id="ir7yg" /></div>
+<body class="sfondo">
+
+    <div class="titolo_block">
+        Seleziona l'Impianto
     </div>
-    <div id="ir2aqr" class="container_impianto"><img id="i4g4af" src="/assets/impianto_placeholder.jpg" />
-        <div id="ili70a">NOME IMPIANTO</div>
+
+    <div class="container_impianto">
+        <img class="immagine_impianto" src="/assets/impianto_placeholder.jpg" />
+        <div class="nome_impianto">NOME IMPIANTO</div>
     </div>
 </body>
+
+
+<script>
+
+        //Set tema
+        if (localStorage.getItem("theme") == "dark") {
+            document.body.classList.add("dark");
+        } else {
+            document.body.classList.remove("dark");
+        }
+
+
+    </script>
 
 </html>
