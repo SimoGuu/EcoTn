@@ -77,6 +77,10 @@ const SpidLoginController = {
         });
     },
     handleCallback: async (request, response) => {
+        if (Object.keys(request.session).includes("SPIDToken")) {
+            delete request.session["SPIDToken"];
+        }
+
         if (!(Object.keys(request.query).includes("code"))) {
             WebApiController.sendError(request, response, 400, {
                 type: "bad-request",
@@ -96,6 +100,8 @@ const SpidLoginController = {
                     details: "The authorization server has rejected the request."
                 });
             } else {
+                request.session["SPIDToken"] = userSpidAccessToken;
+
                 let userSpidScopes = await SpidLoginController.getUserScopes(userSpidAccessToken);
                 if (userSpidScopes != null) {
                     WebApiController.sendResponse(
