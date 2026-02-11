@@ -16,7 +16,13 @@ const SpidLoginController = {
             "https://attributes.spid.gov.it/spidCode",
             "https://attributes.spid.gov.it/name",
             "https://attributes.spid.gov.it/familyName",
-            "https://attributes.spid.gov.it/fiscalNumber"
+            "https://attributes.spid.gov.it/fiscalNumber",
+            "https://attributes.spid.gov.it/domicileStreetAddress",
+            "https://attributes.spid.gov.it/address",
+            "https://attributes.spid.gov.it/domicilePostalCode",
+            "https://attributes.spid.gov.it/domicileMunicipality",
+            "https://attributes.spid.gov.it/domicileProvince",
+            "https://attributes.spid.gov.it/domicileNation"
         ]
     },
     doLogin: (request, response) => {
