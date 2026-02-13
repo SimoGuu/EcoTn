@@ -1,0 +1,42 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+
+
+.blocco_impostazioni {
+    height: auto;
+    padding: 20px;
+    display: block;
+    width: 50%;
+}
+
+
+
+.chk {
+    width: 30px;
+    height: 30px;
+    margin: 0px;
+}
+
+
+
+
+
+.menu_tendina {
+    height: 40px;
+    width: 100px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 15px;
+    padding: 5px 10px 10px 10px;
+}
+
+
+#txt_soglia {
+    height: 30px;
+    margin: 0px 0px 0px 30px;
+}

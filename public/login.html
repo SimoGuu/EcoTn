@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Silex v3.6.1">
+    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+
+
+
+
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+
+<body  class="sfondo">
+
+    
+        <div id="blocco_form" class="card">
+            <img id="immagine_login" src="/assets/7407996-icona-utente-icona-persona-client-simbolo-login-testa-segno-icona-design-vettoriale.jpg" />
+
+            <form method="get" id="decorazione">
+
+                <div  class="divform">
+                    <label class="etichetta">
+                        Name
+                    </label>
+                    <input type="text" id="txt_nome" />
+                </div>
+
+                <div class="divform">
+                    <label class="etichetta">
+                        Email
+                    </label>
+                    <input type="email" id="txt_email" />
+                </div>
+                <div class="divform">
+                    <button type="button" id="bottone" onclick="logga()">Send</button>
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <div id="i9r7g-2" class="collegamento">
+            <u id="iqvzp" class="collegamento">
+                <b id="iqdft">Non hai un account?  Registrati</b>
+            </u>
+        </div>
+
+        
+        <div id="i9r7g-2-2" class="collegamento"><u id="il86l" class="collegamento">Password dimenticata?</u><br
+                id="ijjp6" /></div>
+        <div id="i05l6"><img id="i2l31" src="/assets/LogInSPID.png" /><img id="i6zd8" src="/assets/LogInCIE.png" />
+        </div>
+    
+
+    <script>
+
+        //Set tema
+        if (localStorage.getItem("theme") == "dark") {
+            document.body.classList.add("dark");
+        } else {
+            document.body.classList.remove("dark");
+        }
+
+        function logga() {
+            //! ToDo 
+        }
+
+
+    </script>
+</body>
+
+</html>

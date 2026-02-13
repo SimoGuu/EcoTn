@@ -1,0 +1,44 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+
+
+#impianto_card {
+    min-height: 100px;
+    padding: 50px;
+    height: auto;
+}
+
+#trittica {
+    text-align: center;
+}
+
+
+.cardina {
+    border: 4px solid var( --card-border);
+    border-left: 14px solid var(--card-border-strong);
+    border-radius: 33px 100px 33px 100px;
+    border-right: 14px solid var(--card-border-strong);
+
+    margin: 50px auto auto auto;
+    text-align: center;
+    min-height: 100px;
+    display: inline-block;
+    width: 20%;
+    padding: 20px 10px 20px 10px;
+    height: 150px ;
+
+    color: var( --text-base-color);
+}
+
+#trittica_carda {
+    min-height: 100px;
+    text-align: center;
+    padding: 20px;
+}
+

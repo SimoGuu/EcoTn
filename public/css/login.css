@@ -1,0 +1,118 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+
+
+
+#blocco_form {
+    background-attachment: scroll;
+    background-image: linear-gradient(#ffffff 0%, #ffffff 100%);
+    background-position: left top;
+    background-repeat: repeat;
+    background-size: auto;
+    border: 3px solid #096682;
+    display: block;
+    margin: 200px auto 20px auto;
+    min-height: 100px;
+    padding: 20px;
+    text-align: center;
+    width: 400px;
+}
+
+#immagine_login {
+    color: black;
+    height: 150px;
+    margin: auto auto 30px auto;
+}
+
+#decorazione {
+    background-attachment: scroll;
+    background-color: #97cac0;
+    border-radius: 50px 50px 100px 100px;
+    outline: #096682;
+    padding: 20px;
+}
+
+.divform {
+    margin: 10px;
+}
+
+
+
+#bottone {
+    background-color: #096682;
+    border: 0px solid;
+    border-radius: 10px;
+    color: #ffffff;
+    font-family: "Montserrat", sans-serif;
+    padding: 10px 20px 10px 20px;
+    text-align: center;
+}
+
+
+
+#i9r7g-2 {
+    padding: 10px;
+    width: auto;
+}
+
+#i9r7g-2-2 {
+    padding: 10px;
+    width: auto;
+}
+
+#i2l31 {
+    color: black;
+    display: block;
+    margin: 0px auto 0px auto;
+    width: 200px;
+}
+
+#i05l6 {
+    color: #a86464;
+    min-height: 100px;
+}
+
+#i6zd8 {
+    color: black;
+    display: block;
+    margin: 10px auto auto auto;
+    width: 200px;
+}
+
+#il86l {
+    color: #003d52;
+    font-weight: 700;
+}
+
+
+@media (max-width: 992px) {
+    #i7shz {
+        margin: 150px auto 20px auto;
+    }
+}
+
+@media (max-width: 480px) {
+    #ia76a {
+        display: block;
+    }
+
+    #i7shz {
+        border-radius: 0px;
+        margin: 20px auto 20px auto;
+        width: 100%;
+    }
+
+    .collegamento {
+        margin: 5px -5px 10px -5px;
+    }
+
+    #il86l {
+        margin: 10px 10px 20px 10px;
+    }
+}

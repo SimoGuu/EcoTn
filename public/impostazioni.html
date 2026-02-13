@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Silex v3.6.1">
+    <link rel="stylesheet" href="css/impostazioni.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+
+
+
+
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+
+<body class="sfondo">
+    <div class="box_titolo">
+        <div class="titolo">IMPOSTAZIONI</div>
+    </div>
+
+
+    <div  class="card">
+        <div class="testo_impostazioni blocco_impostazioni">
+            Tema Scuro
+        </div>
+        <input type="checkbox" class="chk" id="chk_tema" />
+    </div>
+
+
+    <!--Selezione Lingua-->
+    <div class="card">
+        <div class="testo_impostazioni blocco_impostazioni">Lingua</div>
+            <select class="menu_tendina">
+                <option value="Italiano" >Italiano</option>
+                <option value="English" >English</option>
+                <option value="Deutsche" >Deutsche</option>
+            </select>
+    </div>
+
+
+    <!-- Impostazioni notifiche-->
+    <div class="card">
+
+        <!-- Abilita/Disabilita news -->
+        <div >
+            <div class="testo_impostazioni blocco_impostazioni">
+                Notifiche news
+            </div>
+            <input type="checkbox" class="chk" />
+        </div>
+
+        <!-- Soglie consumi -->
+        <div >
+            <div class="testo_impostazioni blocco_impostazioni">
+                Soglia consumi
+            </div>
+            <input type="checkbox" id="chk_soglia" class="chk"/>
+            <input type="number" id="txt_soglia"  />
+            <!-- 
+            <div id="iws1y2">
+                <div id="ispink" class="testo_impostazioni">
+                    Notifiche news</div><input type="checkbox" id="ik1xv4" />
+            </div>
+            -->
+        </div>
+    </div>
+
+    <!-- Log out -->
+    <div  class="card blocco_impostazioni">
+        <div  class="testo_impostazioni blocco_impostazioni">
+            <b onclick="LogOut();">Log Out</b>
+        </div>
+    </div>
+
+
+
+</body>
+
+
+
+<script>
+    const toggle = document.getElementById("chk_tema");
+
+    // carica preferenza
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        toggle.checked = true;
+    }
+
+    toggle.addEventListener("change", () => {
+        if (toggle.checked) {
+            document.body.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            document.body.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        }
+    });
+
+    function LogOut(){
+        window.location.href = 'login.html'
+    }
+
+
+
+</script>
+
+</html>

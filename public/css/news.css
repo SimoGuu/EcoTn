@@ -1,0 +1,63 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+
+#ihijhi {
+    padding: 10px;
+}
+
+#i00lpd {
+    min-height: 100px;
+    margin: 0px auto 0px auto;
+    padding: 0px;
+}
+
+.img_news {
+    display: inline-block;
+    width: 100%;
+    border-radius: 33px 100px 0px 0px;
+}
+
+.box_news {
+    min-height: 100px;
+    padding: 20px;
+    text-align: center;
+}
+
+.titolo_news {
+    padding: 10px;
+    display: block;
+    font-weight: 800;
+    font-size: 25px;
+}
+
+
+
+#div_chiavi {
+    padding: 10px;
+    min-height: 100px;
+}
+
+#imgrth {
+    height: 30px;
+}
+
+.titolo_chiavi {
+    padding: 10px;
+}
+
+.elenco_chiavi {
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+    margin: auto;
+    color: var(--text-main);
+    display: inline-block;
+    text-align: center;
+
+    padding: 10px;
+}

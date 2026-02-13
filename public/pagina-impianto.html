@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Silex v3.6.1">
+    <link rel="stylesheet" href="css/pagina-impianto.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+
+
+
+
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+
+<body class="sfondo">
+
+    <div class="titolo_block">
+        Nome Impianto
+    </div>
+
+    <!-- Div Consumi -->
+    <div id="impianto_card" class="card">
+        <!-- ToDO togliere immagine e mettere il grafico -->
+        <img  src="/assets/Grafico_storico_consumi_v1.png" />
+    </div>
+
+    <!-- Togliere?
+        <div id="iqa47g">
+            <i id="is3ika">Area Impianti energetici</i>
+        </div>
+
+    -->
+
+    <!-- Trittica cards -->
+    <div id="trittica">
+
+        <div class="cardina">
+            <img src="/assets/1000_F_51194731_teoTdQknH1zlLTnLeIoYzyXQ8mUZgG6P.jpg" />
+        </div>
+
+        <div class="cardina">
+                CO2 Risparmiata
+                <br>
+                248378
+        </div>
+
+        <div  class="cardina">
+            <img src="/assets/download.png" />
+        </div>
+    </div>
+
+
+
+    <!-- Grafico produzione-->
+    <div id="card_produzione" class="card">
+
+
+
+        <select id="periodo" onchange="gestisciPeriodo()">
+            <option value="">Seleziona periodo</option>
+            <option value="oggi">Oggi</option>
+            <option value="settimana">Questa settimana</option>
+            <option value="mese">Questo mese</option>
+            <option value="custom">Periodo personalizzato</option>
+        </select>
+
+        <div id="customDates" style="display:none">
+            <input type="date" id="startDate">
+            <input type="date" id="endDate">
+        </div>
+
+        <button onclick="caricaConsumi()">Mostra</button>
+
+
+        <img  src="/assets/Grafico_storico_consumi_v1.png" />
+
+    </div>
+
+    <script src="scripts/pagina-impianto.js"></script>
+    <script>
+
+        function gestisciPeriodo() {
+            console.log("Cambio");
+            const periodo = document.getElementById("periodo").value;
+            const custom = document.getElementById("customDates");
+
+            custom.style.display = periodo === "custom" ? "block" : "none";
+        }
+
+
+        function caricaConsumi() {
+            console.log("a");
+        }
+
+
+        //Set tema
+        if (localStorage.getItem("theme") == "dark") {
+            document.body.classList.add("dark");
+        } else {
+            document.body.classList.remove("dark");
+        }
+
+
+
+    </script>
+</body>
+
+</html>
