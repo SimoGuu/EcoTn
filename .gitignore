@@ -143,4 +143,7 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
+# DL's config
 .DS_Store
+debugging_for_dl/
+coverage/

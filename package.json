@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "Ciao. Chissà a che servirà questa repo (e tutto il progetto tbf). Comunque ce la faremo, spero.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node -r dotenv/config index.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SimoGuu/Tutto-Fumo-Niente-Smog.git"
@@ -20,9 +16,32 @@
   "homepage": "https://github.com/SimoGuu/Tutto-Fumo-Niente-Smog#readme",
   "dependencies": {
     "express": "^5.1.0",
+    "jest": "^30.2.0",
     "mongoose": "^9.1.6"
   },
   "devDependencies": {
     "dotenv": "^17.2.4"
+  },
+  "scripts": {
+    "test": "jest --setupFiles dotenv/config",
+    "test:coverage": "jest --coverage",
+    "dev": "node -r dotenv/config index.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 75,
+        "branches": 70,
+        "functions": 75,
+        "lines": 75
+      }
+    }
   }
 }
