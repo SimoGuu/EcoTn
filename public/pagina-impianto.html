@@ -31,13 +31,6 @@
         <img  src="/assets/Grafico_storico_consumi_v1.png" />
     </div>
 
-    <!-- Togliere?
-        <div id="iqa47g">
-            <i id="is3ika">Area Impianti energetici</i>
-        </div>
-
-    -->
-
     <!-- Trittica cards -->
     <div id="trittica">
 
@@ -46,7 +39,7 @@
         </div>
 
         <div class="cardina">
-                CO2 Risparmiata
+                <p  data-lingua="co2" ></p>
                 <br>
                 248378
         </div>
@@ -64,11 +57,11 @@
 
 
         <select id="periodo" onchange="gestisciPeriodo()">
-            <option value="">Seleziona periodo</option>
-            <option value="oggi">Oggi</option>
-            <option value="settimana">Questa settimana</option>
-            <option value="mese">Questo mese</option>
-            <option value="custom">Periodo personalizzato</option>
+            <option value="" data-lingua="selezione_periodo" ></option>
+            <option value="oggi"  data-lingua="oggi" ></option>
+            <option value="settimana"  data-lingua="settimana" ></option>
+            <option value="mese" data-lingua="mese" ></option>
+            <option value="custom" data-lingua="periodo_personalizzato" ></option>
         </select>
 
         <div id="customDates" style="display:none">
@@ -76,7 +69,7 @@
             <input type="date" id="endDate">
         </div>
 
-        <button onclick="caricaConsumi()">Mostra</button>
+        <button onclick="caricaConsumi()" data-lingua="mostra" ></button>
 
 
         <img  src="/assets/Grafico_storico_consumi_v1.png" />
@@ -84,7 +77,10 @@
     </div>
 
     <script src="scripts/pagina-impianto.js"></script>
+    <script src="scripts/translations.js"></script>
     <script>
+
+        cambiaLingua();
 
         function gestisciPeriodo() {
             console.log("Cambio");

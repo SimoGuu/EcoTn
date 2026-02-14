@@ -21,9 +21,7 @@
 
 <body class="sfondo">
 
-    <div class="titolo_block">
-        Seleziona l'Impianto
-    </div>
+    <div class="titolo_block" data-lingua="titolo_selezione" ></div>
 
     <div class="container_impianto">
         <img class="immagine_impianto" src="/assets/impianto_placeholder.jpg" />
@@ -31,9 +29,9 @@
     </div>
 </body>
 
-
+<script src="scripts/translations.js"></script>
 <script>
-
+        cambiaLingua();
         //Set tema
         if (localStorage.getItem("theme") == "dark") {
             document.body.classList.add("dark");

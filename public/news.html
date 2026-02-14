@@ -19,14 +19,12 @@
 </head>
 
 <body class="sfondo">
-    <div class="titolo_block">
-        News
-    </div>
+    <div class="titolo_block"  data-lingua="titolo_news" ></div>
     
         
-            <div id="div_chiavi" class="testo_impostazioni">
-                Inserisci una chiave di ricerca
-                 <input type="text" id="txt_chiave" />
+            <div id="div_chiavi"  >
+                <p class="testo_impostazioni" data-lingua="input_chiavi"></p>
+                <input type="text" id="txt_chiave" />
             </div>
            
         
@@ -37,13 +35,15 @@
                 <div class="testo_impostazioni titolo_news">Titolo News</div>
             </div>
 
-            <div class="testo_impostazioni titolo_chiavi">Chiavi: </div>
+            <div class="testo_impostazioni titolo_chiavi" data-lingua="chiavi_card" ></div>
             <div  class="elenco_chiavi">#Ecologia #Eolico<br id="izf9uc" /></div>
         </div>
     </div>
 
+    <script src="scripts/translations.js"></script>
     <script>
 
+        cambiaLingua();
         //Set tema
         if (localStorage.getItem("theme") == "dark") {
             document.body.classList.add("dark");
