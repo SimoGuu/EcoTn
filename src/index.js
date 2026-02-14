@@ -1,34 +1,17 @@
-const express = require("express");
-const app = express();
-const port = process.env.PORT || 3000;
+const app = require('./app/app');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-const WebApiController = require("./controllers/index");
+const PORT = process.env.PORT || 3000;
 
-app.get("/", (request, response) => {
-   response.json(
-       {
-           status: 200,
-           result: null,
-           message: "Hello, World!",
-           debug: null
-       }
-   );
-});
-
-app.use((request, response, next) => {
-    WebApiController.sendError(
-        request,
-        response,
-        404,
-        {
-            type: "not-found",
-            title: "Resource not found",
-            status: 404,
-            details: "The requested resource was not found on this server."
-        }
-    );
-});
-
-app.listen(port, () => {
-    console.log("API started on port: " + port);
-});
+mongoose
+  .connect(process.env.DB_URL)
+  .then(() => {
+    console.log('MongoDB connected');
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('MongoDB connection error:', err);
+  });

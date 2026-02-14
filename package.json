@@ -25,7 +25,9 @@
   "scripts": {
     "test": "jest --setupFiles dotenv/config",
     "test:coverage": "jest --coverage",
-    "dev": "node -r dotenv/config index.js"
+    "dev": "node -r dotenv/config index.js",
+    "start": "node src/index.js",
+    "devalt": "nodemon src/index.js"
   },
   "jest": {
     "testEnvironment": "node",

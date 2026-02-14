@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const consumptionSchema = new Schema({
-  abitazione: { type: Schema.Types.ObjectId, ref: 'House', required: true },
-  orario: { type: Date, required: true },
+  house: { type: Schema.Types.ObjectId, ref: 'House', required: true },
+  data_ora: { type: Date, required: true },
   valore: { type: Number, required: true },
 }, { timestamps: true });
 
