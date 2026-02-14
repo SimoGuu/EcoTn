@@ -48,15 +48,16 @@
 
     <div id="footer">
         <div  class="testo_impostazioni">
-            <p id="chiavi" ></p>Chiavi di ricerca
+            <p id="chiavi" data-lingua="chiavi_articolo" ></p>
         </div>
         <div  class="testocard">
             <p id="elenco_chiavi"></p>#Ecologia #Eolico
         </div>
     </div>
 
+    <script src="scripts/translations.js"></script>
     <script>
-
+        cambiaLingua();
         //Set tema
         if (localStorage.getItem("theme") == "dark") {
             document.body.classList.add("dark");
