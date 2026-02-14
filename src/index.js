@@ -13,6 +13,7 @@ app.use(session({
 
 const WebApiController = require("./controllers/index");
 const SpidLoginController = require("./controllers/spidLogin");
+const WeatherController = require("./controllers/weather");
 
 app.get("/", (request, response) => {
     response.json({
@@ -45,6 +46,21 @@ app.get("/api/v1/spid/login", async (request, response) => {
 app.get("/api/v1/spid/logout", (request, response) => {
     delete request.session["SPIDToken"];
     WebApiController.sendResponse(request, response, null, "");
+});
+
+app.get("/api/v1/weather", async (request, response) => {
+    let weatherData = await WeatherController.getWeather();
+
+    if (weatherData != null) {
+        WebApiController.sendResponse(request, response, weatherData, "");
+    } else {
+        WebApiController.sendError(request, response, 500, {
+            type: "internal-server-error",
+            title: "Internal Server Error",
+            status: 500,
+            details: "An error has occurred while obtaining data from api.open-meteo.com."
+        });
+    }
 });
 
 /*
