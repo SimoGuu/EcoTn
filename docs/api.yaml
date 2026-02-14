@@ -1,0 +1,568 @@
+openapi: 3.0.3
+info:
+  title: EcoTn API
+  version: 0.0.1
+  description: API REST per la gestione di persone, abitazioni, consumi, produzione, notizie e chiavi.
+
+servers:
+  - url: http://localhost:3000
+    description: Server locale di sviluppo
+
+paths: 
+  /api/v1/persons:
+    get:
+      summary: Lista di tutte le persone
+      operationId: getPersons
+      responses:
+        "200":
+          description: Elenco di persone
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Person"
+        "500":
+          description: Errore interno del server
+    post:
+      summary: Crea una nuova persona
+      operationId: createPerson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Person"
+      responses:
+        "201":
+          description: Persona creata con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        "400":
+          description: Dati non validi
+
+  /api/v1/persons/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID della persona (ObjectId)
+        schema:
+          type: string
+    get:
+      summary: Ottiene una persona tramite ID
+      operationId: getPersonById
+      responses:
+        "200":
+          description: Persona trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        "404":
+          description: Persona non trovata
+        "500":
+          description: Errore interno del server
+    put:
+      summary: Aggiorna una persona esistente
+      operationId: updatePerson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Person"
+      responses:
+        "200":
+          description: Persona aggiornata con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        "400":
+          description: Dati non validi
+        "404":
+          description: Persona non trovata
+    delete:
+      summary: Elimina una persona
+      operationId: deletePerson
+      responses:
+        "200":
+          description: Persona eliminata con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Person deleted"
+        "404":
+          description: Persona non trovata
+        "500":
+          description: Errore interno del server
+  
+  /api/v1/houses:
+    get:
+      summary: Lista di tutte le abitazioni
+      operationId: getHouses
+      responses:
+        "200":
+          description: Elenco di abitazioni
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/House"
+        "500":
+          description: Errore interno del server
+    post:
+      summary: Crea una nuova House
+      operationId: createHouse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/House"
+      responses:
+        "201":
+          description: House creata con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/House"
+        "400":
+          description: Dati non validi
+
+  /api/v1/houses/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID dell'House (ObjectId)
+        schema:
+          type: string
+    get:
+      summary: Ottiene un'House tramite ID
+      operationId: getHouseById
+      responses:
+        "200":
+          description: House trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/House"
+        "404":
+          description: House non trovata
+        "500":
+          description: Errore interno del server
+    put:
+      summary: Aggiorna un'House esistente
+      operationId: updateHouse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/House"
+      responses:
+        "200":
+          description: House aggiornata con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/House"
+        "400":
+          description: Dati non validi
+        "404":
+          description: House non trovata
+    delete:
+      summary: Elimina un'House
+      operationId: deleteHouse
+      responses:
+        "200":
+          description: House eliminata con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "House deleted"
+        "404":
+          description: House non trovata
+        "500":
+          description: Errore interno del server
+  
+  /api/v1/consumptions:
+    get:
+      summary: Lista di tutti i consumi
+      operationId: getConsumptions
+      responses:
+        "200":
+          description: Elenco di consumi
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Consumo"
+        "500":
+          description: Errore interno del server
+    post:
+      summary: Crea una nuova rilevazione di consumo
+      operationId: createConsumption
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Consumo"
+      responses:
+        "201":
+          description: Consumo creato con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Consumo"
+        "400":
+          description: Dati non validi
+
+  /api/v1/consumptions/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID del consumo (ObjectId)
+        schema:
+          type: string
+    get:
+      summary: Ottiene una rilevazione di consumo tramite ID
+      operationId: getConsumptionById
+      responses:
+        "200":
+          description: Consumo trovato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Consumo"
+        "404":
+          description: Consumo non trovato
+        "500":
+          description: Errore interno del server
+    put:
+      summary: Aggiorna una rilevazione di consumo esistente
+      operationId: updateConsumption
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Consumo"
+      responses:
+        "200":
+          description: Consumo aggiornato con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Consumo"
+        "400":
+          description: Dati non validi
+        "404":
+          description: Consumo non trovato
+    delete:
+      summary: Elimina una rilevazione di consumo
+      operationId: deleteConsumption
+      responses:
+        "200":
+          description: Consumo eliminato con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Consumption deleted"
+        "404":
+          description: Consumo non trovato
+        "500":
+          description: Errore interno del server
+  
+  /api/v1/productions:
+    get:
+      summary: Lista di tutte le produzioni
+      operationId: getProductions
+      responses:
+        "200":
+          description: Elenco di produzioni
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Produzione"
+        "500":
+          description: Errore interno del server
+    post:
+      summary: Crea una nuova rilevazione di produzione
+      operationId: createProduction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Produzione"
+      responses:
+        "201":
+          description: Produzione creata con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produzione"
+        "400":
+          description: Dati non validi
+  
+  /api/v1/news:
+    get:
+      summary: Lista di tutte le notizie
+      operationId: getNews
+      responses:
+        "200":
+          description: Elenco di notizie
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Notizia"
+        "500":
+          description: Errore interno del server
+    post:
+      summary: Crea una nuova notizia
+      operationId: createNews
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Notizia"
+      responses:
+        "201":
+          description: Notizia creata con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notizia"
+        "400":
+          description: Dati non validi
+
+  /api/v1/keys:
+    get:
+      summary: Lista di tutte le chiavi
+      operationId: getKeys
+      responses:
+        "200":
+          description: Elenco di chiavi
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Chiave"
+        "500":
+          description: Errore interno del server
+    post:
+      summary: Crea una nuova chiave
+      operationId: createKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Chiave"
+      responses:
+        "201":
+          description: Chiave creata con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Chiave"
+        "400":
+          description: Dati non validi
+
+
+
+
+
+components:
+  schemas:
+
+    Person:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId della persona
+        nome:
+          type: string
+          description: Nome della persona
+        cognome:
+          type: string
+          description: Cognome della persona
+        identificatore:
+          type: string
+          description: Identificatore univoco dell'utente (es. CIE o SPID)
+        codiceFiscale:
+          type: string
+          description: Codice fiscale della persona
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - nome
+        - cognome
+        - identificatore
+        - codiceFiscale
+
+    House:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId dell'House
+        indirizzo:
+          type: string
+          description: Indirizzo dell'House
+        immagineProfilo:
+          type: string
+          description: URL o path dell'immagine di profilo
+        persone:
+          type: array
+          description: Elenco di persone associate all'House
+          items:
+            type: string
+            description: ObjectId di una persona
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - indirizzo
+        - persone
+
+    Consumo:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId del consumo
+        house:
+          type: string
+          description: ObjectId dell'House a cui si riferisce il consumo
+        data_ora:
+          type: string
+          format: date-time
+          description: Data e ora della rilevazione
+        valore:
+          type: number
+          description: Valore del consumo
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+          - house
+          - data_ora
+          - valore
+
+    Produzione:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId della produzione
+        house:
+          type: string
+          description: ObjectId dell'House a cui si riferisce la produzione
+        data_ora:
+          type: string
+          format: date-time
+          description: Data e ora della rilevazione
+        valore:
+          type: number
+          description: Valore della produzione
+        lv_batteria:
+          type: number
+          description: Livello della batteria al momento della misura
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - house
+        - data_ora
+        - valore
+
+    Notizia:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId della notizia
+        titolo:
+          type: string
+          description: Titolo della notizia
+        testo:
+          type: string
+          description: Testo della notizia
+        immagine:
+          type: string
+          description: URL o path dell'immagine associata
+        chiavi:
+          type: array
+          description: Elenco di chiavi di ricerca associate alla notizia
+          items:
+            type: string
+            description: ObjectId di una chiave
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - titolo
+        - testo
+
+    Chiave:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId della chiave
+        nome:
+          type: string
+          description: Nome della chiave di ricerca
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - nome

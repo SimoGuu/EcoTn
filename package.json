@@ -1,19 +1,18 @@
 {
-  "name": "progettoingsw",
-  "version": "1.0.0",
-  "description": "Ciao. Chissà a che servirà questa repo (e tutto il progetto tbf). Comunque ce la faremo, spero.",
-  "main": "index.js",
+  "name": "ecotn",
+  "version": "0.0.1",
+  "description": "Progetto di Ingegneria del Software, a.a. 2025/2026, gruppo G17",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SimoGuu/Tutto-Fumo-Niente-Smog.git"
+    "url": "git+https://github.com/SimoGuu/EcoTn.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SimoGuu/Tutto-Fumo-Niente-Smog/issues"
+    "url": "https://github.com/SimoGuu/EcoTn/issues"
   },
-  "homepage": "https://github.com/SimoGuu/Tutto-Fumo-Niente-Smog#readme",
+  "homepage": "https://github.com/SimoGuu/EcoTn#readme",
   "dependencies": {
     "express": "^5.1.0",
     "jest": "^30.2.0",
@@ -22,10 +21,13 @@
   "devDependencies": {
     "dotenv": "^17.2.4"
   },
+  "main": "index.js",
   "scripts": {
     "test": "jest --setupFiles dotenv/config",
     "test:coverage": "jest --coverage",
-    "dev": "node -r dotenv/config index.js"
+    "dev": "node -r dotenv/config index.js",
+    "start": "node index.js",
+    "devalt": "nodemon index.js"
   },
   "jest": {
     "testEnvironment": "node",
