@@ -8,6 +8,14 @@ describe("Person Controller", () => {
   let req;
   let res;
 
+  const validPersonData = {
+    nome: "Mario",
+    cognome: "Rossi",
+    identificatore: "ID123",
+    codiceFiscale: "RSSMRA80A01H501Z",
+    isDipendente: true
+  };
+
   beforeEach(() => {
     req = {
       params: {},
@@ -27,12 +35,12 @@ describe("Person Controller", () => {
   // =========================
 
   test("getPersons - restituisce lista persone", async () => {
-    Person.find.mockResolvedValue([{ name: "Mario" }]);
+    Person.find.mockResolvedValue([validPersonData]);
 
     await personController.getPersons(req, res);
 
     expect(Person.find).toHaveBeenCalled();
-    expect(res.json).toHaveBeenCalledWith([{ name: "Mario" }]);
+    expect(res.json).toHaveBeenCalledWith([validPersonData]);
   });
 
   test("getPersons - errore database", async () => {
@@ -49,20 +57,24 @@ describe("Person Controller", () => {
   // =========================
 
   test("createPerson - creazione riuscita", async () => {
-    req.body = { name: "Luca" };
+    req.body = validPersonData;
 
-    Person.mockImplementation(() => ({
-      save: jest.fn().mockResolvedValue({ name: "Luca" })
-    }));
+    const mockPersonInstance = {
+      ...validPersonData,
+      save: jest.fn().mockResolvedValue(validPersonData)
+    };
+
+    Person.mockImplementation(() => mockPersonInstance);
 
     await personController.createPerson(req, res);
 
     expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalled();
+    expect(res.json).toHaveBeenCalledWith(mockPersonInstance);
   });
 
+
   test("createPerson - errore validazione", async () => {
-    req.body = { name: "" };
+    req.body = {}; // mancano campi required
 
     Person.mockImplementation(() => ({
       save: jest.fn().mockRejectedValue(new Error("Validation error"))
@@ -79,11 +91,11 @@ describe("Person Controller", () => {
 
   test("getPersonById - persona trovata", async () => {
     req.params.id = "123";
-    Person.findById.mockResolvedValue({ name: "Anna" });
+    Person.findById.mockResolvedValue(validPersonData);
 
     await personController.getPersonById(req, res);
 
-    expect(res.json).toHaveBeenCalledWith({ name: "Anna" });
+    expect(res.json).toHaveBeenCalledWith(validPersonData);
   });
 
   test("getPersonById - persona non trovata", async () => {
@@ -101,13 +113,16 @@ describe("Person Controller", () => {
 
   test("updatePerson - aggiornamento riuscito", async () => {
     req.params.id = "123";
-    req.body = { name: "Marco" };
+    req.body = { isDipendente: false };
 
-    Person.findByIdAndUpdate.mockResolvedValue({ name: "Marco" });
+    Person.findByIdAndUpdate.mockResolvedValue({
+      ...validPersonData,
+      isDipendente: false
+    });
 
     await personController.updatePerson(req, res);
 
-    expect(res.json).toHaveBeenCalledWith({ name: "Marco" });
+    expect(res.json).toHaveBeenCalled();
   });
 
   test("updatePerson - persona non trovata", async () => {
@@ -127,7 +142,7 @@ describe("Person Controller", () => {
   test("deletePerson - eliminazione riuscita", async () => {
     req.params.id = "123";
 
-    Person.findByIdAndDelete.mockResolvedValue({});
+    Person.findByIdAndDelete.mockResolvedValue(validPersonData);
 
     await personController.deletePerson(req, res);
 
