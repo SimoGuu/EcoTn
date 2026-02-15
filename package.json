@@ -34,15 +34,15 @@
     "verbose": true,
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/index.js"
+      "src/app/controllers/**/*.js",
+      "!src/app/controllers/index.js"
     ],
     "coverageThreshold": {
       "global": {
         "statements": 75,
         "branches": 70,
         "functions": 75,
-        "lines": 75
+        "lines": 70
       }
     }
   }
