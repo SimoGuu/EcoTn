@@ -13,11 +13,32 @@ app.use(session({
 
 const WebApiController = require("./controllers/index");
 const SpidLoginController = require("./controllers/spidLogin");
+const NewsController = require("./controllers/news");
 
 app.get("/", (request, response) => {
     response.json({
         status: 200, result: null, message: "Hello, World!", debug: null
     });
+});
+
+app.get("/api/v1/news", (request, response) => {
+    if (Object.keys(request.query).includes("id")) {
+        let newsId = parseInt(request.query.id);
+        let news = NewsController.getNewsById(newsId);
+
+        if (news === undefined) {
+            WebApiController.sendError(request, response, 404, {
+                type: "not-found",
+                title: "Not found",
+                status: 404,
+                details: "The news with id " + newsId + " has not been found."
+            });
+        } else {
+            WebApiController.sendResponse(request, response, news, "");
+        }
+    } else {
+        WebApiController.sendResponse(request, response, NewsController.getAllNews(), "");
+    }
 });
 
 app.get("/api/v1/spid/login", async (request, response) => {
