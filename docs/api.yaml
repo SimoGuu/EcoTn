@@ -421,6 +421,9 @@ components:
         codiceFiscale:
           type: string
           description: Codice fiscale della persona
+        isDipendente:
+          type: boolean
+          description: Indica se la persona è un dipendente (true) o un cittadino (false)
         createdAt:
           type: string
           format: date-time
@@ -432,6 +435,7 @@ components:
         - cognome
         - identificatore
         - codiceFiscale
+        - isDipendente
 
     House:
       type: object
