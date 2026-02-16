@@ -68,10 +68,10 @@
             <input type="date" id="endDate">
         </div>
 
-        <button onclick="caricaConsumi()" data-lingua="mostra"></button>
+        <button onclick="caricaProduzione()" data-lingua="mostra"></button>
+        <div id="div_grafico_produzione"></div>
 
 
-        <img src="assets/Grafico_storico_consumi_v1.png" />
 
     </div>
 
@@ -80,7 +80,16 @@
     <script>
 
         getConsumi();
+        getProduzione();
         cambiaLingua();
+
+        //Set tema
+        if (localStorage.getItem("theme") == "dark") {
+            document.body.classList.add("dark");
+        } else {
+            document.body.classList.remove("dark");
+        }
+
 
         function gestisciPeriodo() {
             console.log("Cambio");
@@ -91,17 +100,6 @@
         }
 
 
-        function caricaConsumi() {
-            console.log("a");
-        }
-
-
-        //Set tema
-        if (localStorage.getItem("theme") == "dark") {
-            document.body.classList.add("dark");
-        } else {
-            document.body.classList.remove("dark");
-        }
 
 
         async function getConsumi() {
@@ -121,7 +119,17 @@
                 console.log(consumi);
 
                 // Se vuoi, puoi anche popolare il DOM
-                creaGrafico(consumi);
+
+                const lables = consumi.map(item => {
+                    const data = new Date(item.data_ora);
+                    return data.toLocaleString(); // formato leggibile
+                });
+
+                const valori = consumi.map(item => item.valore);
+
+
+                const img = creaGrafico(lables, valori);
+                document.getElementById("div_grafico_consumi").appendChild(img);
 
             } catch (error) {
                 console.error("Errore nel recupero delle case:", error);
@@ -129,30 +137,51 @@
         }
 
 
+        async function getProduzione() {
+            try {
+                // Chiamata all'API completa con URL assoluto
+                const response = await fetch("http://localhost:8080/api/v1/productions");
+
+                // Controlla se la risposta è OK
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Trasforma la risposta in JSON
+                const consumi = await response.json();
+
+                // Stampa in console (o fai quello che vuoi con i dati)
+                console.log(consumi);
+
+                // Se vuoi, puoi anche popolare il DOM
+
+                const lables = consumi.map(item => {
+                    const data = new Date(item.data_ora);
+                    return data.toLocaleString(); // formato leggibile
+                });
+
+                const valori = consumi.map(item => item.valore);
 
 
-        //TEST API
-        function creaGrafico(consumi) {
+                const img = creaGrafico(lables, valori);
+                document.getElementById("div_grafico_produzione").appendChild(img);
+
+            } catch (error) {
+                console.error("Errore nel recupero delle case:", error);
+            }
+        }
 
 
-
-            const mesi = consumi.map(item => {
-                const data = new Date(item.data_ora);
-                return data.toLocaleString(); // formato leggibile
-            });
-
-            const valori = consumi.map(item => item.valore);
+        function creaGrafico(assex, assey) {
 
 
-            console.log(mesi);
-            console.log(valori);
             const chartConfig = {
-                type: 'bar',
+                type: 'line',
                 data: {
-                    labels: mesi,
+                    labels: assex,
                     datasets: [{
                         label: 'Consumi',
-                        data: valori
+                        data: assey
                     }]
                 }
             };
@@ -165,7 +194,7 @@
             img.width = 500;
             img.height = 300;
 
-            document.getElementById("div_grafico_consumi").appendChild(img);
+            return img;
         }
 
 
