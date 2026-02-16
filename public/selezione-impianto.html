@@ -52,7 +52,8 @@
     async function getHouses() {
         try {
             // Chiamata all'API completa con URL assoluto
-            const response = await fetch("http://localhost:8080/api/v1/houses");
+            //const response = await fetch("http://localhost:8080/api/v1/houses");
+            const response = await fetch("http://localhost:8080/api/v1/persons/" + localStorage.getItem("utenteId") + "/houses");
 
             // Controlla se la risposta è OK
             if (!response.ok) {

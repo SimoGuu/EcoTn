@@ -124,7 +124,7 @@ const SpidLoginController = {
                         );
                          */
 
-                        response.redirect("http://localhost:5500/public/login.html");
+                        response.redirect("http://localhost:5500/public/index.html");
                     } else {
                         WebApiController.sendError(request, response, 422, {
                             type: "unprocessable-entity",

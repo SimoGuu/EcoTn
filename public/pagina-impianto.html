@@ -31,7 +31,7 @@
     <!-- Trittica cards -->
     <div id="trittica">
 
-        <div class="cardina">
+        <div id="card_batteria" class="cardina">
             <!--<img src="assets/1000_F_51194731_teoTdQknH1zlLTnLeIoYzyXQ8mUZgG6P.jpg" />-->
         </div>
 
@@ -41,10 +41,11 @@
             248378
         </div>
 
-        <div class="cardina">
+        <div id="card_meteo" class="cardina">
             <!--<img src="assets/download.png" />-->
         </div>
     </div>
+
 
 
 
@@ -78,6 +79,7 @@
     <script>
 
         livelloBatteria();
+
         const idAbitazione = localStorage.getItem("idAbitazione");
         //console.log(idAbitazione);
         if (!idAbitazione) {
@@ -218,13 +220,126 @@
                 const consumi = await response.json();
 
                 // Stampa in console (o fai quello che vuoi con i dati)
-                console.log(consumi[0].lv_batteria);
+                livello = consumi[0].lv_batteria;
+                let source;
+                if (livello <= 0) {
+                    source = "Immagini/icone_batteria/icona_batteria_0.png";
+                }
+                else if (livello <= 25) {
+                    source = "Immagini/icone_batteria/icona_batteria_25.png";
+                }
+                else if (livello <= 50) {
+                    source = "Immagini/icone_batteria/icona_batteria_50.png";
+                }
+                else if (livello <= 75) {
+                    source = "Immagini/icone_batteria/icona_batteria_75.png";
+                }
+                else {
+                    source = "Immagini/icone_batteria/icona_batteria_100.png";
+                }
+
+                const icona_batteria = document.createElement("img");
+                icona_batteria.src = source;
+                document.getElementById("card_batteria").append(icona_batteria);
 
 
             } catch (error) {
                 console.error("Errore nel recupero delle case:", error);
             }
         }
+
+
+        async function stampaMeteoCorrente() {
+            try {
+                const response = await fetch("http://localhost:8080/api/v1/weather");
+
+                // Controlla se la risposta è OK
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Trasforma la risposta in JSON
+                const data = await response.json();
+
+                if (!data) {
+                    console.log("Impossibile recuperare il meteo");
+                    return;
+                }
+
+                const now = new Date();
+                const currentHour = now.getHours().toString().padStart(2, '0');
+                const currentTimeKey = `${currentHour}:00`;
+                const timestamps = data.result.timestamps;
+                const currentWeather = timestamps[currentTimeKey] || "unknown";
+
+                console.log(`Meteo corrente: ${currentWeather}`);
+                let source;
+
+                switch (currentWeather) {
+                    case "clear":
+                        source = "Immagini/icone_meteo/icona_sole.png";
+                        break;
+
+                    case "overcast":
+                        source = "Immagini/icone_meteo/icona_nuvola.png";
+                        break;
+
+                    case "fog":
+                        source = "Immagini/icone_meteo/icona_nebbia.png";
+                        break;
+
+                    case "drizzle":
+                        source = "Immagini/icone_meteo/icona_pioggia.png";
+                        break;
+
+                    case "freezing_drizzle":
+                        source = "Immagini/icone_meteo/icona_pioggia.png";
+                        break;
+
+                    case "rain":
+                        source = "Immagini/icone_meteo/icona_pioggia.png";
+                        break;
+
+                    case "freezing_rain":
+                        source = "Immagini/icone_meteo/icona_pioggia.png";
+                        break;
+
+                    case "snow":
+                        source = "Immagini/icone_meteo/icona_neve.png";
+                        break;
+
+                    case "snow_grains":
+                        source = "Immagini/icone_meteo/icona_neve.png";
+                        break;
+
+                    case "rain_showers":
+                        source = "Immagini/icone_meteo/icona_acquazzone.png";
+                        break;
+
+                    case "snow_showers":
+                        source = "Immagini/icone_meteo/icona_neve.png";
+                        break;
+
+                    case "thunderstorm":
+                        source = "Immagini/icone_meteo/icona_fulmini.png";
+                        break;
+
+                    default:
+                        source = "Immagini/icone_meteo/icona_sole.png";
+                        break;
+                }
+
+                const icona_meteo = document.createElement("img");
+                icona_meteo.src = source;
+                document.getElementById("card_meteo").append(icona_meteo);
+
+            } catch (error) {
+                console.error("Errore nel recuperare il meteo:", error);
+            }
+        }
+
+        // Esegui la funzione
+        stampaMeteoCorrente();
 
 
     </script>

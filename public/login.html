@@ -72,6 +72,10 @@
             document.body.classList.remove("dark");
         }
 
+
+        if(localStorage.getItem("utenteId") != null ){
+            window.location.href="selezione-impianto.html";
+        }
         /**
          * Funzione controllo se utente ha fatto login con SPID.
          * Semplicemente restituisce true se login ok, altrimenti false.
@@ -85,6 +89,8 @@
             if (check) {
                 let profile = await getUserProfile();
                 console.log(profile);
+                localStorage.setItem("utenteId" , "69909292c8d1c501c8894a61");
+                window.location.href = "selezione-impianto.html";
             } else {
                 redirectLogin();
                 return;
