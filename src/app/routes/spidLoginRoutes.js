@@ -3,6 +3,28 @@ const router = express.Router();
 
 const WebApiController = require('../controllers/index');
 const SpidLoginController = require('../controllers/spidLoginController');
+const {request, response} = require("express");
+
+router.head("/login", async (request, response) => {
+    if (Object.keys(request.session).includes("SPIDToken")) {
+        let spidToken = request.session["SPIDToken"];
+        let spidUserScopes = await SpidLoginController.getUserScopes(spidToken);
+
+        if (spidUserScopes != null) {
+            if (spidUserScopes["domicileMunicipality"] === SpidLoginController.config.validDomicileMunicipality) {
+                response.status(200).set({'Content-Type': 'application/json'}).end();
+            } else {
+                delete request.session["SPIDToken"];
+                response.status(422).set({'Content-Type': 'application/json'}).end();
+            }
+        } else {
+            delete request.session["SPIDToken"];
+            response.status(401).set({'Content-Type': 'application/json'}).end();
+        }
+    } else {
+        response.status(400).end();
+    }
+});
 
 router.get("/login", async (request, response) => {
     if (Object.keys(request.session).includes("SPIDToken")) {
