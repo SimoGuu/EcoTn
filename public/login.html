@@ -86,7 +86,7 @@
                 let profile = await getUserProfile();
                 console.log(profile);
             } else {
-                //redirectLogin();
+                redirectLogin();
                 return;
             }
         }
@@ -95,7 +95,8 @@
             return new Promise(async (resolve, reject) => {
                 try {
                     const response = await fetch("http://localhost:8080/api/v1/spid/login", {
-                        method: "HEAD"
+                        method: "HEAD",
+                        credentials: "include"
                     });
 
                     if (response.status === 200) {
@@ -137,6 +138,7 @@
                 try {
                     const response = await fetch("http://localhost:8080/api/v1/spid/login", {
                         method: "GET",
+                        credentials: "include",
                         headers: {
                             "Accept": "application/json"
                         }

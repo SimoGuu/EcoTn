@@ -5,14 +5,22 @@ const app = express();
 const session = require("express-session");
 
 // Abilita CORS per tutte le origini
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5500",
+    credentials: true
+}));
+
 app.use(express.json());
 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'fanciullina',
     resave: false,
     saveUninitialized: false,
-    cookie: {secure: false},
+    cookie: {
+        secure: false,
+        httpOnly: true,
+        sameSite: "lax"
+    }
 }));
 
 const personRoutes = require('./routes/personRoutes');
