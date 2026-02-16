@@ -21,9 +21,7 @@
 
 <body class="sfondo">
 
-    <div class="titolo_block">
-        Nome Impianto
-    </div>
+    <div id="titolo_block" class="titolo_block"></div>
 
     <!-- Div Consumi -->
     <div id="impianto_card" class="card">
@@ -78,6 +76,14 @@
     <script src="scripts/pagina-impianto.js"></script>
     <script src="scripts/translations.js"></script>
     <script>
+
+        const idAbitazione = localStorage.getItem("idAbitazione");
+        console.log(idAbitazione);
+        if(!idAbitazione){
+            window.location.href = 'login.html'
+        }else{
+            document.getElementById("titolo_block").textContent = localStorage.getItem("indirizzoAbitazione");
+        }
 
         getConsumi();
         cambiaLingua();
