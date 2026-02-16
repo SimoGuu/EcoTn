@@ -249,6 +249,40 @@
         }
 
 
+        async function stampaMeteoCorrente() {
+            try {
+                const response = await fetch("http://localhost:8080/api/v1/weather");
+
+                // Controlla se la risposta è OK
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Trasforma la risposta in JSON
+                const data = await response.json();
+
+                if (!data) {
+                    console.log("Impossibile recuperare il meteo");
+                    return;
+                }
+
+                const now = new Date();
+                const currentHour = now.getHours().toString().padStart(2, '0');
+                const currentTimeKey = `${currentHour}:00`;
+
+                const currentWeather = parsedWeather.timestamps[currentTimeKey] || "unknown";
+
+                console.log(`Meteo corrente: ${currentWeather}`);
+
+            } catch (error) {
+                console.error("Errore nel recuperare il meteo:", error);
+            }
+        }
+
+        // Esegui la funzione
+        stampaMeteoCorrente();
+
+
     </script>
 </body>
 
