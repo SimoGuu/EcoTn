@@ -1,7 +1,11 @@
 {
   "name": "ecotn",
-  "version": "0.0.1",
-  "description": "Progetto di Ingegneria del Software, a.a. 2025/2026, gruppo G17",
+  "version": "1.0.0",
+  "description": "Progetto EcoTn del corso di Ingegneria del Software, UniTrento.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SimoGuu/EcoTn.git"
@@ -19,7 +23,8 @@
     "mongoose": "^9.1.6"
   },
   "devDependencies": {
-    "dotenv": "^17.2.4"
+    "dotenv": "^17.2.4",
+    "express-session": "^1.19.0"
   },
   "main": "index.js",
   "scripts": {
