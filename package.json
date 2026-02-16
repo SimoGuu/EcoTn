@@ -4,7 +4,11 @@
   "description": "Progetto EcoTn del corso di Ingegneria del Software, UniTrento.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --setupFiles dotenv/config",
+    "test:coverage": "jest --coverage",
+    "dev": "node -r dotenv/config index.js",
+    "start": "node index.js",
+    "devalt": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -25,14 +29,6 @@
   "devDependencies": {
     "dotenv": "^17.2.4",
     "express-session": "^1.19.0"
-  },
-  "main": "index.js",
-  "scripts": {
-    "test": "jest --setupFiles dotenv/config",
-    "test:coverage": "jest --coverage",
-    "dev": "node -r dotenv/config index.js",
-    "start": "node index.js",
-    "devalt": "nodemon index.js"
   },
   "jest": {
     "testEnvironment": "node",
