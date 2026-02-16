@@ -1,6 +1,12 @@
+//modifiche mie
+const cors = require('cors');
+
+
+
 const express = require('express');
 const app = express();
-
+// Abilita CORS per tutte le origini
+app.use(cors());
 app.use(express.json());
 
 const personRoutes = require('./routes/personRoutes');

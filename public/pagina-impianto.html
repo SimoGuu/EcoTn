@@ -27,25 +27,24 @@
 
     <!-- Div Consumi -->
     <div id="impianto_card" class="card">
-        <!-- ToDO togliere immagine e mettere il grafico -->
-        <img  src="/assets/Grafico_storico_consumi_v1.png" />
+        <div id="div_grafico_consumi"></div>
     </div>
 
     <!-- Trittica cards -->
     <div id="trittica">
 
         <div class="cardina">
-            <img src="/assets/1000_F_51194731_teoTdQknH1zlLTnLeIoYzyXQ8mUZgG6P.jpg" />
+            <!--<img src="assets/1000_F_51194731_teoTdQknH1zlLTnLeIoYzyXQ8mUZgG6P.jpg" />-->
         </div>
 
         <div class="cardina">
-                <p  data-lingua="co2" ></p>
-                <br>
-                248378
+            <p data-lingua="co2"></p>
+            <br>
+            248378
         </div>
 
-        <div  class="cardina">
-            <img src="/assets/download.png" />
+        <div class="cardina">
+            <!--<img src="assets/download.png" />-->
         </div>
     </div>
 
@@ -57,11 +56,11 @@
 
 
         <select id="periodo" onchange="gestisciPeriodo()">
-            <option value="" data-lingua="selezione_periodo" ></option>
-            <option value="oggi"  data-lingua="oggi" ></option>
-            <option value="settimana"  data-lingua="settimana" ></option>
-            <option value="mese" data-lingua="mese" ></option>
-            <option value="custom" data-lingua="periodo_personalizzato" ></option>
+            <option value="" data-lingua="selezione_periodo"></option>
+            <option value="oggi" data-lingua="oggi"></option>
+            <option value="settimana" data-lingua="settimana"></option>
+            <option value="mese" data-lingua="mese"></option>
+            <option value="custom" data-lingua="periodo_personalizzato"></option>
         </select>
 
         <div id="customDates" style="display:none">
@@ -69,10 +68,10 @@
             <input type="date" id="endDate">
         </div>
 
-        <button onclick="caricaConsumi()" data-lingua="mostra" ></button>
+        <button onclick="caricaConsumi()" data-lingua="mostra"></button>
 
 
-        <img  src="/assets/Grafico_storico_consumi_v1.png" />
+        <img src="assets/Grafico_storico_consumi_v1.png" />
 
     </div>
 
@@ -80,6 +79,7 @@
     <script src="scripts/translations.js"></script>
     <script>
 
+        getConsumi();
         cambiaLingua();
 
         function gestisciPeriodo() {
@@ -101,6 +101,71 @@
             document.body.classList.add("dark");
         } else {
             document.body.classList.remove("dark");
+        }
+
+
+        async function getConsumi() {
+            try {
+                // Chiamata all'API completa con URL assoluto
+                const response = await fetch("http://localhost:8080/api/v1/consumptions");
+
+                // Controlla se la risposta è OK
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Trasforma la risposta in JSON
+                const consumi = await response.json();
+
+                // Stampa in console (o fai quello che vuoi con i dati)
+                console.log(consumi);
+
+                // Se vuoi, puoi anche popolare il DOM
+                creaGrafico(consumi);
+
+            } catch (error) {
+                console.error("Errore nel recupero delle case:", error);
+            }
+        }
+
+
+
+
+        //TEST API
+        function creaGrafico(consumi) {
+
+
+
+            const mesi = consumi.map(item => {
+                const data = new Date(item.data_ora);
+                return data.toLocaleString(); // formato leggibile
+            });
+
+            const valori = consumi.map(item => item.valore);
+
+
+            console.log(mesi);
+            console.log(valori);
+            const chartConfig = {
+                type: 'bar',
+                data: {
+                    labels: mesi,
+                    datasets: [{
+                        label: 'Consumi',
+                        data: valori
+                    }]
+                }
+            };
+
+            const url = "https://quickchart.io/chart?chart=" +
+                encodeURIComponent(JSON.stringify(chartConfig));
+
+            const img = document.createElement("img");
+            img.src = url;
+            img.width = 500;
+            img.height = 300;
+
+            document.getElementById("div_grafico_consumi").appendChild(img);
         }
 
 

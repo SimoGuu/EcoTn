@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/SimoGuu/EcoTn#readme",
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^5.1.0",
     "jest": "^30.2.0",
     "mongoose": "^9.1.6"
