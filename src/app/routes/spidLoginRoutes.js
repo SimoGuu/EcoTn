@@ -10,7 +10,18 @@ router.get("/login", async (request, response) => {
         let spidUserScopes = await SpidLoginController.getUserScopes(spidToken);
 
         if (spidUserScopes != null) {
-            WebApiController.sendResponse(request, response, spidUserScopes, "");
+            if (spidUserScopes["domicileMunicipality"] === SpidLoginController.config.validDomicileMunicipality) {
+                WebApiController.sendResponse(request, response, spidUserScopes, "");
+            } else {
+                delete request.session["SPIDToken"];
+
+                WebApiController.sendError(request, response, 422, {
+                    type: "unprocessable-entity",
+                    title: "Unprocessable Entity",
+                    status: 422,
+                    details: "The current user is not resident in the City of Trento."
+                });
+            }
         } else {
             delete request.session["SPIDToken"];
 

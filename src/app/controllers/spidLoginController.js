@@ -23,7 +23,8 @@ const SpidLoginController = {
             "https://attributes.spid.gov.it/domicileMunicipality",
             "https://attributes.spid.gov.it/domicileProvince",
             "https://attributes.spid.gov.it/domicileNation"
-        ]
+        ],
+        validDomicileMunicipality: "L378"
     },
     doLogin: (request, response) => {
         response.redirect(
@@ -110,15 +111,24 @@ const SpidLoginController = {
 
                 let userSpidScopes = await SpidLoginController.getUserScopes(userSpidAccessToken);
                 if (userSpidScopes != null) {
-                    WebApiController.sendResponse(
-                        request,
-                        response,
-                        {
-                            "scope": userSpidScopes,
-                            "access_token": userSpidAccessToken
-                        },
-                        ""
-                    );
+                    if (userSpidScopes["domicileMunicipality"] === SpidLoginController.config.validDomicileMunicipality) {
+                        WebApiController.sendResponse(
+                            request,
+                            response,
+                            {
+                                "scope": userSpidScopes,
+                                "access_token": userSpidAccessToken
+                            },
+                            ""
+                        );
+                    } else {
+                        WebApiController.sendError(request, response, 422, {
+                            type: "unprocessable-entity",
+                            title: "Unprocessable Entity",
+                            status: 422,
+                            details: "The current user is not resident in the City of Trento."
+                        });
+                    }
                 } else {
                     WebApiController.sendError(request, response, 400, {
                         type: "unprocessable-entity",
