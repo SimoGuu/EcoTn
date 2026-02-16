@@ -77,11 +77,12 @@
     <script src="scripts/translations.js"></script>
     <script>
 
+        livelloBatteria();
         const idAbitazione = localStorage.getItem("idAbitazione");
-        console.log(idAbitazione);
-        if(!idAbitazione){
+        //console.log(idAbitazione);
+        if (!idAbitazione) {
             window.location.href = 'login.html'
-        }else{
+        } else {
             document.getElementById("titolo_block").textContent = localStorage.getItem("indirizzoAbitazione");
         }
 
@@ -122,7 +123,7 @@
                 const consumi = await response.json();
 
                 // Stampa in console (o fai quello che vuoi con i dati)
-                console.log(consumi);
+                //console.log(consumi);
 
                 // Se vuoi, puoi anche popolare il DOM
 
@@ -157,7 +158,7 @@
                 const consumi = await response.json();
 
                 // Stampa in console (o fai quello che vuoi con i dati)
-                console.log(consumi);
+                //console.log(consumi);
 
                 // Se vuoi, puoi anche popolare il DOM
 
@@ -203,6 +204,27 @@
             return img;
         }
 
+        async function livelloBatteria() {
+            try {
+                // Chiamata all'API completa con URL assoluto
+                const response = await fetch("http://localhost:8080/api/v1/productions");
+
+                // Controlla se la risposta è OK
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Trasforma la risposta in JSON
+                const consumi = await response.json();
+
+                // Stampa in console (o fai quello che vuoi con i dati)
+                console.log(consumi[0].lv_batteria);
+
+
+            } catch (error) {
+                console.error("Errore nel recupero delle case:", error);
+            }
+        }
 
 
     </script>
