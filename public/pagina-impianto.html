@@ -41,7 +41,7 @@
             248378
         </div>
 
-        <div class="cardina">
+        <div id="card_meteo" class="cardina">
             <!--<img src="assets/download.png" />-->
         </div>
     </div>
@@ -269,10 +269,69 @@
                 const now = new Date();
                 const currentHour = now.getHours().toString().padStart(2, '0');
                 const currentTimeKey = `${currentHour}:00`;
-
-                const currentWeather = parsedWeather.timestamps[currentTimeKey] || "unknown";
+                const timestamps = data.result.timestamps;
+                const currentWeather = timestamps[currentTimeKey] || "unknown";
 
                 console.log(`Meteo corrente: ${currentWeather}`);
+                let source;
+
+                switch (currentWeather) {
+                    case "clear":
+                        source = "Immagini/icone_meteo/icona_sole.png";
+                        break;
+
+                    case "overcast":
+                        source = "Immagini/icone_meteo/icona_nuvola.png";
+                        break;
+
+                    case "fog":
+                        source = "Immagini/icone_meteo/icona_nebbia.png";
+                        break;
+
+                    case "drizzle":
+                        source = "Immagini/icone_meteo/icona_pioggia.png";
+                        break;
+
+                    case "freezing_drizzle":
+                        source = "Immagini/icone_meteo/icona_pioggia.png";
+                        break;
+
+                    case "rain":
+                        source = "Immagini/icone_meteo/icona_pioggia.png";
+                        break;
+
+                    case "freezing_rain":
+                        source = "Immagini/icone_meteo/icona_pioggia.png";
+                        break;
+
+                    case "snow":
+                        source = "Immagini/icone_meteo/icona_neve.png";
+                        break;
+
+                    case "snow_grains":
+                        source = "Immagini/icone_meteo/icona_neve.png";
+                        break;
+
+                    case "rain_showers":
+                        source = "Immagini/icone_meteo/icona_acquazzone.png";
+                        break;
+
+                    case "snow_showers":
+                        source = "Immagini/icone_meteo/icona_neve.png";
+                        break;
+
+                    case "thunderstorm":
+                        source = "Immagini/icone_meteo/icona_fulmini.png";
+                        break;
+
+                    default:
+                        source = "Immagini/icone_meteo/icona_sole.png";
+                        break;
+                }
+
+                const icona_meteo = document.createElement("img");
+                icona_meteo.src = source;
+                document.getElementById("card_meteo").append(icona_meteo);
 
             } catch (error) {
                 console.error("Errore nel recuperare il meteo:", error);
