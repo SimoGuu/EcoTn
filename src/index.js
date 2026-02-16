@@ -47,35 +47,6 @@ app.get("/api/v1/spid/logout", (request, response) => {
     WebApiController.sendResponse(request, response, null, "");
 });
 
-/*
-app.post("/api/v1/spid/login", async (request, response) => {
-    if (Object.keys(request.session).includes("SPIDToken")) {
-        let spidToken = request.session["SPIDToken"];
-        let spidUserScopes = await SpidLoginController.getUserScopes(spidToken);
-
-        if (spidUserScopes != null) {
-            WebApiController.sendResponse(request, response, spidUserScopes, "");
-        } else {
-            delete request.session["SPIDToken"];
-
-            WebApiController.sendError(request, response, 401, {
-                type: "unauthorized",
-                title: "Unauthorized",
-                status: 401,
-                details: "The current session has not been authenticated with a valid SPID IdP."
-            });
-        }
-    } else {
-        WebApiController.sendError(request, response, 401, {
-            type: "unauthorized",
-            title: "Unauthorized",
-            status: 401,
-            details: "The current session has not been authenticated with a valid SPID IdP."
-        });
-    }
-});
-*/
-
 app.get("/api/v1/spid/callback", async (request, response) => {
     await SpidLoginController.handleCallback(request, response);
 });
