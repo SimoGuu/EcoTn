@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Consumption = require('../models/consumption');
 
 exports.getConsumptions = async (req, res) => {

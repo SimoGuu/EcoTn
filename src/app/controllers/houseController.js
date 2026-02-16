@@ -1,4 +1,7 @@
 const House = require('../models/house');
+const Consumption = require('../models/consumption');
+const Production = require('../models/production');
+const mongoose = require('mongoose');
 
 exports.getHouses = async (req, res) => {
   try {
@@ -47,6 +50,54 @@ exports.deleteHouse = async (req, res) => {
     const house = await House.findByIdAndDelete(req.params.id);
     if (!house) return res.status(404).json({ error: 'House not found' });
     res.json({ message: 'House deleted' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getHouseConsumptionStats = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { start, end } = req.query;
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    endDate.setHours(23, 59, 59, 999);
+
+    const groupFormat = (start === end) 
+      ? { $hour: "$data_ora" } 
+      : { $dateToString: { format: "%Y-%m-%d", date: "$data_ora" } };
+
+    const stats = await Consumption.aggregate([
+      { $match: { house: new mongoose.Types.ObjectId(id), data_ora: { $gte: startDate, $lte: endDate } } },
+      { $group: { _id: groupFormat, media: { $avg: "$valore" } } },
+      { $sort: { "_id": 1 } }
+    ]);
+
+    res.json({ labels: stats.map(s => s._id), values: stats.map(s => s.media) });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getHouseProductionStats = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { start, end } = req.query;
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    endDate.setHours(23, 59, 59, 999);
+
+    const groupFormat = (start === end) 
+      ? { $hour: "$data_ora" } 
+      : { $dateToString: { format: "%Y-%m-%d", date: "$data_ora" } };
+
+    const stats = await Production.aggregate([
+      { $match: { house: new mongoose.Types.ObjectId(id), data_ora: { $gte: startDate, $lte: endDate } } },
+      { $group: { _id: groupFormat, media: { $avg: "$valore" } } },
+      { $sort: { "_id": 1 } }
+    ]);
+
+    res.json({ labels: stats.map(s => s._id), values: stats.map(s => s.media) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
