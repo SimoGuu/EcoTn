@@ -5,11 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Silex v3.6.1">
-    <link rel="stylesheet" href="css/login.css" />
-    <link rel="stylesheet" href="css/style.css" />
-
-
-
+    <link rel="stylesheet" href="css/login.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
 
 
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -19,64 +16,142 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 
-<body  class="sfondo">
+<body class="sfondo">
 
-    
-        <div id="blocco_form" class="card">
-            <img id="immagine_login" src="/assets/7407996-icona-utente-icona-persona-client-simbolo-login-testa-segno-icona-design-vettoriale.jpg" />
 
-            <form method="get" id="decorazione">
+<div id="blocco_form" class="card">
+    <img id="immagine_login"
+         src="/assets/7407996-icona-utente-icona-persona-client-simbolo-login-testa-segno-icona-design-vettoriale.jpg"/>
 
-                <div  class="divform">
-                    <label class="etichetta">
-                        Name
-                    </label>
-                    <input type="text" id="txt_nome" />
-                </div>
+    <form method="get" id="decorazione">
 
-                <div class="divform">
-                    <label class="etichetta">
-                        Email
-                    </label>
-                    <input type="email" id="txt_email" />
-                </div>
-                <div class="divform">
-                    <button type="button" id="bottone" onclick="logga()">Send</button>
-                </div>
-
-            </form>
-
+        <div class="divform">
+            <label class="etichetta">
+                Name
+            </label>
+            <input type="text" id="txt_nome"/>
         </div>
 
-
-        <div id="i9r7g-2" class="collegamento">
-            <u id="iqvzp" class="collegamento">
-                <b id="iqdft">Non hai un account?  Registrati</b>
-            </u>
+        <div class="divform">
+            <label class="etichetta">
+                Email
+            </label>
+            <input type="email" id="txt_email"/>
+        </div>
+        <div class="divform">
+            <button type="button" id="bottone" onclick="logga()">Send</button>
         </div>
 
-        
-        <div id="i9r7g-2-2" class="collegamento"><u id="il86l" class="collegamento">Password dimenticata?</u><br
-                id="ijjp6" /></div>
-        <div id="i05l6"><img id="i2l31" src="/assets/LogInSPID.png" /><img id="i6zd8" src="/assets/LogInCIE.png" />
-        </div>
-    
+    </form>
 
-    <script>
-
-        //Set tema
-        if (localStorage.getItem("theme") == "dark") {
-            document.body.classList.add("dark");
-        } else {
-            document.body.classList.remove("dark");
-        }
-
-        function logga() {
-            //! ToDo 
-        }
+</div>
 
 
-    </script>
+<div id="i9r7g-2" class="collegamento">
+    <u id="iqvzp" class="collegamento">
+        <b id="iqdft">Non hai un account? Registrati</b>
+    </u>
+</div>
+
+
+<div id="i9r7g-2-2" class="collegamento"><u id="il86l" class="collegamento">Password dimenticata?</u><br
+        id="ijjp6"/></div>
+<div id="i05l6"><img id="i2l31" src="/assets/LogInSPID.png"/><img id="i6zd8" src="/assets/LogInCIE.png"/>
+</div>
+
+
+<script>
+
+    //Set tema
+    if (localStorage.getItem("theme") == "dark") {
+        document.body.classList.add("dark");
+    } else {
+        document.body.classList.remove("dark");
+    }
+
+    /**
+     * Funzione controllo se utente ha fatto login con SPID.
+     * Semplicemente restituisce true se login ok, altrimenti false.
+     *
+     * uso:
+     *
+     * let check = await checkLogin();
+     * if (check) {
+     *     let profile = await getUserProfile();
+     * } else {
+     *     redirectLogin();
+     *     return;
+     * }
+     */
+    async function checkLogin() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await fetch("http://localhost:8080/api/v1/spid/login", {
+                    method: "HEAD"
+                });
+
+                if (response.status === 200) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            } catch (error) {
+                resolve(false);
+            }
+        });
+    }
+
+    /**
+     * Rimanda utente a login.
+     */
+    function redirectLogin() {
+        window.location.href = "http://localhost:8080/api/v1/spid/login";
+    }
+
+    /**
+     * Carica profilo utente.
+     *
+     * {
+     *     "spidCode": "XXXX1AH264KWP1",
+     *     "name": "LEONARDO ESSAM",
+     *     "familyName": "DEI ROSSI",
+     *     "fiscalNumber": "TINIT-DRSLRD05D05F241U",
+     *     "domicileStreetAddress": "Viale",
+     *     "address": "Trieste 13",
+     *     "domicilePostalCode": "38122",
+     *     "domicileMunicipality": "L378",
+     *     "domicileProvince": "TN",
+     *     "domicileNation": "ITA"
+     * }
+     */
+    async function getUserProfile() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await fetch("http://localhost:8080/api/v1/spid/login", {
+                    method: "GET",
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    resolve(null);
+                }
+
+                const data = await response.json();
+                resolve(data["result"]);
+            } catch (error) {
+                resolve(null);
+            }
+        });
+    }
+
+    function logga() {
+        //! ToDo
+    }
+
+
+</script>
 </body>
 
 </html>
