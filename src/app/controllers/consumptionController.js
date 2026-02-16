@@ -1,11 +1,13 @@
+const mongoose = require('mongoose');
 const Consumption = require('../models/consumption');
 
 exports.getConsumptions = async (req, res) => {
   try {
-    const consumptions = await Consumption.find().populate('house');
-    res.json(consumptions);
+    const query = Consumption.find();
+    const consumptions = await query.populate('house');
+    return res.json(consumptions);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -13,38 +15,39 @@ exports.createConsumption = async (req, res) => {
   try {
     const consumption = new Consumption(req.body);
     await consumption.save();
-    res.status(201).json(consumption);
+    return res.status(201).json(consumption);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 };
 
 exports.getConsumptionById = async (req, res) => {
   try {
-    const houseId = req.params.id; // ora :id è l'ID casa
+    const houseId = req.params.id;
     const consumptions = await Consumption.find({ house: houseId }).populate('house');
-    if (!consumptions) {
-      return res.status(404).json({ error: 'Consumption not foundd' });
+    if (!consumptions || consumptions.length === 0) {
+      return res.status(404).json({ error: 'Consumption not found' });
     }
-    res.json(consumptions);
+    return res.json(consumptions);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
 exports.updateConsumption = async (req, res) => {
   try {
-    const consumption = await Consumption.findByIdAndUpdate(
+    const query = Consumption.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true, runValidators: true }
-    ).populate('house');
+    );
+    const consumption = await query.populate('house');
     if (!consumption) {
       return res.status(404).json({ error: 'Consumption not found' });
     }
-    res.json(consumption);
+    return res.json(consumption);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 };
 
@@ -54,8 +57,8 @@ exports.deleteConsumption = async (req, res) => {
     if (!consumption) {
       return res.status(404).json({ error: 'Consumption not found' });
     }
-    res.json({ message: 'Consumption deleted' });
+    return res.json({ message: 'Consumption deleted' });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };

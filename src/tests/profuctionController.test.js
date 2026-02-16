@@ -1,7 +1,7 @@
-const productionController = require("../../app/controllers/productionController");
-const Production = require("../../app/models/production");
+const productionController = require("../app/controllers/productionController");
+const Production = require("../app/models/production");
 
-jest.mock("../../app/models/production");
+jest.mock("../app/models/production");
 
 describe("Production Controller", () => {
 

@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Production = require('../models/production');
 
 exports.getProductions = async (req, res) => {
@@ -18,3 +19,4 @@ exports.createProduction = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+

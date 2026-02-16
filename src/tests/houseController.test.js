@@ -1,7 +1,17 @@
-const houseController = require("../../app/controllers/houseController");
-const House = require("../../app/models/house");
+const request = require('supertest');
+const express = require('express');
+const Consumption = require('../app/models/consumption');
+const Production = require('../app/models/production');
+const House = require('../app/models/house');
+const houseController = require('../app/controllers/houseController');
+const houseRoutes = require('../app/routes/houseRoutes');
 
-jest.mock("../../app/models/house");
+jest.mock('../app/models/house');
+
+const app = express();
+app.use(express.json());
+app.use('/api/v1/houses', houseRoutes);
+
 
 describe("House Controller", () => {
 
@@ -153,4 +163,90 @@ describe("House Controller", () => {
     expect(res.status).toHaveBeenCalledWith(404);
   });
 
+});
+
+describe('House Consumption Stats (Mocked)', () => {
+  const houseId = '69938ad61a8406ee0407f368';
+
+  afterEach(() => {
+    jest.restoreAllMocks(); // Previene il leak dei mock tra i test
+  });
+
+  it('Dovrebbe restituire medie orarie se start == end', async () => {
+    const mockData = [
+      { _id: 8, media: 0.45 },
+      { _id: 9, media: 0.60 }
+    ];
+    // Mockiamo il metodo aggregate del modello Consumption
+    const spy = jest.spyOn(Consumption, 'aggregate').mockResolvedValue(mockData);
+
+    const res = await request(app)
+      .get(`/api/v1/houses/${houseId}/consumption-stats`)
+      .query({ start: '2023-10-27', end: '2023-10-27' });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.labels).toEqual([8, 9]); // Raggruppamento orario ($hour)
+    expect(res.body.values).toEqual([0.45, 0.60]);
+    spy.mockRestore();
+  });
+
+  it('Dovrebbe restituire medie giornaliere se start != end', async () => {
+    const mockData = [
+      { _id: '2023-10-25', media: 1.2 },
+      { _id: '2023-10-26', media: 1.5 }
+    ];
+    const spy = jest.spyOn(Consumption, 'aggregate').mockResolvedValue(mockData);
+
+    const res = await request(app)
+      .get(`/api/v1/houses/${houseId}/consumption-stats`)
+      .query({ start: '2023-10-25', end: '2023-10-26' });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.labels).toEqual(['2023-10-25', '2023-10-26']); // Formato %Y-%m-%d
+    spy.mockRestore();
+  });
+
+  it('Dovrebbe restituire 500 in caso di errore del database', async () => {
+    jest.spyOn(Consumption, 'aggregate').mockRejectedValue(new Error('DB Fail'));
+
+    const res = await request(app)
+      .get(`/api/v1/houses/${houseId}/consumption-stats`)
+      .query({ start: '2023-10-27', end: '2023-10-27' });
+
+    expect(res.statusCode).toBe(500);
+    expect(res.body).toHaveProperty('error', 'DB Fail');
+  });
+});
+
+describe('House Production Stats (Mocked)', () => {
+  const houseId = '69938ad61a8406ee0407f368';
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('Dovrebbe calcolare correttamente le medie orarie della produzione', async () => {
+    const mockData = [{ _id: 12, media: 4.2 }];
+    const spy = jest.spyOn(Production, 'aggregate').mockResolvedValue(mockData);
+
+    const res = await request(app)
+      .get(`/api/v1/houses/${houseId}/production-stats`)
+      .query({ start: '2023-10-27', end: '2023-10-27' });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.labels).toContain(12);
+    expect(res.body.values).toContain(4.2);
+    spy.mockRestore();
+  });
+
+  it('Dovrebbe gestire gli errori di aggregazione produzione', async () => {
+    jest.spyOn(Production, 'aggregate').mockRejectedValue(new Error('Aggregate Error'));
+
+    const res = await request(app)
+      .get(`/api/v1/houses/${houseId}/production-stats`)
+      .query({ start: '2023-10-27', end: '2023-10-27' });
+
+    expect(res.statusCode).toBe(500);
+    expect(res.body.error).toBe('Aggregate Error');
+  });
 });

@@ -1,7 +1,7 @@
-const personController = require("../../app/controllers/personController");
-const Person = require("../../app/models/person");
+const personController = require("../app/controllers/personController");
+const Person = require("../app/models/person");
 
-jest.mock("../../app/models/person");
+jest.mock("../app/models/person");
 
 describe("Person Controller", () => {
 
