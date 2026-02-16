@@ -6,7 +6,7 @@ const SpidLoginController = {
         baseUrl: "https://aanmelden.altervista.org/spid/",
         clientId: "1636faf6-042b-11f1-a8c5-04421a23da50",
         clientSecret: "ce0b0c4edcc25441e87a2babf799ae87",
-        redirectUri: "http://localhost:3000/api/v1/spid/callback",
+        redirectUri: "http://localhost:8080/api/v1/spid/callback",
         endpoints: {
             authorize: "authorize.php",
             token: "token.php",
