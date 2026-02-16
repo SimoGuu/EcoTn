@@ -2,8 +2,6 @@ services:
   - type: web
     name: mia-api
     runtime: node
+    plan: free
     buildCommand: npm install
-    startCommand: npm start
-    envVars:
-      - key: NODE_ENV
-        value: production
+    startCommand: node index.js
