@@ -21,26 +21,24 @@
 
 <body class="sfondo">
     <div class="box_titolo">
-        <div class="titolo">IMPOSTAZIONI</div>
+        <div class="titolo" data-lingua="titolo_impostazioni"></div>
     </div>
 
 
-    <div  class="card">
-        <div class="testo_impostazioni blocco_impostazioni">
-            Tema Scuro
-        </div>
+    <div class="card">
+        <div class="testo_impostazioni blocco_impostazioni" data-lingua="tema"></div>
         <input type="checkbox" class="chk" id="chk_tema" />
     </div>
 
 
     <!--Selezione Lingua-->
     <div class="card">
-        <div class="testo_impostazioni blocco_impostazioni">Lingua</div>
-            <select class="menu_tendina">
-                <option value="Italiano" >Italiano</option>
-                <option value="English" >English</option>
-                <option value="Deutsche" >Deutsche</option>
-            </select>
+        <div class="testo_impostazioni blocco_impostazioni" data-lingua="lingua"></div>
+        <select class="menu_tendina" id="menu_tendina">
+            <option value="it">Italiano</option>
+            <option value="en">English</option>
+            <option value="de">Deutsche</option>
+        </select>
     </div>
 
 
@@ -48,43 +46,38 @@
     <div class="card">
 
         <!-- Abilita/Disabilita news -->
-        <div >
-            <div class="testo_impostazioni blocco_impostazioni">
-                Notifiche news
-            </div>
+        <div>
+            <div class="testo_impostazioni blocco_impostazioni" data-lingua="notifiche"></div>
             <input type="checkbox" class="chk" />
         </div>
 
         <!-- Soglie consumi -->
-        <div >
-            <div class="testo_impostazioni blocco_impostazioni">
-                Soglia consumi
-            </div>
-            <input type="checkbox" id="chk_soglia" class="chk"/>
-            <input type="number" id="txt_soglia"  />
-            <!-- 
-            <div id="iws1y2">
-                <div id="ispink" class="testo_impostazioni">
-                    Notifiche news</div><input type="checkbox" id="ik1xv4" />
-            </div>
-            -->
+        <div>
+            <div class="testo_impostazioni blocco_impostazioni" data-lingua="soglia"></div>
+            <input type="checkbox" id="chk_soglia" class="chk" />
+            <input type="number" id="txt_soglia" />
         </div>
     </div>
 
     <!-- Log out -->
-    <div  class="card blocco_impostazioni">
-        <div  class="testo_impostazioni blocco_impostazioni">
-            <b onclick="LogOut();">Log Out</b>
+    <div class="card blocco_impostazioni">
+        <div class="testo_impostazioni blocco_impostazioni">
+            <b onclick="LogOut();" data-lingua="logout"></b>
         </div>
     </div>
+
+    <a href="articolo.html">articolo.html</a>
+    <a href="news.html">news.html</a>
+    <a href="pagina-impianto.html">pagina impianto.html</a>
+    <a href="selezione-impianto.html">selezione impianto.html</a>
 
 
 
 </body>
 
-
-
+<script src="scripts/translations.js"></script>
 <script>
+    
     const toggle = document.getElementById("chk_tema");
 
     // carica preferenza
@@ -104,9 +97,21 @@
         }
     });
 
-    function LogOut(){
+    function LogOut() {
         window.location.href = 'login.html'
     }
+
+
+    const languageSelector = document.getElementById("menu_tendina");
+
+    // carica lingua salvata
+    cambiaLingua();
+
+    // cambio lingua
+    languageSelector.addEventListener("change", (e) => {
+        localStorage.setItem("lingua", e.target.value);
+        cambiaLingua();
+    });
 
 
 

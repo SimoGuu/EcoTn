@@ -22,11 +22,12 @@ exports.createConsumption = async (req, res) => {
 
 exports.getConsumptionById = async (req, res) => {
   try {
-    const consumption = await Consumption.findById(req.params.id).populate('house');
-    if (!consumption) {
-      return res.status(404).json({ error: 'Consumption not found' });
+    const houseId = req.params.id; // ora :id è l'ID casa
+    const consumptions = await Consumption.find({ house: houseId }).populate('house');
+    if (!consumptions) {
+      return res.status(404).json({ error: 'Consumption not foundd' });
     }
-    res.json(consumption);
+    res.json(consumptions);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

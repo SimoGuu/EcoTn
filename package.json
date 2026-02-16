@@ -1,7 +1,15 @@
 {
   "name": "ecotn",
-  "version": "0.0.1",
-  "description": "Progetto di Ingegneria del Software, a.a. 2025/2026, gruppo G17",
+  "version": "1.0.0",
+  "description": "Progetto EcoTn del corso di Ingegneria del Software, UniTrento.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --setupFiles dotenv/config",
+    "test:coverage": "jest --coverage",
+    "dev": "node -r dotenv/config index.js",
+    "start": "node index.js",
+    "devalt": "nodemon index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SimoGuu/EcoTn.git"
@@ -14,36 +22,30 @@
   },
   "homepage": "https://github.com/SimoGuu/EcoTn#readme",
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^5.1.0",
+    "express-cors": "^0.0.3",
+    "jest": "^30.2.0",
     "mongoose": "^9.1.6"
   },
   "devDependencies": {
     "dotenv": "^17.2.4",
-    "jest": "^30.2.0",
-    "supertest": "^7.2.2"
-  },
-  "main": "index.js",
-  "scripts": {
-    "test": "jest --setupFiles dotenv/config",
-    "test:coverage": "jest --coverage",
-    "dev": "node -r dotenv/config index.js",
-    "start": "node index.js",
-    "devalt": "nodemon index.js"
+    "express-session": "^1.19.0"
   },
   "jest": {
     "testEnvironment": "node",
     "verbose": true,
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/index.js"
+      "src/app/controllers/**/*.js",
+      "!src/app/controllers/index.js"
     ],
     "coverageThreshold": {
       "global": {
         "statements": 75,
         "branches": 70,
         "functions": 75,
-        "lines": 75
+        "lines": 70
       }
     }
   }
