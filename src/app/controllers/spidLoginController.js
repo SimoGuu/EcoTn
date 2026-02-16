@@ -112,6 +112,7 @@ const SpidLoginController = {
                 let userSpidScopes = await SpidLoginController.getUserScopes(userSpidAccessToken);
                 if (userSpidScopes != null) {
                     if (userSpidScopes["domicileMunicipality"] === SpidLoginController.config.validDomicileMunicipality) {
+                        /*
                         WebApiController.sendResponse(
                             request,
                             response,
@@ -121,6 +122,9 @@ const SpidLoginController = {
                             },
                             ""
                         );
+                         */
+
+                        response.redirect("http://localhost:5500/public/login.html");
                     } else {
                         WebApiController.sendError(request, response, 422, {
                             type: "unprocessable-entity",
