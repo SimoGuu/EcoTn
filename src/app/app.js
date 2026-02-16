@@ -30,6 +30,7 @@ const productionRoutes = require('./routes/productionRoutes');
 const newsRoutes = require('./routes/newsRoutes');
 const keyRoutes = require('./routes/keyRoutes');
 const spidLoginRoutes = require('./routes/spidLoginRoutes');
+const weatherRoutes = require('./routes/weatherRoutes');
 
 app.use('/api/v1/persons', personRoutes);
 app.use('/api/v1/houses', houseRoutes);
@@ -38,5 +39,6 @@ app.use('/api/v1/productions', productionRoutes);
 app.use('/api/v1/news', newsRoutes);
 app.use('/api/v1/keys', keyRoutes);
 app.use('/api/v1/spid', spidLoginRoutes);
+app.use('/api/v1/weather', weatherRoutes);
 
 module.exports = app;
