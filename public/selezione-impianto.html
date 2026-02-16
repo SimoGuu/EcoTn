@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Silex v3.6.1">
     <link rel="stylesheet" href="css/selezione-impianto.css" />
-    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/style.css" />
 
 
 
@@ -21,25 +21,86 @@
 
 <body class="sfondo">
 
-    <div class="titolo_block" data-lingua="titolo_selezione" ></div>
+    <div class="titolo_block" data-lingua="titolo_selezione"></div>
 
     <div class="container_impianto">
-        <img class="immagine_impianto" src="/assets/impianto_placeholder.jpg" />
+        <img class="immagine_impianto" src="Immagini/Icone_meteo/icona_sole_nuvoloso.png" />
         <div class="nome_impianto">NOME IMPIANTO</div>
     </div>
+
+    <div id="housesContainer"></div>
+
+
 </body>
 
 <script src="scripts/translations.js"></script>
 <script>
-        cambiaLingua();
-        //Set tema
-        if (localStorage.getItem("theme") == "dark") {
-            document.body.classList.add("dark");
-        } else {
-            document.body.classList.remove("dark");
+    cambiaLingua();
+    //Set tema
+    if (localStorage.getItem("theme") == "dark") {
+        document.body.classList.add("dark");
+    } else {
+        document.body.classList.remove("dark");
+    }
+
+
+    getHouses();
+    // Funzione per ottenere le case dal backend
+    async function getHouses() {
+        try {
+            // Chiamata all'API completa con URL assoluto
+            const response = await fetch("http://localhost:8080/api/v1/houses");
+
+            // Controlla se la risposta è OK
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            // Trasforma la risposta in JSON
+            const houses = await response.json();
+
+            // Stampa in console (o fai quello che vuoi con i dati)
+            console.log(houses);
+
+            // Se vuoi, puoi anche popolare il DOM
+            displayHouses(houses);
+
+        } catch (error) {
+            console.error("Errore nel recupero delle case:", error);
         }
+    }
+
+    //Funzione di esempio per mostrare le case nella pagina
+    function displayHouses(houses) {
+        const container = document.getElementById("housesContainer");
+        container.innerHTML = ""; // pulisce eventuali contenuti precedenti
+
+        houses.forEach(house => {
+            const div = document.createElement("div");
+            div.classList.add("container_impianto");
+
+            var immagine = document.createElement("img");
+            immagine.classList.add("immagine_impianto");
+            const num = 1;
+            switch (num){
+                case 1:
+                    immagine.src = "Immagini/Icone_meteo/icona_sole.png";
+                    break;
+
+                default:
+                    immagine.src = "Immagini/Icone_meteo/icona_sole_nuvoloso.png"
+            }
+            div.appendChild(immagine);
+            div.innerHTML = `
+            <h3>${house._id}</h3>
+            <p class="nome_impianto">Indirizzo: ${house.indirizzo}</p>
+        `;
+            div.appendChild(immagine);
+            container.appendChild(div);
+        });
+    }
 
 
-    </script>
+</script>
 
 </html>
