@@ -7,5 +7,7 @@ router.post('/', houseController.createHouse);
 router.get('/:id', houseController.getHouseById);
 router.put('/:id', houseController.updateHouse);
 router.delete('/:id', houseController.deleteHouse);
+router.get('/:id/consumption-stats', houseController.getHouseConsumptionStats);
+router.get('/:id/production-stats', houseController.getHouseProductionStats);
 
 module.exports = router;

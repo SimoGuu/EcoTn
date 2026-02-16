@@ -7,7 +7,6 @@ router.post('/', consumptionController.createConsumption);
 router.get('/:id', consumptionController.getConsumptionById);
 router.put('/:id', consumptionController.updateConsumption);
 router.delete('/:id', consumptionController.deleteConsumption);
-router.get('/stats/:id', consumptionController.getConsumptionStats);
 
 module.exports = router;
 
