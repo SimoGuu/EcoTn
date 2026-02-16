@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Consumption = require('../models/consumption');
 
 exports.getConsumptions = async (req, res) => {
@@ -54,6 +55,48 @@ exports.deleteConsumption = async (req, res) => {
       return res.status(404).json({ error: 'Consumption not found' });
     }
     res.json({ message: 'Consumption deleted' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getConsumptionStats = async (req, res) => {
+  try {
+    const { id } = req.params; // ID della casa
+    const { start, end } = req.query; // Date in formato YYYY-MM-DD
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    endDate.setHours(23, 59, 59, 999); // Include tutto l'ultimo giorno
+
+    const isSameDay = start === end;
+
+    // Definiamo il raggruppamento in base alla condizione temporale
+    const groupFormat = isSameDay 
+      ? { $hour: "$data_ora" } 
+      : { $dateToString: { format: "%Y-%m-%d", date: "$data_ora" } };
+
+    const stats = await Consumption.aggregate([
+      {
+        $match: {
+          house: new mongoose.Types.ObjectId(id),
+          data_ora: { $gte: startDate, $lte: endDate }
+        }
+      },
+      {
+        $group: {
+          _id: groupFormat,
+          media: { $avg: "$valore" }
+        }
+      },
+      { $sort: { "_id": 1 } } // Ordina cronologicamente
+    ]);
+
+    // Formattiamo la risposta in due array
+    const labels = stats.map(item => item._id);
+    const values = stats.map(item => item.media);
+
+    res.json({ labels, values });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
