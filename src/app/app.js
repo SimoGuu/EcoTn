@@ -1,7 +1,11 @@
+//modifiche mie
+const cors = require('cors');
 const express = require('express');
 const app = express();
 const session = require("express-session");
 
+// Abilita CORS per tutte le origini
+app.use(cors());
 app.use(express.json());
 
 app.use(session({
