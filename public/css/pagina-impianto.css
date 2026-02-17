@@ -14,7 +14,7 @@ body {
     height: auto;
 }
 
-#trittica {
+.trittica {
     text-align: center;
 }
 
@@ -36,9 +36,18 @@ body {
     color: var( --text-base-color);
 }
 
-#trittica_carda {
+.trittica_carda {
     min-height: 100px;
     text-align: center;
     padding: 20px;
+}
+
+.impostazioni {
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+    margin: 20px;
+    color: var(--text-base-color);
+    display: inline-block;
+    text-align: center;
 }
 

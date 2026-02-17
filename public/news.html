@@ -28,7 +28,7 @@
             </div>
            
         
-    <div class="box_news">
+    <div class="box_news" id="box_news">
         <div  class="card">
             <img  src="/assets/impianto_placeholder.jpg" />
             <div>
@@ -51,6 +51,82 @@
             document.body.classList.remove("dark");
         }
 
+
+        getNews();
+    // Funzione per ottenere le case dal backend
+    async function getNews() {
+        try {
+            // Chiamata all'API completa con URL assoluto
+            //const response = await fetch("http://localhost:8080/api/v1/houses");
+            const response = await fetch("http://localhost:8080/api/v1/news");
+
+            // Controlla se la risposta è OK
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            // Trasforma la risposta in JSON
+            const notizie = await response.json();
+
+            // Stampa in console (o fai quello che vuoi con i dati)
+            console.log(notizie);
+
+            // Se vuoi, puoi anche popolare il DOM
+            displayNotizie(notizie);
+
+        } catch (error) {
+            console.error("Errore nel recupero delle case:", error);
+        }
+    }
+
+    //Funzione di esempio per mostrare le case nella pagina
+    function displayNotizie(notizie) {
+        const container = document.getElementById("box_news");
+        container.innerHTML = ""; // pulisce eventuali contenuti precedenti
+
+        notizie.forEach(notizia => {
+
+
+            const div = document.createElement("div");
+            div.classList.add("card");
+            div.id = `abitazione-${notizia._id}`;
+
+            div.addEventListener('click', function () {
+
+                
+                localStorage.setItem('idNotizia', notizia._id);
+                window.location.href = 'articolo.html';
+
+            });
+
+            var immagine = document.createElement("img");
+            immagine.classList.add("img_news");
+
+            //const source = house.immagineProfilo === undefined ? "Immagini/Icone_meteo/icona_sole_nuvoloso.png" : house.immagineProfilo;
+            const source = "Immagini/impianto_placeholder.jpg";
+            immagine.src = source;
+
+
+            immagine.alt = "Immagini/Icone_meteo/icona_sole_nuvoloso.png";
+
+            var titolo = document.createElement("h2");
+            titolo.textContent = `${notizia.titolo}`;
+            
+            /*
+            var indirizzo = document.createElement("p");
+            indirizzo.classList.add("nome_impianto");
+            indirizzo.textContent = `${house.indirizzo}`;
+            div.appendChild(indirizzo);
+            */
+
+            div.appendChild(titolo);
+            div.appendChild(immagine);
+
+            
+
+            container.appendChild(div);
+        });
+    }
 
     </script>
 </body>

@@ -21,25 +21,40 @@
 
 <body class="sfondo">
 
-    <div id="titolo_block" class="titolo_block"></div>
+    <div id="titolo_block" class="titolo_block" ></div>
+    <div class=" impostazioni" onclick="reindirizzaImpostazioni()">Impostazioni</div>
 
     <!-- Div Consumi -->
     <div id="impianto_card" class="card">
+
+
+        <select id="periodo_consumi" onchange="gestisciPeriodo()">
+            <!-- <option value="" data-lingua="selezione_periodo"></option> -->
+            <option value="settimana" data-lingua="settimana"></option>
+            <option value="oggi" data-lingua="oggi"></option>
+            <option value="mese" data-lingua="mese"></option>
+            <option value="custom" data-lingua="periodo_personalizzato"></option>
+        </select>
+
+        <div id="customDates" style="display:none">
+            <input type="date" id="startDate">
+            <input type="date" id="endDate">
+        </div>
+
+        <button onclick="caricaConsumi()" data-lingua="mostra"></button>
+
+
         <div id="div_grafico_consumi"></div>
     </div>
 
     <!-- Trittica cards -->
-    <div id="trittica">
+    <div class="trittica">
 
         <div id="card_batteria" class="cardina">
             <!--<img src="assets/1000_F_51194731_teoTdQknH1zlLTnLeIoYzyXQ8mUZgG6P.jpg" />-->
         </div>
 
-        <div class="cardina">
-            <p data-lingua="co2"></p>
-            <br>
-            248378
-        </div>
+        
 
         <div id="card_meteo" class="cardina">
             <!--<img src="assets/download.png" />-->
@@ -54,10 +69,10 @@
 
 
 
-        <select id="periodo" onchange="gestisciPeriodo()">
-            <option value="" data-lingua="selezione_periodo"></option>
-            <option value="oggi" data-lingua="oggi"></option>
+        <select id="periodo_produzione" onchange="gestisciPeriodo()">
+            <!-- <option value="" data-lingua="selezione_periodo"></option> -->
             <option value="settimana" data-lingua="settimana"></option>
+            <option value="oggi" data-lingua="oggi"></option>
             <option value="mese" data-lingua="mese"></option>
             <option value="custom" data-lingua="periodo_personalizzato"></option>
         </select>
@@ -74,11 +89,26 @@
 
     </div>
 
+   <div class="trittica">
+
+        <div id="card_news" class="cardina" onclick="reindirizzaNews()">
+            <p class="impostazioni">News</p>
+        </div>
+
+    </div>
+
     <script src="scripts/pagina-impianto.js"></script>
     <script src="scripts/translations.js"></script>
     <script>
 
         livelloBatteria();
+        //getConsumi();
+        //getProduzione();
+        caricaProduzione();
+        caricaConsumi();
+        cambiaLingua();
+        stampaMeteoCorrente();
+
 
         const idAbitazione = localStorage.getItem("idAbitazione");
         //console.log(idAbitazione);
@@ -88,9 +118,7 @@
             document.getElementById("titolo_block").textContent = localStorage.getItem("indirizzoAbitazione");
         }
 
-        getConsumi();
-        getProduzione();
-        cambiaLingua();
+
 
         //Set tema
         if (localStorage.getItem("theme") == "dark") {
@@ -101,83 +129,10 @@
 
 
         function gestisciPeriodo() {
-            console.log("Cambio");
-            const periodo = document.getElementById("periodo").value;
+            const periodo = document.getElementById("periodo_produzione").value;
             const custom = document.getElementById("customDates");
 
             custom.style.display = periodo === "custom" ? "block" : "none";
-        }
-
-
-
-
-        async function getConsumi() {
-            try {
-                // Chiamata all'API completa con URL assoluto
-                const response = await fetch("http://localhost:8080/api/v1/consumptions");
-
-                // Controlla se la risposta è OK
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                // Trasforma la risposta in JSON
-                const consumi = await response.json();
-
-                // Stampa in console (o fai quello che vuoi con i dati)
-                //console.log(consumi);
-
-                // Se vuoi, puoi anche popolare il DOM
-
-                const lables = consumi.map(item => {
-                    const data = new Date(item.data_ora);
-                    return data.toLocaleString(); // formato leggibile
-                });
-
-                const valori = consumi.map(item => item.valore);
-
-
-                const img = creaGrafico(lables, valori);
-                document.getElementById("div_grafico_consumi").appendChild(img);
-
-            } catch (error) {
-                console.error("Errore nel recupero delle case:", error);
-            }
-        }
-
-
-        async function getProduzione() {
-            try {
-                // Chiamata all'API completa con URL assoluto
-                const response = await fetch("http://localhost:8080/api/v1/productions");
-
-                // Controlla se la risposta è OK
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                // Trasforma la risposta in JSON
-                const consumi = await response.json();
-
-                // Stampa in console (o fai quello che vuoi con i dati)
-                //console.log(consumi);
-
-                // Se vuoi, puoi anche popolare il DOM
-
-                const lables = consumi.map(item => {
-                    const data = new Date(item.data_ora);
-                    return data.toLocaleString(); // formato leggibile
-                });
-
-                const valori = consumi.map(item => item.valore);
-
-
-                const img = creaGrafico(lables, valori);
-                document.getElementById("div_grafico_produzione").appendChild(img);
-
-            } catch (error) {
-                console.error("Errore nel recupero delle case:", error);
-            }
         }
 
 
@@ -338,10 +293,117 @@
             }
         }
 
-        // Esegui la funzione
-        stampaMeteoCorrente();
 
+        async function caricaProduzione() {
+            const ret = getDateRange(document.getElementById("periodo_produzione"));
+            const start = ret.startDate;
+            const end = ret.endDate;
 
+            
+            const response = await fetch("http://localhost:8080/api/v1/houses/" + localStorage.getItem("idAbitazione") +
+                "/production-stats/?start=" + start + "&end=" + end);
+
+            // Controlla se la risposta è OK
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            // Trasforma la risposta in JSON
+            const data = await response.json();
+            console.log(data);
+            let img = creaGrafico(data.labels , data.values);
+            document.getElementById("div_grafico_produzione").innerHTML = "";
+            document.getElementById("div_grafico_produzione").appendChild(img);
+
+        }
+
+        async function caricaConsumi() {
+            const ret = getDateRange(document.getElementById("periodo_consumi"));
+            const start = ret.startDate;
+            const end = ret.endDate;
+
+            
+            const response = await fetch("http://localhost:8080/api/v1/houses/" + localStorage.getItem("idAbitazione") +
+                "/consumption-stats/?start=" + start + "&end=" + end);
+
+            // Controlla se la risposta è OK
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            // Trasforma la risposta in JSON
+            const data = await response.json();
+            console.log(data);
+            let img = creaGrafico(data.labels , data.values);
+            document.getElementById("div_grafico_consumi").innerHTML = "";
+            document.getElementById("div_grafico_consumi").appendChild(img);
+
+        }
+
+        function getDateRange(elem) {
+            const periodo = elem.value;
+            const oggi = new Date();
+
+            let startDate, endDate;
+
+            // Imposta endDate sempre a oggi
+            endDate = new Date(oggi); // copia di oggi
+
+            switch (periodo) {
+                case "oggi":
+                    // start = end = oggi
+                    startDate = new Date(oggi);
+                    break;
+
+                case "settimana":
+                    // start = oggi - 7 giorni
+                    startDate = new Date();
+                    startDate.setDate(oggi.getDate() - 7);
+                    break;
+
+                case "mese":
+                    // start = oggi - 30 giorni
+                    startDate = new Date();
+                    startDate.setDate(oggi.getDate() - 30);
+                    break;
+
+                case "custom":
+                    // prendi dai due input
+                    const startInput = document.getElementById("startDate").value;
+                    const endInput = document.getElementById("endDate").value;
+
+                    if (!startInput || !endInput) {
+                        console.warn("Seleziona entrambe le date per il periodo personalizzato");
+                        return null;
+                    }
+
+                    startDate = new Date(startInput);
+                    endDate = new Date(endInput);
+                    break;
+
+                default:
+                    console.warn("Seleziona un periodo valido");
+                    return null;
+            }
+
+            // Formatta in YYYY-MM-DD per comodità (opzionale)
+            const formatDate = (d) => d.toISOString().split('T')[0];
+
+            console.log("start=" + formatDate(startDate));
+            console.log("end=" + formatDate(endDate));
+            return {
+                startDate: formatDate(startDate),
+                endDate: formatDate(endDate)
+            };
+        }
+
+        function reindirizzaImpostazioni(){
+            window.location.href = "impostazioni.html";
+        }
+
+        function reindirizzaNews(){
+            window.location.href = "news.html";
+        }
     </script>
 </body>
 

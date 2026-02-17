@@ -18,3 +18,13 @@ exports.createNews = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+exports.getNewsById = async (req, res) => {
+  try {
+    const news = await News.findById(req.params.id).populate('chiavi');
+    if (!news) return res.status(404).json({ error: 'News not found' });
+    res.json(news);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
