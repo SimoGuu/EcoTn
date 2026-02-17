@@ -9,10 +9,11 @@ describe("News Controller", () => {
   let res;
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
 
     req = {
-      body: { title: "Test News" }
+      body: { title: "Test News" },
+      params: { id: "123" }
     };
 
     res = {
@@ -21,18 +22,24 @@ describe("News Controller", () => {
     };
   });
 
+  // =========================
+  // GET ALL
+  // =========================
   describe("getNews", () => {
 
     it("should return news successfully", async () => {
       const mockNews = [{ title: "News1" }];
 
+      const populateMock = jest.fn().mockResolvedValue(mockNews);
+
       News.find.mockReturnValue({
-        populate: jest.fn().mockResolvedValue(mockNews)
+        populate: populateMock
       });
 
       await newsController.getNews(req, res);
 
       expect(News.find).toHaveBeenCalled();
+      expect(populateMock).toHaveBeenCalledWith("chiavi");
       expect(res.json).toHaveBeenCalledWith(mockNews);
     });
 
@@ -49,10 +56,16 @@ describe("News Controller", () => {
 
   });
 
+  // =========================
+  // CREATE
+  // =========================
   describe("createNews", () => {
 
     it("should create news successfully", async () => {
-      const saveMock = jest.fn().mockResolvedValue();
+      const savedNews = { _id: "1", title: "Test News" };
+
+      const saveMock = jest.fn().mockResolvedValue(savedNews);
+
       News.mockImplementation(() => ({
         save: saveMock
       }));
@@ -61,10 +74,12 @@ describe("News Controller", () => {
 
       expect(saveMock).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.json).toHaveBeenCalledWith(savedNews);
     });
 
     it("should return 400 if save fails", async () => {
       const saveMock = jest.fn().mockRejectedValue(new Error("Validation error"));
+
       News.mockImplementation(() => ({
         save: saveMock
       }));
@@ -73,6 +88,53 @@ describe("News Controller", () => {
 
       expect(res.status).toHaveBeenCalledWith(400);
       expect(res.json).toHaveBeenCalledWith({ error: "Validation error" });
+    });
+
+  });
+
+  // =========================
+  // GET BY ID
+  // =========================
+  describe("getNewsById", () => {
+
+    it("should return news by id", async () => {
+      const mockNews = { _id: "123", title: "News1" };
+
+      const populateMock = jest.fn().mockResolvedValue(mockNews);
+
+      News.findById.mockReturnValue({
+        populate: populateMock
+      });
+
+      await newsController.getNewsById(req, res);
+
+      expect(News.findById).toHaveBeenCalledWith("123");
+      expect(populateMock).toHaveBeenCalledWith("chiavi");
+      expect(res.json).toHaveBeenCalledWith(mockNews);
+    });
+
+    it("should return 404 if news not found", async () => {
+      const populateMock = jest.fn().mockResolvedValue(null);
+
+      News.findById.mockReturnValue({
+        populate: populateMock
+      });
+
+      await newsController.getNewsById(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(404);
+      expect(res.json).toHaveBeenCalledWith({ error: "News not found" });
+    });
+
+    it("should return 500 if error occurs", async () => {
+      News.findById.mockImplementation(() => {
+        throw new Error("DB error");
+      });
+
+      await newsController.getNewsById(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({ error: "DB error" });
     });
 
   });
