@@ -98,7 +98,9 @@
     });
 
     function LogOut() {
-        window.location.href = 'login.html'
+        localStorage.removeItem("utenteId");
+        localStorage.removeItem("idAbitazione");
+        window.location.href = 'login.html';
     }
 
 

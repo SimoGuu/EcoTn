@@ -21,7 +21,8 @@
 
 <body class="sfondo">
 
-    <div id="titolo_block" class="titolo_block"></div>
+    <div id="titolo_block" class="titolo_block" ></div>
+    <div class=" impostazioni" onclick="reindirizzaImpostazioni()">Impostazioni</div>
 
     <!-- Div Consumi -->
     <div id="impianto_card" class="card">
@@ -91,6 +92,8 @@
 
 
     </div>
+
+    <div class="collegamento"></div>
 
     <script src="scripts/pagina-impianto.js"></script>
     <script src="scripts/translations.js"></script>
@@ -392,7 +395,9 @@
             };
         }
 
-
+        function reindirizzaImpostazioni(){
+            window.location.href = "impostazioni.html";
+        }
     </script>
 </body>
 

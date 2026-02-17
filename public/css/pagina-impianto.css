@@ -42,3 +42,12 @@ body {
     padding: 20px;
 }
 
+.impostazioni {
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+    margin: 20px;
+    color: var(--text-base-color);
+    display: inline-block;
+    text-align: center;
+}
+
