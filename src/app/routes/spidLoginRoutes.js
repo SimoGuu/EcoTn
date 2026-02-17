@@ -3,6 +3,8 @@ const router = express.Router();
 
 const WebApiController = require('../controllers/index');
 const SpidLoginController = require('../controllers/spidLoginController');
+const LocalLoginController = require('../controllers/localLoginController');
+
 const {request, response} = require("express");
 
 router.head("/login", async (request, response) => {
@@ -33,6 +35,21 @@ router.get("/login", async (request, response) => {
 
         if (spidUserScopes != null) {
             if (spidUserScopes["domicileMunicipality"] === SpidLoginController.config.validDomicileMunicipality) {
+                spidUserScopes["localEntity"] = await LocalLoginController.searchLocalUserBySpidCode(spidUserScopes["spidCode"]);
+
+                if (spidUserScopes["localEntity"] == null) {
+                    spidUserScopes["localEntity"] = await LocalLoginController.registerNewLocalUserWithSpidData(spidUserScopes);
+
+                    if (spidUserScopes["localEntity"] == null) {
+                        WebApiController.sendError(request, response, 500, {
+                            type: "internal-server-error",
+                            title: "Internal Server Error",
+                            status: 500,
+                            details: "An error has occurred while registering user with spidCode " + spidUserScopes["spidCode"] + "."
+                        });
+                    }
+                }
+
                 WebApiController.sendResponse(request, response, spidUserScopes, "");
             } else {
                 delete request.session["SPIDToken"];
