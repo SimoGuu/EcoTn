@@ -8,12 +8,12 @@ describe("Consumption Controller", () => {
   let res;
 
   beforeEach(() => {
+    jest.resetAllMocks();
     req = { params: {}, body: {} };
     res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn()
     };
-    jest.resetAllMocks();
   });
 
   // =========================
@@ -44,16 +44,21 @@ describe("Consumption Controller", () => {
   // createConsumption
   // =========================
   test("createConsumption - creazione riuscita", async () => {
-    req.body = { value: 200 };
-    Consumption.mockImplementation(() => ({
-      save: jest.fn().mockResolvedValue({ value: 200 })
-    }));
+  req.body = { value: 200 };
 
-    await consumptionController.createConsumption(req, res);
+  const mockConsumption = {
+    value: 200,
+    save: jest.fn().mockResolvedValue(true)
+  };
 
-    expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith({ value: 200 });
-  });
+  Consumption.mockImplementation(() => mockConsumption);
+
+  await consumptionController.createConsumption(req, res);
+
+  expect(res.status).toHaveBeenCalledWith(201);
+  expect(res.json).toHaveBeenCalledWith(mockConsumption);
+});
+
 
   test("createConsumption - errore validazione", async () => {
     req.body = { value: 200 };

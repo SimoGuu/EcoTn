@@ -185,7 +185,7 @@ describe("handleCallback", () => {
 
         // verifica redirect (QUESTO è quello giusto)
         expect(mockResponse.redirect).toHaveBeenCalledWith(
-            "http://localhost:5500/public/login.html"
+            "http://localhost:5500/public/index.html"
         );
     });
 
