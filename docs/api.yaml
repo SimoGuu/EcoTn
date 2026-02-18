@@ -8,10 +8,15 @@ servers:
   - url: http://localhost:3000
     description: Server locale di sviluppo
 
-paths: 
+paths:
+
+  # ──────────────────────────────────────────
+  # PERSONS
+  # ──────────────────────────────────────────
   /api/v1/persons:
     get:
       summary: Lista di tutte le persone
+      description: Restituisce l'elenco completo di tutte le persone registrate nel sistema.
       operationId: getPersons
       responses:
         "200":
@@ -26,6 +31,7 @@ paths:
           description: Errore interno del server
     post:
       summary: Crea una nuova persona
+      description: Registra una nuova persona nel sistema a partire dai dati forniti nel body.
       operationId: createPerson
       requestBody:
         required: true
@@ -53,6 +59,7 @@ paths:
           type: string
     get:
       summary: Ottiene una persona tramite ID
+      description: Restituisce i dati di una singola persona identificata dal suo ObjectId.
       operationId: getPersonById
       responses:
         "200":
@@ -67,6 +74,7 @@ paths:
           description: Errore interno del server
     put:
       summary: Aggiorna una persona esistente
+      description: Sovrascrive i dati di una persona esistente con quelli forniti nel body.
       operationId: updatePerson
       requestBody:
         required: true
@@ -87,6 +95,7 @@ paths:
           description: Persona non trovata
     delete:
       summary: Elimina una persona
+      description: Rimuove definitivamente dal sistema la persona con l'ID specificato.
       operationId: deletePerson
       responses:
         "200":
@@ -103,10 +112,38 @@ paths:
           description: Persona non trovata
         "500":
           description: Errore interno del server
-  
+
+  /api/v1/persons/{id}/houses:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID della persona (ObjectId)
+        schema:
+          type: string
+    get:
+      summary: Abitazioni associate a una persona
+      description: Restituisce tutte le abitazioni il cui array `persone` contiene l'ID specificato.
+      operationId: getHousesByPerson
+      responses:
+        "200":
+          description: Elenco delle abitazioni della persona
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/House"
+        "500":
+          description: Errore interno del server
+
+  # ──────────────────────────────────────────
+  # HOUSES
+  # ──────────────────────────────────────────
   /api/v1/houses:
     get:
       summary: Lista di tutte le abitazioni
+      description: Restituisce l'elenco completo di tutte le abitazioni, con i dati delle persone associate popolati.
       operationId: getHouses
       responses:
         "200":
@@ -120,7 +157,8 @@ paths:
         "500":
           description: Errore interno del server
     post:
-      summary: Crea una nuova House
+      summary: Crea una nuova abitazione
+      description: Registra una nuova abitazione nel sistema a partire dai dati forniti nel body.
       operationId: createHouse
       requestBody:
         required: true
@@ -130,7 +168,7 @@ paths:
               $ref: "#/components/schemas/House"
       responses:
         "201":
-          description: House creata con successo
+          description: Abitazione creata con successo
           content:
             application/json:
               schema:
@@ -143,25 +181,27 @@ paths:
       - name: id
         in: path
         required: true
-        description: ID dell'House (ObjectId)
+        description: ID dell'abitazione (ObjectId)
         schema:
           type: string
     get:
-      summary: Ottiene un'House tramite ID
+      summary: Ottiene un'abitazione tramite ID
+      description: Restituisce i dati di una singola abitazione identificata dal suo ObjectId, con le persone associate popolate.
       operationId: getHouseById
       responses:
         "200":
-          description: House trovata
+          description: Abitazione trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/House"
         "404":
-          description: House non trovata
+          description: Abitazione non trovata
         "500":
           description: Errore interno del server
     put:
-      summary: Aggiorna un'House esistente
+      summary: Aggiorna un'abitazione esistente
+      description: Sovrascrive i dati di un'abitazione esistente con quelli forniti nel body.
       operationId: updateHouse
       requestBody:
         required: true
@@ -171,7 +211,7 @@ paths:
               $ref: "#/components/schemas/House"
       responses:
         "200":
-          description: House aggiornata con successo
+          description: Abitazione aggiornata con successo
           content:
             application/json:
               schema:
@@ -179,13 +219,14 @@ paths:
         "400":
           description: Dati non validi
         "404":
-          description: House non trovata
+          description: Abitazione non trovata
     delete:
-      summary: Elimina un'House
+      summary: Elimina un'abitazione
+      description: Rimuove definitivamente dal sistema l'abitazione con l'ID specificato.
       operationId: deleteHouse
       responses:
         "200":
-          description: House eliminata con successo
+          description: Abitazione eliminata con successo
           content:
             application/json:
               schema:
@@ -195,13 +236,97 @@ paths:
                     type: string
                     example: "House deleted"
         "404":
-          description: House non trovata
+          description: Abitazione non trovata
         "500":
           description: Errore interno del server
-  
+
+  /api/v1/houses/{id}/consumption-stats:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID dell'abitazione (ObjectId)
+        schema:
+          type: string
+      - name: start
+        in: query
+        required: true
+        description: "Data di inizio del periodo (formato: YYYY-MM-DD). Se uguale a end, il raggruppamento è per ora."
+        schema:
+          type: string
+          format: date
+          example: "2024-01-01"
+      - name: end
+        in: query
+        required: true
+        description: "Data di fine del periodo (formato: YYYY-MM-DD). Se uguale a start, il raggruppamento è per ora."
+        schema:
+          type: string
+          format: date
+          example: "2024-01-31"
+    get:
+      summary: Statistiche di consumo di un'abitazione
+      description: >
+        Restituisce la media dei valori di consumo nell'intervallo indicato.
+        Il raggruppamento è per giorno se start ≠ end, per ora se start = end.
+      operationId: getHouseConsumptionStats
+      responses:
+        "200":
+          description: Statistiche di consumo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Stats"
+        "500":
+          description: Errore interno del server
+
+  /api/v1/houses/{id}/production-stats:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID dell'abitazione (ObjectId)
+        schema:
+          type: string
+      - name: start
+        in: query
+        required: true
+        description: "Data di inizio del periodo (formato: YYYY-MM-DD). Se uguale a end, il raggruppamento è per ora."
+        schema:
+          type: string
+          format: date
+          example: "2024-01-01"
+      - name: end
+        in: query
+        required: true
+        description: "Data di fine del periodo (formato: YYYY-MM-DD). Se uguale a start, il raggruppamento è per ora."
+        schema:
+          type: string
+          format: date
+          example: "2024-01-31"
+    get:
+      summary: Statistiche di produzione di un'abitazione
+      description: >
+        Restituisce la media dei valori di produzione nell'intervallo indicato.
+        Il raggruppamento è per giorno se start ≠ end, per ora se start = end.
+      operationId: getHouseProductionStats
+      responses:
+        "200":
+          description: Statistiche di produzione
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Stats"
+        "500":
+          description: Errore interno del server
+
+  # ──────────────────────────────────────────
+  # CONSUMPTIONS
+  # ──────────────────────────────────────────
   /api/v1/consumptions:
     get:
       summary: Lista di tutti i consumi
+      description: Restituisce l'elenco completo di tutte le rilevazioni di consumo, con i dati dell'abitazione popolati.
       operationId: getConsumptions
       responses:
         "200":
@@ -216,6 +341,7 @@ paths:
           description: Errore interno del server
     post:
       summary: Crea una nuova rilevazione di consumo
+      description: Registra una nuova misurazione di consumo energetico per un'abitazione.
       operationId: createConsumption
       requestBody:
         required: true
@@ -238,25 +364,31 @@ paths:
       - name: id
         in: path
         required: true
-        description: ID del consumo (ObjectId)
+        description: >
+          Per GET: ObjectId dell'abitazione — restituisce tutti i consumi di quell'abitazione.
+          Per PUT e DELETE: ObjectId del singolo documento consumo.
         schema:
           type: string
     get:
-      summary: Ottiene una rilevazione di consumo tramite ID
+      summary: Consumi di un'abitazione
+      description: Restituisce tutte le rilevazioni di consumo associate all'abitazione con l'ID specificato.
       operationId: getConsumptionById
       responses:
         "200":
-          description: Consumo trovato
+          description: Elenco dei consumi dell'abitazione
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Consumo"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Consumo"
         "404":
-          description: Consumo non trovato
+          description: Nessun consumo trovato per l'abitazione indicata
         "500":
           description: Errore interno del server
     put:
-      summary: Aggiorna una rilevazione di consumo esistente
+      summary: Aggiorna una rilevazione di consumo
+      description: Sovrascrive i dati di una singola rilevazione di consumo identificata dal suo ObjectId.
       operationId: updateConsumption
       requestBody:
         required: true
@@ -277,6 +409,7 @@ paths:
           description: Consumo non trovato
     delete:
       summary: Elimina una rilevazione di consumo
+      description: Rimuove definitivamente una singola rilevazione di consumo identificata dal suo ObjectId.
       operationId: deleteConsumption
       responses:
         "200":
@@ -293,10 +426,14 @@ paths:
           description: Consumo non trovato
         "500":
           description: Errore interno del server
-  
+
+  # ──────────────────────────────────────────
+  # PRODUCTIONS
+  # ──────────────────────────────────────────
   /api/v1/productions:
     get:
       summary: Lista di tutte le produzioni
+      description: Restituisce l'elenco completo di tutte le rilevazioni di produzione energetica, con i dati dell'abitazione popolati.
       operationId: getProductions
       responses:
         "200":
@@ -311,6 +448,7 @@ paths:
           description: Errore interno del server
     post:
       summary: Crea una nuova rilevazione di produzione
+      description: Registra una nuova misurazione di produzione energetica (es. fotovoltaico) per un'abitazione.
       operationId: createProduction
       requestBody:
         required: true
@@ -327,10 +465,14 @@ paths:
                 $ref: "#/components/schemas/Produzione"
         "400":
           description: Dati non validi
-  
+
+  # ──────────────────────────────────────────
+  # NEWS
+  # ──────────────────────────────────────────
   /api/v1/news:
     get:
       summary: Lista di tutte le notizie
+      description: Restituisce l'elenco completo delle notizie pubblicate, con le chiavi di ricerca associate popolate.
       operationId: getNews
       responses:
         "200":
@@ -345,6 +487,7 @@ paths:
           description: Errore interno del server
     post:
       summary: Crea una nuova notizia
+      description: Pubblica una nuova notizia nel sistema con titolo, testo, immagine opzionale e chiavi di ricerca.
       operationId: createNews
       requestBody:
         required: true
@@ -362,9 +505,37 @@ paths:
         "400":
           description: Dati non validi
 
+  /api/v1/news/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID della notizia (ObjectId)
+        schema:
+          type: string
+    get:
+      summary: Ottiene una notizia tramite ID
+      description: Restituisce i dati di una singola notizia identificata dal suo ObjectId, con le chiavi di ricerca popolate.
+      operationId: getNewsById
+      responses:
+        "200":
+          description: Notizia trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notizia"
+        "404":
+          description: Notizia non trovata
+        "500":
+          description: Errore interno del server
+
+  # ──────────────────────────────────────────
+  # KEYS
+  # ──────────────────────────────────────────
   /api/v1/keys:
     get:
-      summary: Lista di tutte le chiavi
+      summary: Lista di tutte le chiavi di ricerca
+      description: Restituisce l'elenco completo delle chiavi di ricerca utilizzabili per taggare le notizie.
       operationId: getKeys
       responses:
         "200":
@@ -378,7 +549,8 @@ paths:
         "500":
           description: Errore interno del server
     post:
-      summary: Crea una nuova chiave
+      summary: Crea una nuova chiave di ricerca
+      description: Aggiunge una nuova chiave di ricerca al sistema, utilizzabile per categorizzare le notizie.
       operationId: createKey
       requestBody:
         required: true
@@ -396,8 +568,175 @@ paths:
         "400":
           description: Dati non validi
 
+  # ──────────────────────────────────────────
+  # WEATHER
+  # ──────────────────────────────────────────
+  /api/v1/weather:
+    get:
+      summary: Dati meteo del giorno per Trento
+      description: >
+        Recupera le previsioni orarie del giorno corrente per le coordinate di Trento
+        tramite l'API open-meteo.com, restituendo il weather code decodificato in stringa
+        (es. "clear", "rain", "thunderstorm") per ogni fascia oraria.
+      operationId: getWeather
+      responses:
+        "200":
+          description: Dati meteo recuperati con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebApiResponse"
+              example:
+                status: 200
+                result:
+                  day: "2024-06-01"
+                  timestamps:
+                    "00:00": "clear"
+                    "01:00": "overcast"
+                message: ""
+                debug: null
+        "500":
+          description: Errore durante il recupero dei dati da open-meteo.com
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
 
+  # ──────────────────────────────────────────
+  # SPID / AUTENTICAZIONE
+  # ──────────────────────────────────────────
+  /api/v1/spid/login:
+    head:
+      summary: Verifica validità della sessione SPID
+      description: >
+        Controlla se nella sessione è presente un token SPID valido e se il comune di domicilio
+        dell'utente è Trento (codice L378). Non restituisce body — utile per un ping di stato dal frontend.
+      operationId: checkSpidSession
+      responses:
+        "200":
+          description: Sessione attiva e utente residente a Trento
+        "400":
+          description: Nessuna sessione SPID presente
+        "401":
+          description: Token SPID non valido o scaduto
+        "422":
+          description: Utente autenticato ma non residente a Trento
+    get:
+      summary: Login SPID — ottieni dati utente o avvia flusso OAuth
+      description: >
+        Se la sessione è già autenticata, restituisce i dati SPID dell'utente insieme all'entità
+        locale corrispondente (creandola automaticamente se assente).
+        Se la sessione non è autenticata, redirige al provider SPID per avviare il flusso OAuth 2.0.
+      operationId: spidLogin
+      responses:
+        "200":
+          description: Utente autenticato — restituisce scopes SPID e localEntity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebApiResponse"
+              example:
+                status: 200
+                result:
+                  spidCode: "SPIDCODE123"
+                  name: "Mario"
+                  familyName: "Rossi"
+                  fiscalNumber: "TINIT-RSSMRA80A01L378X"
+                  domicileMunicipality: "L378"
+                  localEntity:
+                    _id: "64a1b2c3d4e5f6a7b8c9d0e1"
+                    nome: "Mario"
+                    cognome: "Rossi"
+                message: ""
+                debug: null
+        "302":
+          description: Redirect al provider SPID per avviare l'autenticazione
+        "401":
+          description: Sessione non autenticata con un IdP SPID valido
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+        "422":
+          description: Utente autenticato ma non residente a Trento
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+        "500":
+          description: Errore durante la registrazione automatica del nuovo utente locale
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
 
+  /api/v1/spid/logout:
+    get:
+      summary: Logout dalla sessione SPID
+      description: Elimina il token SPID dalla sessione corrente, invalidando l'autenticazione dell'utente.
+      operationId: spidLogout
+      responses:
+        "200":
+          description: Logout effettuato con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebApiResponse"
+              example:
+                status: 200
+                result: null
+                message: ""
+                debug: null
+
+  /api/v1/spid/callback:
+    get:
+      summary: Callback OAuth SPID
+      description: >
+        Riceve il codice di autorizzazione dal provider SPID al termine del flusso OAuth,
+        lo scambia con un access token, verifica che l'utente sia domiciliato a Trento e,
+        se tutto è valido, salva il token in sessione e redirige al frontend.
+      operationId: spidCallback
+      parameters:
+        - name: code
+          in: query
+          required: true
+          description: Codice di autorizzazione OAuth restituito dal provider SPID
+          schema:
+            type: string
+      responses:
+        "302":
+          description: Autenticazione riuscita — redirect al frontend
+        "400":
+          description: Parametro `code` mancante o richiesta malformata
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+        "401":
+          description: Il server di autorizzazione ha rifiutato il codice fornito
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+        "422":
+          description: Utente autenticato ma non residente a Trento
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+
+  /api/v1/spid/session:
+    get:
+      summary: Contenuto grezzo della sessione (debug)
+      description: Restituisce l'intero oggetto sessione corrente. Utile esclusivamente a scopo di debug in sviluppo.
+      operationId: getSpidSession
+      responses:
+        "200":
+          description: Dati di sessione restituiti con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebApiResponse"
 
 
 components:
@@ -417,7 +756,7 @@ components:
           description: Cognome della persona
         identificatore:
           type: string
-          description: Identificatore univoco dell'utente (es. CIE o SPID)
+          description: Identificatore univoco dell'utente (es. codice SPID o CIE)
         codiceFiscale:
           type: string
           description: Codice fiscale della persona
@@ -442,16 +781,16 @@ components:
       properties:
         _id:
           type: string
-          description: MongoDB ObjectId dell'House
+          description: MongoDB ObjectId dell'abitazione
         indirizzo:
           type: string
-          description: Indirizzo dell'House
+          description: Indirizzo dell'abitazione
         immagineProfilo:
           type: string
-          description: URL o path dell'immagine di profilo
+          description: URL o path dell'immagine di profilo dell'abitazione
         persone:
           type: array
-          description: Elenco di persone associate all'House
+          description: Elenco degli ObjectId delle persone associate all'abitazione
           items:
             type: string
             description: ObjectId di una persona
@@ -473,14 +812,14 @@ components:
           description: MongoDB ObjectId del consumo
         house:
           type: string
-          description: ObjectId dell'House a cui si riferisce il consumo
+          description: ObjectId dell'abitazione a cui si riferisce il consumo
         data_ora:
           type: string
           format: date-time
           description: Data e ora della rilevazione
         valore:
           type: number
-          description: Valore del consumo
+          description: Valore del consumo energetico misurato
         createdAt:
           type: string
           format: date-time
@@ -488,9 +827,9 @@ components:
           type: string
           format: date-time
       required:
-          - house
-          - data_ora
-          - valore
+        - house
+        - data_ora
+        - valore
 
     Produzione:
       type: object
@@ -500,17 +839,17 @@ components:
           description: MongoDB ObjectId della produzione
         house:
           type: string
-          description: ObjectId dell'House a cui si riferisce la produzione
+          description: ObjectId dell'abitazione a cui si riferisce la produzione
         data_ora:
           type: string
           format: date-time
           description: Data e ora della rilevazione
         valore:
           type: number
-          description: Valore della produzione
+          description: Valore della produzione energetica misurata
         lv_batteria:
           type: number
-          description: Livello della batteria al momento della misura
+          description: Livello della batteria al momento della misura (percentuale o kWh)
         createdAt:
           type: string
           format: date-time
@@ -533,13 +872,13 @@ components:
           description: Titolo della notizia
         testo:
           type: string
-          description: Testo della notizia
+          description: Corpo testuale della notizia
         immagine:
           type: string
-          description: URL o path dell'immagine associata
+          description: URL o path dell'immagine associata alla notizia
         chiavi:
           type: array
-          description: Elenco di chiavi di ricerca associate alla notizia
+          description: Elenco degli ObjectId delle chiavi di ricerca associate alla notizia
           items:
             type: string
             description: ObjectId di una chiave
@@ -561,7 +900,7 @@ components:
           description: MongoDB ObjectId della chiave
         nome:
           type: string
-          description: Nome della chiave di ricerca
+          description: Nome (label) della chiave di ricerca
         createdAt:
           type: string
           format: date-time
@@ -570,3 +909,58 @@ components:
           format: date-time
       required:
         - nome
+
+    Stats:
+      type: object
+      description: >
+        Risultato aggregato delle statistiche di consumo o produzione.
+        Le label sono date (YYYY-MM-DD) per range multi-giorno, oppure ore intere (0–23) per singolo giorno.
+      properties:
+        labels:
+          type: array
+          description: Etichette dell'asse X — date o ore a seconda dell'intervallo richiesto
+          items:
+            type: string
+          example: ["2024-01-01", "2024-01-02", "2024-01-03"]
+        values:
+          type: array
+          description: Valori medi corrispondenti a ciascuna label
+          items:
+            type: number
+          example: [3.2, 4.1, 2.8]
+
+    WebApiResponse:
+      type: object
+      description: Wrapper standard per le risposte di successo (WebApiController.sendResponse).
+      properties:
+        status:
+          type: integer
+          example: 200
+        result:
+          description: Payload della risposta (può essere qualsiasi tipo)
+        message:
+          type: string
+          example: ""
+        debug:
+          nullable: true
+
+    ProblemDetails:
+      type: object
+      description: Formato di errore RFC 7807 (WebApiController.sendError).
+      properties:
+        type:
+          type: string
+          example: "unauthorized"
+        title:
+          type: string
+          example: "Unauthorized"
+        status:
+          type: integer
+          example: 401
+        details:
+          type: string
+          example: "The current session has not been authenticated with a valid SPID IdP."
+        instance:
+          type: string
+          description: URL originale della richiesta che ha generato l'errore
+          example: "/api/v1/spid/login"

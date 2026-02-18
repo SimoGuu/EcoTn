@@ -4,34 +4,28 @@
   "description": "Progetto EcoTn del corso di Ingegneria del Software, UniTrento.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --setupFiles dotenv/config",
-    "test:coverage": "jest --coverage",
-    "dev": "node -r dotenv/config index.js",
     "start": "node index.js",
-    "devalt": "nodemon index.js"
+    "dev": "node -r dotenv/config index.js",
+    "dev:watch": "nodemon index.js",
+    "test": "jest --setupFiles dotenv/config",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SimoGuu/EcoTn.git"
+    "url": "https://github.com/SimoGuu/EcoTn.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/SimoGuu/EcoTn/issues"
-  },
-  "homepage": "https://github.com/SimoGuu/EcoTn#readme",
   "dependencies": {
-    "cors": "^2.8.6",
     "express": "^5.1.0",
-    "express-cors": "^0.0.3",
-    "jest": "^30.2.0",
     "mongoose": "^9.1.6",
-    "supertest": "^7.2.2"
+    "cors": "^2.8.6",
+    "express-session": "^1.19.0",
+    "dotenv": "^17.2.4"
   },
   "devDependencies": {
-    "dotenv": "^17.2.4",
-    "express-session": "^1.19.0"
+    "jest": "^30.2.0",
+    "supertest": "^7.2.2",
+    "nodemon": "^3.0.0"
   },
   "jest": {
     "testEnvironment": "node",
