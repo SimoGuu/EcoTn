@@ -567,7 +567,7 @@ paths:
                 $ref: "#/components/schemas/Chiave"
         "400":
           description: Dati non validi
-  /api/keys/{id}/news:
+  /api/v1/keys/{id}/news:
     get:
       tags:
         - Keys

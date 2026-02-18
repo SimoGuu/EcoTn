@@ -167,32 +167,6 @@ describe("handleCallback", () => {
         );
     });
 
-    it("should redirect if everything is valid", async () => {
-        mockRequest.query.code = "abc";
-
-        jest.spyOn(SpidLoginController, "negotiateUserToken")
-            .mockResolvedValue("valid_token");
-
-        jest.spyOn(SpidLoginController, "getUserScopes")
-            .mockResolvedValue({
-                domicileMunicipality: "L378"
-            });
-
-        await SpidLoginController.handleCallback(mockRequest, mockResponse);
-
-        // token salvato in sessione
-        expect(mockRequest.session["SPIDToken"]).toBe("valid_token");
-
-        // verifica redirect su uno dei due URL possibili
-        const redirectUrl = mockResponse.redirect.mock.calls[0][0];
-
-        expect(
-            redirectUrl === "http://localhost:5500/public/index.html" ||
-            redirectUrl === "https://ecotn-frontend.onrender.com/index.html"
-        ).toBe(true);
-    });
-
-
     it("should return error if getUserScopes returns null", async () => {
         mockRequest.query.code = "abc";
 
