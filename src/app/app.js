@@ -2,15 +2,16 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 const session = require("express-session");
+const path = require('path');
 
 app.use(cors({
-    origin: (process.env.DEPLOY_MODE === "development") ? "http://localhost:5500" : "https://ecotn-frontend.onrender.com",
+    origin: (process.env.DEPLOY_MODE === "development") ? "http://localhost:5500" : "https://ecotn-5fc1.onrender.com",
     credentials: true
 }));
 
 app.use(express.json());
 
-if(process.env.DEPLOY_MODE === "development") {
+if (process.env.DEPLOY_MODE === "development") {
     app.use(session({
         secret: process.env.SESSION_SECRET || 'fanciullina',
         resave: false,
@@ -21,8 +22,9 @@ if(process.env.DEPLOY_MODE === "development") {
             sameSite: "lax"
         }
     }));
-}else {
+} else {
     app.set('trust proxy', 1);
+    app.use(express.static(path.join(__dirname, 'public')));
 
     app.use(session({
         secret: process.env.SESSION_SECRET || 'fanciullina',

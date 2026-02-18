@@ -8,7 +8,7 @@ const SpidLoginController = {
         clientSecret: "ce0b0c4edcc25441e87a2babf799ae87",
         redirectUri: (process.env.DEPLOY_MODE === "development")
             ? "http://localhost:8080/api/v1/spid/callback"
-            : "https://ecotn-xum1.onrender.com/api/v1/spid/callback",
+            : "https://ecotn-5fc1.onrender.com/api/v1/spid/callback",
         endpoints: {
             authorize: "authorize.php",
             token: "token.php",
