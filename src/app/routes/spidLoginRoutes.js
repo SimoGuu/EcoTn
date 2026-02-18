@@ -78,7 +78,14 @@ router.get("/login", async (request, response) => {
 
 router.get("/logout", (request, response) => {
     delete request.session["SPIDToken"];
-    WebApiController.sendResponse(request, response, null, "");
+
+    response.redirect(
+        (process.env.DEPLOY_MODE === "development")
+            ? "http://localhost:5500/public/login.html"
+            : "https://ecotn-5fc1.onrender.com/login.html"
+    );
+
+    // WebApiController.sendResponse(request, response, null, "");
 });
 
 router.get("/callback", async (request, response) => {
