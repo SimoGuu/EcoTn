@@ -1,4 +1,4 @@
-const Person = require('../models/Person');
+const Person = require('../models/person');
 
 const LocalLoginController = {
     searchLocalUserBySpidCode: async (spidCode) => {
