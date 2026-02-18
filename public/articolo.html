@@ -71,13 +71,14 @@
 
                 // Trasforma la risposta in JSON
                 const articolo = await response.json();
+                console.log(articolo);
 
                 // Stampa in console (o fai quello che vuoi con i dati)
                 console.log(articolo);
 
                 document.getElementById("titolo_block").textContent = articolo.titolo;
 
-                document.getElementById("testo").textContent = articolo.corpo;
+                document.getElementById("testo").textContent = articolo.testo;
 
                 //document.getElementById("immagine").src = articolo.immagine;
                 document.getElementById("immagine").src = "Immagini/impianto_placeholder.jpg";

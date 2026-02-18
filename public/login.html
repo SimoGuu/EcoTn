@@ -91,7 +91,8 @@
                 let profile = await getUserProfile();
                 console.log(profile);
                 localStorage.setItem("utenteId" , profile["localEntity"]["_id"]);
-                window.location.href = "selezione-impianto.html";
+                localStorage.setItem("isDipendente" , profile["localEntity"]["isDipendente"]);
+                //window.location.href = "selezione-impianto.html";
             } else {
                 redirectLogin();
                 return;
