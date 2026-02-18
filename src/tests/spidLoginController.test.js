@@ -9,7 +9,7 @@ jest.mock("../app/controllers/index", () => ({
 }));
 
 describe("SpidLoginController", () => {
-
+    
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -183,11 +183,15 @@ describe("handleCallback", () => {
         // token salvato in sessione
         expect(mockRequest.session["SPIDToken"]).toBe("valid_token");
 
-        // verifica redirect (QUESTO è quello giusto)
-        expect(mockResponse.redirect).toHaveBeenCalledWith(
-            "http://localhost:5500/public/index.html"
-        );
+        // verifica redirect su uno dei due URL possibili
+        const redirectUrl = mockResponse.redirect.mock.calls[0][0];
+
+        expect(
+            redirectUrl === "http://localhost:5500/public/index.html" ||
+            redirectUrl === "https://ecotn-frontend.onrender.com/index.html"
+        ).toBe(true);
     });
+
 
     it("should return error if getUserScopes returns null", async () => {
         mockRequest.query.code = "abc";

@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Progetto EcoTn del corso di Ingegneria del Software, UniTrento.",
   "main": "index.js",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node index.js",
     "dev": "node -r dotenv/config index.js",
