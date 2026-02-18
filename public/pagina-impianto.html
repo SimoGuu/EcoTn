@@ -21,17 +21,16 @@
 
 <body class="sfondo">
 
-    <div id="titolo_block" class="titolo_block" ></div>
-    <div class=" impostazioni" onclick="reindirizzaImpostazioni()">Impostazioni</div>
+    <div id="titolo_block" class="titolo_block"></div>
+
 
     <!-- Div Consumi -->
     <div id="impianto_card" class="card">
 
 
         <select id="periodo_consumi" onchange="gestisciPeriodoConsumi()">
-            <!-- <option value="" data-lingua="selezione_periodo"></option> -->
-            <option value="settimana" data-lingua="settimana"></option>
             <option value="oggi" data-lingua="oggi"></option>
+            <option value="settimana" data-lingua="settimana"></option>
             <option value="mese" data-lingua="mese"></option>
             <option value="custom" data-lingua="periodo_personalizzato"></option>
         </select>
@@ -47,58 +46,62 @@
         <div id="div_grafico_consumi"></div>
     </div>
 
-    <!-- Trittica cards -->
-    <div class="trittica">
+    <div id="area_fotovoltaico">
+        <!-- Trittica cards -->
+        <div class="trittica">
 
-        <div id="card_batteria" class="cardina"></div>
+            <div id="card_batteria" class="cardina"></div>
 
-        <div id="card_meteo" class="cardina"></div>
-    </div>
-
-
-
-
-    <!-- Grafico produzione-->
-    <div id="card_produzione" class="card">
-
-
-
-        <select id="periodo_produzione" onchange="gestisciPeriodoProduzione()">
-            <!-- <option value="" data-lingua="selezione_periodo"></option> -->
-            <option value="settimana" data-lingua="settimana"></option>
-            <option value="oggi" data-lingua="oggi"></option>
-            <option value="mese" data-lingua="mese"></option>
-            <option value="custom" data-lingua="periodo_personalizzato"></option>
-        </select>
-
-        <div id="customDatesProd" style="display:none">
-            <input type="date" id="startDate">
-            <input type="date" id="endDate">
+            <div id="card_meteo" class="cardina"></div>
         </div>
 
-        <button onclick="caricaProduzione()" data-lingua="mostra"></button>
-        <div id="div_grafico_produzione"></div>
 
 
 
+        <!-- Grafico produzione-->
+        <div id="card_produzione" class="card">
+
+
+
+            <select id="periodo_produzione" onchange="gestisciPeriodoProduzione()">
+                <option value="oggi" data-lingua="oggi"></option>
+                <option value="settimana" data-lingua="settimana"></option>
+                <option value="mese" data-lingua="mese"></option>
+                <option value="custom" data-lingua="periodo_personalizzato"></option>
+            </select>
+
+            <div id="customDatesProd" style="display:none">
+                <input type="date" id="startDate">
+                <input type="date" id="endDate">
+            </div>
+
+            <button onclick="caricaProduzione()" data-lingua="mostra"></button>
+            <div id="div_grafico_produzione"></div>
+
+
+
+        </div>
     </div>
 
-   <div class="trittica">
+    <div class="trittica">
 
         <div id="card_news" class="cardina" onclick="reindirizzaNews()">
             <p class="impostazioni">News</p>
         </div>
 
+        <div id="div_impostazioni" class="cardina">
+            <div class="impostazioni" onclick="reindirizzaImpostazioni()" data-lingua="impostazioni"></div>
+        </div>
     </div>
 
-    <script src="scripts/pagina-impianto.js"></script>
+
+
+    <!-- <script src="scripts/pagina-impianto.js"></script> -->
     <script src="scripts/translations.js"></script>
     <script>
         let apiUrl = (window.location.hostname === "localhost") ? "http://localhost:8080" : "https://ecotn-5fc1.onrender.com";
 
         livelloBatteria();
-        //getConsumi();
-        //getProduzione();
         caricaProduzione();
         caricaConsumi();
         cambiaLingua();
@@ -106,7 +109,6 @@
 
 
         const idAbitazione = localStorage.getItem("idAbitazione");
-        //console.log(idAbitazione);
         if (!idAbitazione) {
             window.location.href = 'login.html'
         } else {
@@ -121,6 +123,26 @@
         } else {
             document.body.classList.remove("dark");
         }
+
+        //gestione visualizzazione produzione
+        gestisciFotovoltaico();
+        async function gestisciFotovoltaico() {
+            const div_fotovoltaico = document.getElementById("area_fotovoltaico");
+            const response = await fetch(apiUrl + "/api/v1/houses/" + localStorage.getItem("idAbitazione") +
+                "/production-stats/?start=" + new Date(2026, 0, 1).toISOString().split('T')[0] + "&end=" + new Date().toISOString().split('T')[0]);
+
+            // Controlla se la risposta è OK
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            // Trasforma la risposta in JSON
+            const data = await response.json();
+            div_fotovoltaico.style.display = data.length > 0 ? "block" : "none";
+        }
+
+
+
 
 
         function gestisciPeriodoConsumi() {
@@ -139,7 +161,7 @@
         }
 
 
-        function creaGrafico(assex, assey) {
+        function creaGrafico(assex, assey, etichetta = "") {
 
 
             const chartConfig = {
@@ -147,7 +169,7 @@
                 data: {
                     labels: assex,
                     datasets: [{
-                        label: 'Consumi',
+                        label: etichetta,
                         data: assey
                     }]
                 }
@@ -235,7 +257,6 @@
                 const timestamps = data.result.timestamps;
                 const currentWeather = timestamps[currentTimeKey] || "unknown";
 
-                console.log(`Meteo corrente: ${currentWeather}`);
                 let source;
 
                 switch (currentWeather) {
@@ -312,7 +333,7 @@
             const start = ret.startDate;
             const end = ret.endDate;
 
-            
+
             const response = await fetch(apiUrl + "/api/v1/houses/" + localStorage.getItem("idAbitazione") +
                 "/production-stats/?start=" + start + "&end=" + end);
 
@@ -323,8 +344,7 @@
 
             // Trasforma la risposta in JSON
             const data = await response.json();
-            console.log(data);
-            let img = creaGrafico(data.labels , data.values);
+            let img = creaGrafico(data.labels, data.values, translations[localStorage.getItem("lingua") || "it"].produzione);
             document.getElementById("div_grafico_produzione").innerHTML = "";
             document.getElementById("div_grafico_produzione").appendChild(img);
 
@@ -335,7 +355,7 @@
             const start = ret.startDate;
             const end = ret.endDate;
 
-            
+
             const response = await fetch(apiUrl + "/api/v1/houses/" + localStorage.getItem("idAbitazione") +
                 "/consumption-stats/?start=" + start + "&end=" + end);
 
@@ -346,8 +366,7 @@
 
             // Trasforma la risposta in JSON
             const data = await response.json();
-            console.log(data);
-            let img = creaGrafico(data.labels , data.values);
+            let img = creaGrafico(data.labels, data.values, translations[localStorage.getItem("lingua") || "it"].consumi);
             document.getElementById("div_grafico_consumi").innerHTML = "";
             document.getElementById("div_grafico_consumi").appendChild(img);
 
@@ -402,19 +421,17 @@
             // Formatta in YYYY-MM-DD per comodità (opzionale)
             const formatDate = (d) => d.toISOString().split('T')[0];
 
-            console.log("start=" + formatDate(startDate));
-            console.log("end=" + formatDate(endDate));
             return {
                 startDate: formatDate(startDate),
                 endDate: formatDate(endDate)
             };
         }
 
-        function reindirizzaImpostazioni(){
+        function reindirizzaImpostazioni() {
             window.location.href = "impostazioni.html";
         }
 
-        function reindirizzaNews(){
+        function reindirizzaNews() {
             window.location.href = "news.html";
         }
     </script>

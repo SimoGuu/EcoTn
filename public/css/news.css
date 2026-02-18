@@ -63,3 +63,8 @@ body {
     padding: 10px;
 }
 
+#select_chiavi {
+    height: 30px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 15px;
+}

@@ -23,15 +23,8 @@
 
     <div class="titolo_block" data-lingua="titolo_selezione"></div>
 
-    <!--
-    <div class="container_impianto">
-        <img class="immagine_impianto" src="Immagini/Icone_meteo/icona_sole_nuvoloso.png" />
-        <div class="nome_impianto">NOME IMPIANTO</div>
-    </div>
-
-    -->
     <div id="housesContainer"></div>
-    <div class="titolo_block" onclick="reindirizzaAmministratore()">posta news</div>
+    <div id="opzione_amministratori" class="titolo_block" onclick="reindirizzaAmministratore()">posta news</div>
 
 </body>
 
@@ -39,6 +32,9 @@
 <script>
     let apiUrl = (window.location.hostname === "localhost") ? "http://localhost:8080" : "https://ecotn-5fc1.onrender.com";
     cambiaLingua();
+
+    document.getElementById("opzione_amministratori").style.display = localStorage.getItem("isDipendente") === "true" ? "block" : "none";
+
     //Set tema
     if (localStorage.getItem("theme") == "dark") {
         document.body.classList.add("dark");
