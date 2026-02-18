@@ -39,6 +39,6 @@ exports.getKeyWithNews = async (req, res) => {
     const notizie = await News.find({ chiavi: req.params.id });
     res.json({ key, notizie });
   } catch (error) {
-    res.status(500).json({ error: 'Errore' });
+    res.status(500).json({ error: error.message });
   }
 };
