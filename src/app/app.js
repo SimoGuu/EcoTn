@@ -10,6 +10,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '../../public')));
 
 if (process.env.DEPLOY_MODE === "development") {
     app.use(session({
@@ -24,7 +25,6 @@ if (process.env.DEPLOY_MODE === "development") {
     }));
 } else {
     app.set('trust proxy', 1);
-    app.use(express.static(path.join(__dirname, 'public')));
 
     app.use(session({
         secret: process.env.SESSION_SECRET || 'fanciullina',
