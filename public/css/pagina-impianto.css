@@ -25,15 +25,16 @@ body {
     border-radius: 33px 100px 33px 100px;
     border-right: 14px solid var(--card-border-strong);
 
-    margin: 50px auto auto auto;
+    margin: 30px;
     text-align: center;
     min-height: 100px;
     display: inline-block;
     width: 20%;
     padding: 20px 10px 20px 10px;
-    height: 150px ;
+    height: 200px ;
 
     color: var( --text-base-color);
+    vertical-align: top;
 }
 
 .trittica_carda {

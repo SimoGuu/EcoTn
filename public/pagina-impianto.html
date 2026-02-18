@@ -28,7 +28,7 @@
     <div id="impianto_card" class="card">
 
 
-        <select id="periodo_consumi" onchange="gestisciPeriodo()">
+        <select id="periodo_consumi" onchange="gestisciPeriodoConsumi()">
             <!-- <option value="" data-lingua="selezione_periodo"></option> -->
             <option value="settimana" data-lingua="settimana"></option>
             <option value="oggi" data-lingua="oggi"></option>
@@ -36,7 +36,7 @@
             <option value="custom" data-lingua="periodo_personalizzato"></option>
         </select>
 
-        <div id="customDates" style="display:none">
+        <div id="customDatesCons" style="display:none">
             <input type="date" id="startDate">
             <input type="date" id="endDate">
         </div>
@@ -50,15 +50,9 @@
     <!-- Trittica cards -->
     <div class="trittica">
 
-        <div id="card_batteria" class="cardina">
-            <!--<img src="assets/1000_F_51194731_teoTdQknH1zlLTnLeIoYzyXQ8mUZgG6P.jpg" />-->
-        </div>
+        <div id="card_batteria" class="cardina"></div>
 
-        
-
-        <div id="card_meteo" class="cardina">
-            <!--<img src="assets/download.png" />-->
-        </div>
+        <div id="card_meteo" class="cardina"></div>
     </div>
 
 
@@ -69,7 +63,7 @@
 
 
 
-        <select id="periodo_produzione" onchange="gestisciPeriodo()">
+        <select id="periodo_produzione" onchange="gestisciPeriodoProduzione()">
             <!-- <option value="" data-lingua="selezione_periodo"></option> -->
             <option value="settimana" data-lingua="settimana"></option>
             <option value="oggi" data-lingua="oggi"></option>
@@ -77,7 +71,7 @@
             <option value="custom" data-lingua="periodo_personalizzato"></option>
         </select>
 
-        <div id="customDates" style="display:none">
+        <div id="customDatesProd" style="display:none">
             <input type="date" id="startDate">
             <input type="date" id="endDate">
         </div>
@@ -129,9 +123,17 @@
         }
 
 
-        function gestisciPeriodo() {
+        function gestisciPeriodoConsumi() {
+            const periodo = document.getElementById("periodo_consumi").value;
+            const custom = document.getElementById("customDatesCons");
+
+            custom.style.display = periodo === "custom" ? "block" : "none";
+        }
+
+
+        function gestisciPeriodoProduzione() {
             const periodo = document.getElementById("periodo_produzione").value;
-            const custom = document.getElementById("customDates");
+            const custom = document.getElementById("customDatesProd");
 
             custom.style.display = periodo === "custom" ? "block" : "none";
         }
@@ -197,6 +199,11 @@
                 const icona_batteria = document.createElement("img");
                 icona_batteria.src = source;
                 document.getElementById("card_batteria").append(icona_batteria);
+
+                const label = document.createElement("p");
+                label.classList.add("impostazioni");
+                label.textContent = livello + "%";
+                document.getElementById("card_batteria").append(label);
 
 
             } catch (error) {
@@ -288,6 +295,11 @@
                 const icona_meteo = document.createElement("img");
                 icona_meteo.src = source;
                 document.getElementById("card_meteo").append(icona_meteo);
+
+                const label = document.createElement("p");
+                label.classList.add("impostazioni");
+                label.textContent = currentWeather;
+                document.getElementById("card_meteo").append(label);
 
             } catch (error) {
                 console.error("Errore nel recuperare il meteo:", error);

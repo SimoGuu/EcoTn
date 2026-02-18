@@ -31,7 +31,7 @@
 
     -->
     <div id="housesContainer"></div>
-
+    <div class="titolo_block" onclick="reindirizzaAmministratore()">posta news</div>
 
 </body>
 
@@ -46,6 +46,9 @@
         document.body.classList.remove("dark");
     }
 
+    function reindirizzaAmministratore(){
+        window.location.href="creazione-articolo.html";
+    }
 
     getHouses();
     // Funzione per ottenere le case dal backend

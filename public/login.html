@@ -75,7 +75,7 @@
 
 
         if(localStorage.getItem("utenteId") != null ){
-            window.location.href="selezione-impianto.html";
+            //window.location.href="selezione-impianto.html";
         }
         /**
          * Funzione controllo se utente ha fatto login con SPID.
@@ -92,7 +92,7 @@
                 console.log(profile);
                 localStorage.setItem("utenteId" , profile["localEntity"]["_id"]);
                 localStorage.setItem("isDipendente" , profile["localEntity"]["isDipendente"]);
-                //window.location.href = "selezione-impianto.html";
+                window.location.href = "selezione-impianto.html";
             } else {
                 redirectLogin();
                 return;
