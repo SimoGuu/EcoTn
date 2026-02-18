@@ -1,10 +1,8 @@
-//modifiche mie
 const cors = require('cors');
 const express = require('express');
 const app = express();
 const session = require("express-session");
 
-// Abilita CORS per tutte le origini
 app.use(cors({
     origin: (process.env.DEPLOY_MODE === "development") ? "http://localhost:5500" : "https://ecotn-frontend.onrender.com",
     credentials: true
@@ -12,16 +10,32 @@ app.use(cors({
 
 app.use(express.json());
 
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'fanciullina',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false,
-        httpOnly: true,
-        sameSite: "lax"
-    }
-}));
+if(process.env.DEPLOY_MODE === "development") {
+    app.use(session({
+        secret: process.env.SESSION_SECRET || 'fanciullina',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: false,
+            httpOnly: true,
+            sameSite: "lax"
+        }
+    }));
+}else {
+    app.set('trust proxy', 1);
+
+    app.use(session({
+        secret: process.env.SESSION_SECRET || 'fanciullina',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: true,
+            sameSite: "none",
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24
+        }
+    }));
+}
 
 const personRoutes = require('./routes/personRoutes');
 const houseRoutes = require('./routes/houseRoutes');
