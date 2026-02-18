@@ -27,25 +27,25 @@
     </div>
 
     <div id="corpo_articolo" class="testocard card">
-        
-            <div id="div_form">
-                <label for="titolo" data-lingua="titolo"></label>
-                <input type="text" name="titolo" id="titolo"><br>
 
-                <label for="corpo" data-lingua="corpo" ></label>
-                <br>
-                <textarea  id="corpo"  style="width: 600px; height: 400px;"></textarea>
-                <br>
+        <div id="div_form">
+            <label for="titolo" data-lingua="titolo"></label>
+            <input type="text" name="titolo" id="titolo"><br>
 
-                <label for="immagine" data-lingua="immagine"></label>
-                <input type="url" name="immagine" id="immagine"><br>
+            <label for="corpo" data-lingua="corpo"></label>
+            <br>
+            <textarea id="corpo" style="width: 90%; height: 400px;"></textarea>
+            <br>
 
-                <label for="chiave" data-lingua="ins_chiave"></label>
-                <input type="text" name="chiave" id="chiave"><br>
+            <label for="immagine" data-lingua="immagine"></label>
+            <input type="text" name="immagine" id="immagine"><br>
 
-                <button data-lingua="pubblica" onclick="pubblica">
+            <label for="chiave" data-lingua="ins_chiave"></label>
+            <input type="text" name="chiave" id="chiave"><br>
 
-                </div>
+            <button data-lingua="pubblica" onclick="pubblica()">
+
+        </div>
     </div>
 
 
@@ -65,10 +65,61 @@
 
         async function pubblica() {
 
+            // 1. Raccogli i valori dai campi del form
+            const titolo = document.getElementById('titolo').value;
+            const testo = document.getElementById('corpo').value;   // "corpo" corrisponde a "testo" nel modello
+            const immagine = document.getElementById('immagine').value;
+            const chiaveInput = document.getElementById('chiave').value;
+
+            // 2. Prepara l'array delle chiavi (se presenti)
+            //    Se l'utente inserisce più ID separati da virgola, li dividiamo e togliamo spazi
+            let chiavi = [];
+            if (chiaveInput.trim() !== '') {
+                chiavi = chiaveInput.split(',').map(id => id.trim());
+            }
+
+            // 3. Crea l'oggetto da inviare (deve corrispondere ai campi del modello News)
+            const nuovaNews = {
+                titolo: titolo,
+                testo: testo,
+                immagine: immagine /*||undefined*/,   // se vuoto, non inviare il campo (opzionale)
+                chiavi: chiavi
+            };
+            console.log(nuovaNews);
+
+            // 4. Imposta l'URL dell'API (apiUrl è già definito prima nel tuo script)
+            const url = `${apiUrl}/api/v1/news`;   // esempio: "http://localhost:8080/news"
+            console.log(url);
             
-            
+            try {
+                // 5. Esegui la chiamata POST con fetch
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(nuovaNews)
+                });
+
+                // 6. Controlla se la richiesta è andata a buon fine
+                if (response.ok) {
+                    const data = await response.json();
+                    alert('News pubblicata con successo! ID: ' + data._id);
+                    // Opzionale: resetta il form o reindirizza
+                    // window.location.href = 'lista-news.html';
+                } else {
+                    const errorData = await response.json();
+                    alert('Errore durante la pubblicazione: ' + errorData.error);
+                }
+            } catch (error) {
+                console.error('Errore di rete:', error);
+                alert('Impossibile contattare il server. Riprova più tardi.');
+            }
+                
+                
+
         }
-        
+
 
     </script>
 </body>
