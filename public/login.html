@@ -58,12 +58,13 @@
             id="ijjp6" /></div>
     <div id="i05l6">
         <img id="i2l31" src="assets/LogInSPID.png" onclick="controllaLog()"/>
-        
+
         <img id="i6zd8" src="assets/LogInCIE.png" />
     </div>
 
 
     <script>
+        let apiUrl = (window.location.hostname === "localhost") ? "http://localhost:8080" : "https://ecotn-xum1.onrender.com";
 
         //Set tema
         if (localStorage.getItem("theme") == "dark") {
@@ -89,7 +90,7 @@
             if (check) {
                 let profile = await getUserProfile();
                 console.log(profile);
-                localStorage.setItem("utenteId" , "69909292c8d1c501c8894a61");
+                localStorage.setItem("utenteId" , profile["localEntity"]["_id"]);
                 window.location.href = "selezione-impianto.html";
             } else {
                 redirectLogin();
@@ -100,7 +101,7 @@
         async function checkLogin() {
             return new Promise(async (resolve, reject) => {
                 try {
-                    const response = await fetch("http://localhost:8080/api/v1/spid/login", {
+                    const response = await fetch(apiUrl + "/api/v1/spid/login", {
                         method: "HEAD",
                         credentials: "include"
                     });
@@ -120,7 +121,7 @@
          * Rimanda utente a login.
          */
         function redirectLogin() {
-            window.location.href = "http://localhost:8080/api/v1/spid/login";
+            window.location.href = apiUrl + "/api/v1/spid/login";
         }
 
         /**
@@ -142,7 +143,7 @@
         async function getUserProfile() {
             return new Promise(async (resolve, reject) => {
                 try {
-                    const response = await fetch("http://localhost:8080/api/v1/spid/login", {
+                    const response = await fetch(apiUrl + "/api/v1/spid/login", {
                         method: "GET",
                         credentials: "include",
                         headers: {

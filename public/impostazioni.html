@@ -77,7 +77,7 @@
 
 <script src="scripts/translations.js"></script>
 <script>
-    
+    let apiUrl = (window.location.hostname === "localhost") ? "http://localhost:8080" : "https://ecotn-xum1.onrender.com";
     const toggle = document.getElementById("chk_tema");
 
     // carica preferenza

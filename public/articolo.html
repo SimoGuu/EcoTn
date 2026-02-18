@@ -43,6 +43,8 @@
 
     <script src="scripts/translations.js"></script>
     <script>
+        let apiUrl = (window.location.hostname === "localhost") ? "http://localhost:8080" : "https://ecotn-xum1.onrender.com";
+
         cambiaLingua();
         popola();
         //Set tema
@@ -60,7 +62,7 @@
             try {
                 // Chiamata all'API completa con URL assoluto
                 //const response = await fetch("http://localhost:8080/api/v1/houses");
-                const response = await fetch("http://localhost:8080/api/v1/news/" + localStorage.getItem("idNotizia") );
+                const response = await fetch(apiUrl + "/api/v1/news/" + localStorage.getItem("idNotizia") );
 
                 // Controlla se la risposta è OK
                 if (!response.ok) {

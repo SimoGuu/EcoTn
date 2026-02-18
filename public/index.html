@@ -19,6 +19,8 @@
    
 
     <script>
+        let apiUrl = (window.location.hostname === "localhost") ? "http://localhost:8080" : "https://ecotn-xum1.onrender.com";
+
         if(localStorage.getItem("utenteId") != null ){
             window.location.href="selezione-impianto.html";
         }else{

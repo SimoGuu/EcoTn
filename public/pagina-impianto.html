@@ -100,6 +100,7 @@
     <script src="scripts/pagina-impianto.js"></script>
     <script src="scripts/translations.js"></script>
     <script>
+        let apiUrl = (window.location.hostname === "localhost") ? "http://localhost:8080" : "https://ecotn-xum1.onrender.com";
 
         livelloBatteria();
         //getConsumi();
@@ -164,7 +165,7 @@
         async function livelloBatteria() {
             try {
                 // Chiamata all'API completa con URL assoluto
-                const response = await fetch("http://localhost:8080/api/v1/productions");
+                const response = await fetch(apiUrl + "/api/v1/productions");
 
                 // Controlla se la risposta è OK
                 if (!response.ok) {

@@ -12,8 +12,8 @@ console.log('>>> mongoose required OK');
 mongoose.connect(process.env.DB_URL)
   .then(() => {
     console.log("Connected to Database");
-    app.listen(8080, () => {
-      console.log("Server listening on 8080");
+    app.listen(process.env.API_PORT, () => {
+      console.log("Server listening on " + process.env.API_PORT);
     });
   })
   .catch(err => {
