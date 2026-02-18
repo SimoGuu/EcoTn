@@ -1,18 +1,20 @@
 jest.mock("../app/models/key");
+jest.mock("../app/models/news");
 
 const Key = require("../app/models/key");
+const News = require("../app/models/news");
 const keyController = require("../app/controllers/keyController");
 
 describe("Key Controller", () => {
-
   let req;
   let res;
 
   beforeEach(() => {
     jest.resetAllMocks();
-
+    // Inizializzazione corretta dell'oggetto req per evitare TypeError
     req = {
-      body: { name: "Test Key" }
+      body: { nome: "Test Key" },
+      params: {}
     };
 
     res = {
@@ -22,9 +24,8 @@ describe("Key Controller", () => {
   });
 
   describe("getKeys", () => {
-
     it("should return keys successfully", async () => {
-      const mockKeys = [{ name: "Key1" }];
+      const mockKeys = [{ nome: "Key1" }];
       Key.find.mockResolvedValue(mockKeys);
 
       await keyController.getKeys(req, res);
@@ -41,11 +42,9 @@ describe("Key Controller", () => {
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: "DB error" });
     });
-
   });
 
   describe("createKey", () => {
-
     it("should create key successfully", async () => {
       const saveMock = jest.fn().mockResolvedValue();
       Key.mockImplementation(() => ({
@@ -69,7 +68,37 @@ describe("Key Controller", () => {
       expect(res.status).toHaveBeenCalledWith(400);
       expect(res.json).toHaveBeenCalledWith({ error: "Validation error" });
     });
-
   });
 
+  describe("getNewsByKey", () => {
+    it("should return news for a key successfully", async () => {
+      const mockNews = [{ titolo: "News1", testo: "Testo news" }];
+      const keyId = "64f123abc";
+      req.params.id = keyId;
+
+      // Mock della catena .find().populate().lean()
+      News.find.mockReturnValue({
+        populate: jest.fn().mockReturnThis(),
+        lean: jest.fn().mockResolvedValue(mockNews)
+      });
+
+      await keyController.getNewsByKey(req, res);
+
+      expect(News.find).toHaveBeenCalledWith({ chiavi: keyId });
+      expect(res.json).toHaveBeenCalledWith(mockNews);
+    });
+
+    it("should return 500 if news query fails", async () => {
+      req.params.id = "64f123abc";
+      News.find.mockReturnValue({
+        populate: jest.fn().mockReturnThis(),
+        lean: jest.fn().mockRejectedValue(new Error("DB error"))
+      });
+
+      await keyController.getNewsByKey(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({ error: "DB error" });
+    });
+  });
 });
