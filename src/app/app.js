@@ -6,7 +6,7 @@ const session = require("express-session");
 
 // Abilita CORS per tutte le origini
 app.use(cors({
-    origin: (process.env.DEPLOY_MODE === "development") ? "http://localhost:5500" : "https://ecotn-frontend.onrender.com/",
+    origin: (process.env.DEPLOY_MODE === "development") ? "http://localhost:5500" : "https://ecotn-frontend.onrender.com",
     credentials: true
 }));
 
