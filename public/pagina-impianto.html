@@ -207,7 +207,7 @@
 
         async function stampaMeteoCorrente() {
             try {
-                const response = await fetch("http://localhost:8080/api/v1/weather");
+                const response = await fetch(apiUrl + "/api/v1/weather");
 
                 // Controlla se la risposta è OK
                 if (!response.ok) {
@@ -301,7 +301,7 @@
             const end = ret.endDate;
 
             
-            const response = await fetch("http://localhost:8080/api/v1/houses/" + localStorage.getItem("idAbitazione") +
+            const response = await fetch(apiUrl + "/api/v1/houses/" + localStorage.getItem("idAbitazione") +
                 "/production-stats/?start=" + start + "&end=" + end);
 
             // Controlla se la risposta è OK
@@ -324,7 +324,7 @@
             const end = ret.endDate;
 
             
-            const response = await fetch("http://localhost:8080/api/v1/houses/" + localStorage.getItem("idAbitazione") +
+            const response = await fetch(apiUrl + "/api/v1/houses/" + localStorage.getItem("idAbitazione") +
                 "/consumption-stats/?start=" + start + "&end=" + end);
 
             // Controlla se la risposta è OK
