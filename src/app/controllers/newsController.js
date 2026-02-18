@@ -28,3 +28,15 @@ exports.getNewsById = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getNewsByKey = async (req, res) => {
+  try {
+    const news = await News
+      .find({ chiavi: req.params.id })   // cerca nell'array chiavi
+      .populate('chiavi');               // opzionale: per avere anche i dettagli della chiave
+
+    res.json(news);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

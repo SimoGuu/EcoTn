@@ -1,4 +1,6 @@
 jest.mock("../app/models/news");
+const request = require('supertest');
+const app = require('../app/app');
 
 const News = require("../app/models/news");
 const newsController = require("../app/controllers/newsController");
@@ -143,6 +145,44 @@ describe("News Controller", () => {
       expect(res.json).toHaveBeenCalledWith({ error: "DB error" });
     });
 
+  });
+
+});
+
+describe('News Controller - getNewsByKey', () => {
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should return news filtered by key id', async () => {
+    const fakeNews = [
+      { _id: '1', titolo: 'Notizia 1' },
+      { _id: '2', titolo: 'Notizia 2' }
+    ];
+
+    News.find.mockReturnValue({
+      populate: jest.fn().mockResolvedValue(fakeNews)
+    });
+
+    const res = await request(app)
+      .get('/news/key/123456789');
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual(fakeNews);
+    expect(News.find).toHaveBeenCalledWith({ chiavi: '123456789' });
+  });
+
+  it('should return 500 if database throws error', async () => {
+    News.find.mockImplementation(() => {
+      throw new Error('Database error');
+    });
+
+    const res = await request(app)
+      .get('/news/key/123456789');
+
+    expect(res.statusCode).toBe(500);
+    expect(res.body).toHaveProperty('error');
   });
 
 });
