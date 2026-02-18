@@ -129,7 +129,7 @@ const SpidLoginController = {
                         response.redirect(
                             (process.env.DEPLOY_MODE === "development")
                                 ? "http://localhost:5500/public/index.html"
-                                : "https://ecotn-frontend.onrender.com/index.html"
+                                : "https://ecotn-5fc1.onrender.com/index.html"
                         );
                     } else {
                         WebApiController.sendError(request, response, 422, {
