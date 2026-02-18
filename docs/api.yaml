@@ -567,6 +567,30 @@ paths:
                 $ref: "#/components/schemas/Chiave"
         "400":
           description: Dati non validi
+  /api/keys/{id}/news:
+    get:
+      tags:
+        - Keys
+      summary: "Notizie associate a una chiave"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista notizie
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/News'  # Riferimento allo schema News
+        '404':
+          description: Chiave non trovata
+        '500':
+          description: Errore server
 
   # ──────────────────────────────────────────
   # WEATHER
