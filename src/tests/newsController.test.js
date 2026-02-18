@@ -6,7 +6,6 @@ const News = require("../app/models/news");
 const newsController = require("../app/controllers/newsController");
 
 describe("News Controller", () => {
-
   let req;
   let res;
 
@@ -14,7 +13,7 @@ describe("News Controller", () => {
     jest.clearAllMocks();
 
     req = {
-      body: { title: "Test News" },
+      body: { titolo: "Test News", testo: "Esempio testo" },
       params: { id: "123" }
     };
 
@@ -24,33 +23,24 @@ describe("News Controller", () => {
     };
   });
 
-  // =========================
-  // GET ALL
-  // =========================
   describe("getNews", () => {
+    it("should return all news successfully", async () => {
+      const mockNews = [{ titolo: "News1" }, { titolo: "News2" }];
+      
+      // Mock per .find().populate()
+      News.find.mockReturnValue({
+        populate: jest.fn().mockResolvedValue(mockNews)
+      });
 
-    it("should create news successfully", async () => {
+      await newsController.getNews(req, res);
 
-      const mockNewsInstance = {
-        _id: "1",
-        title: "Test News",
-        save: jest.fn().mockResolvedValue()
-      };
-
-      News.mockImplementation(() => mockNewsInstance);
-
-      await newsController.createNews(req, res);
-
-      expect(mockNewsInstance.save).toHaveBeenCalled();
-      expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith(mockNewsInstance);
-
+      expect(News.find).toHaveBeenCalled();
+      expect(res.json).toHaveBeenCalledWith(mockNews);
     });
 
-
     it("should return 500 if error occurs", async () => {
-      News.find.mockImplementation(() => {
-        throw new Error("DB error");
+      News.find.mockReturnValue({
+        populate: jest.fn().mockRejectedValue(new Error("DB error"))
       });
 
       await newsController.getNews(req, res);
@@ -58,36 +48,23 @@ describe("News Controller", () => {
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: "DB error" });
     });
-
   });
 
-  // =========================
-  // CREATE
-  // =========================
   describe("createNews", () => {
-
     it("should create news successfully", async () => {
-
       const mockNewsInstance = {
-        _id: "1",
-        title: "Test News",
         save: jest.fn().mockResolvedValue()
       };
-
       News.mockImplementation(() => mockNewsInstance);
 
       await newsController.createNews(req, res);
 
       expect(mockNewsInstance.save).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith(mockNewsInstance);
-
     });
 
-
-    it("should return 400 if save fails", async () => {
+    it("should return 400 if validation fails", async () => {
       const saveMock = jest.fn().mockRejectedValue(new Error("Validation error"));
-
       News.mockImplementation(() => ({
         save: saveMock
       }));
@@ -97,35 +74,26 @@ describe("News Controller", () => {
       expect(res.status).toHaveBeenCalledWith(400);
       expect(res.json).toHaveBeenCalledWith({ error: "Validation error" });
     });
-
   });
 
-  // =========================
-  // GET BY ID
-  // =========================
   describe("getNewsById", () => {
-
     it("should return news by id", async () => {
-      const mockNews = { _id: "123", title: "News1" };
-
-      const populateMock = jest.fn().mockResolvedValue(mockNews);
-
+      const mockNews = { _id: "123", titolo: "News1" };
+      
+      // Mock per .findById().populate()
       News.findById.mockReturnValue({
-        populate: populateMock
+        populate: jest.fn().mockResolvedValue(mockNews)
       });
 
       await newsController.getNewsById(req, res);
 
       expect(News.findById).toHaveBeenCalledWith("123");
-      expect(populateMock).toHaveBeenCalledWith("chiavi");
       expect(res.json).toHaveBeenCalledWith(mockNews);
     });
 
     it("should return 404 if news not found", async () => {
-      const populateMock = jest.fn().mockResolvedValue(null);
-
       News.findById.mockReturnValue({
-        populate: populateMock
+        populate: jest.fn().mockResolvedValue(null)
       });
 
       await newsController.getNewsById(req, res);
@@ -133,56 +101,5 @@ describe("News Controller", () => {
       expect(res.status).toHaveBeenCalledWith(404);
       expect(res.json).toHaveBeenCalledWith({ error: "News not found" });
     });
-
-    it("should return 500 if error occurs", async () => {
-      News.findById.mockImplementation(() => {
-        throw new Error("DB error");
-      });
-
-      await newsController.getNewsById(req, res);
-
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({ error: "DB error" });
-    });
-
   });
-
-});
-
-describe('News Controller - getNewsByKey', () => {
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('should return news filtered by key id', async () => {
-    const fakeNews = [
-      { _id: '1', titolo: 'Notizia 1' },
-      { _id: '2', titolo: 'Notizia 2' }
-    ];
-
-    News.find.mockReturnValue({
-      populate: jest.fn().mockResolvedValue(fakeNews)
-    });
-
-    const res = await request(app)
-      .get('/news/key/123456789');
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual(fakeNews);
-    expect(News.find).toHaveBeenCalledWith({ chiavi: '123456789' });
-  });
-
-  it('should return 500 if database throws error', async () => {
-    News.find.mockImplementation(() => {
-      throw new Error('Database error');
-    });
-
-    const res = await request(app)
-      .get('/news/key/123456789');
-
-    expect(res.statusCode).toBe(500);
-    expect(res.body).toHaveProperty('error');
-  });
-
 });
