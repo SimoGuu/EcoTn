@@ -14,6 +14,11 @@ const translations = {
 
         // ARTICOLO
         chiavi_articolo: "Chiavi di ricerca:",
+        titolo: "Titolo",
+        corpo: "Corpo dell'articolo",
+        link: "Link dell'immagine",
+        ins_chiave: "Inserisci chiave",
+        pubblica: "Pubblica",
 
         // NEWS
         titolo_news: "News",
@@ -48,6 +53,11 @@ const translations = {
 
         // ARTICLE
         chiavi_articolo: "Search Keys:",
+        titolo: "Title",
+        corpo: "Article Body",
+        link: "Image Link",
+        ins_chiave: "Enter Key",
+        pubblica: "Publish",
 
         // NEWS
         titolo_news: "News",
@@ -82,6 +92,12 @@ const translations = {
 
         // ARTIKEL
         chiavi_articolo: "Suchbegriffe:",
+        titolo: "Titel",
+        corpo: "Artikelinhalt",
+        link: "Bildlink",
+        ins_chiave: "Begriff eingeben",
+        pubblica: "Veröffentlichen",
+
 
         // NEWS
         titolo_news: "Nachrichten",

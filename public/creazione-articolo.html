@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Silex v3.6.1">
+    <link rel="stylesheet" href="css/articolo.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+
+
+
+
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+
+<body class="sfondo">
+
+    <div class="titolo_block" id="titolo_block"></div>
+    <div id="div_immagine">
+        <img id="immagine" />
+    </div>
+
+    <div id="corpo_articolo" class="testocard card">
+        
+            <div id="div_form">
+                <label for="titolo" data-lingua="titolo"></label>
+                <input type="text" name="titolo" id="titolo"><br>
+
+                <label for="corpo" data-lingua="corpo" ></label>
+                <br>
+                <textarea  id="corpo"  style="width: 600px; height: 400px;"></textarea>
+                <br>
+
+                <label for="immagine" data-lingua="immagine"></label>
+                <input type="url" name="immagine" id="immagine"><br>
+
+                <label for="chiave" data-lingua="ins_chiave"></label>
+                <input type="text" name="chiave" id="chiave"><br>
+
+                <button data-lingua="pubblica" onclick="pubblica">
+
+                </div>
+    </div>
+
+
+
+    <script src="scripts/translations.js"></script>
+    <script>
+        let apiUrl = (window.location.hostname === "localhost") ? "http://localhost:8080" : "https://ecotn-xum1.onrender.com";
+
+        cambiaLingua();
+        //Set tema
+        if (localStorage.getItem("theme") == "dark") {
+            document.body.classList.add("dark");
+        } else {
+            document.body.classList.remove("dark");
+        }
+
+        
+
+    </script>
+</body>
+
+</html>
