@@ -11,7 +11,6 @@ describe("Key Controller", () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
-    // Inizializzazione corretta dell'oggetto req per evitare TypeError
     req = {
       body: { nome: "Test Key" },
       params: {}
@@ -76,7 +75,6 @@ describe("Key Controller", () => {
       const keyId = "64f123abc";
       req.params.id = keyId;
 
-      // Mock della catena .find().populate().lean()
       News.find.mockReturnValue({
         populate: jest.fn().mockReturnThis(),
         lean: jest.fn().mockResolvedValue(mockNews)

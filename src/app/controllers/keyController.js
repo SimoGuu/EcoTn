@@ -20,7 +20,6 @@ exports.createKey = async (req, res) => {
   }
 };
 
-// Corretto: esportata e adattata per gestire req/res come nei test
 exports.getNewsByKey = async (req, res) => {
   try {
     const keyId = req.params.id;
