@@ -319,6 +319,59 @@ paths:
                 $ref: "#/components/schemas/Stats"
         "500":
           description: Errore interno del server
+  /api/v1/houses/{id}/battery/latest:
+    get:
+      summary: Ottiene l'ultimo livello della batteria per una casa
+      description: Restituisce l'ultimo valore disponibile del livello batteria associato a una casa specifica.
+      tags:
+        - House
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID della casa
+          schema:
+            type: string
+            example: 65a1234567890abcdef12345
+      responses:
+        '200':
+          description: Livello batteria trovato
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  houseId:
+                    type: string
+                    example: 65a1234567890abcdef12345
+                  lv_batteria:
+                    type: number
+                    example: 85
+                  data_ora:
+                    type: string
+                    format: date-time
+                    example: 2026-02-18T08:05:00.000Z
+        '404':
+          description: Nessun dato batteria trovato per la casa specificata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Nessun dato batteria trovato per questa casa
+        '500':
+          description: Errore interno del server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: DB Error
+
 
   # ──────────────────────────────────────────
   # CONSUMPTIONS

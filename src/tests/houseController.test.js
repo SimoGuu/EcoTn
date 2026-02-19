@@ -7,6 +7,8 @@ const houseController = require('../app/controllers/houseController');
 const houseRoutes = require('../app/routes/houseRoutes');
 
 jest.mock('../app/models/house');
+jest.mock('../app/models/production'); 
+jest.mock('../app/models/consumption')
 
 const app = express();
 app.use(express.json());
@@ -169,7 +171,7 @@ describe('House Consumption Stats (Mocked)', () => {
   const houseId = '69938ad61a8406ee0407f368';
 
   afterEach(() => {
-    jest.restoreAllMocks(); // Previene il leak dei mock tra i test
+    jest.restoreAllMocks();
   });
 
   it('Dovrebbe restituire medie orarie se start == end', async () => {
@@ -177,7 +179,7 @@ describe('House Consumption Stats (Mocked)', () => {
       { _id: 8, media: 0.45 },
       { _id: 9, media: 0.60 }
     ];
-    // Mockiamo il metodo aggregate del modello Consumption
+    
     const spy = jest.spyOn(Consumption, 'aggregate').mockResolvedValue(mockData);
 
     const res = await request(app)
@@ -248,5 +250,76 @@ describe('House Production Stats (Mocked)', () => {
 
     expect(res.statusCode).toBe(500);
     expect(res.body.error).toBe('Aggregate Error');
+  });
+});
+
+describe('houseController.getLatestBatteryLevel', () => {
+  let req, res;
+
+  beforeEach(() => {
+    req = { params: { id: '65a1234567890abcdef12345' } };
+    res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn().mockReturnThis(),
+    };
+
+    jest.clearAllMocks();
+  });
+
+  it('dovrebbe restituire 200 e il livello batteria se i dati esistono', async () => {
+    const mockData = {
+      lv_batteria: 85,
+      data_ora: new Date(),
+    };
+
+    const mockQuery = {
+      sort: jest.fn().mockReturnThis(),
+      select: jest.fn().mockResolvedValue(mockData),
+    };
+
+    Production.findOne.mockReturnValue(mockQuery);
+
+    await houseController.getLatestBatteryLevel(req, res);
+
+    expect(Production.findOne).toHaveBeenCalledWith({ 
+      house: req.params.id, 
+      lv_batteria: { $exists: true, $ne: null } 
+    });
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      lv_batteria: 85
+    });
+  });
+
+  it('dovrebbe restituire 404 se non vengono trovati dati per quella casa', async () => {
+    const mockQuery = {
+      sort: jest.fn().mockReturnThis(),
+      select: jest.fn().mockResolvedValue(null),
+    };
+
+    Production.findOne.mockReturnValue(mockQuery);
+
+    await houseController.getLatestBatteryLevel(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining({ message: expect.any(String) })
+    );
+  });
+
+  it('dovrebbe restituire 500 in caso di errore del database', async () => {
+    const mockQuery = {
+      sort: jest.fn().mockReturnThis(),
+      select: jest.fn().mockRejectedValue(new Error('DB Error')),
+    };
+
+    Production.findOne.mockReturnValue(mockQuery);
+
+    await houseController.getLatestBatteryLevel(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.json).toHaveBeenCalledWith(
+      expect.objectContaining({ error: 'DB Error' })
+    );
   });
 });

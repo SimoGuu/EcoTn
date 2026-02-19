@@ -102,3 +102,32 @@ exports.getHouseProductionStats = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getLatestBatteryLevel = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const latestProd = await Production.findOne({ 
+      house: id, 
+      lv_batteria: { $exists: true, $ne: null } 
+    })
+    .sort({ data_ora: -1 })
+    .select('lv_batteria data_ora');
+
+    if (!latestProd) {
+      return res.status(404).json({ 
+        message: "Nessun dato sulla batteria trovato per questa casa." 
+      });
+    }
+
+    res.status(200).json({
+      lv_batteria: latestProd.lv_batteria
+});
+    
+  } catch (error) {
+    res.status(500).json({ 
+      message: "Errore durante il recupero del livello batteria", 
+      error: error.message 
+    });
+  }
+};
