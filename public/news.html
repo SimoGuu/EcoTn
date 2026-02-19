@@ -89,11 +89,6 @@
 
                 // Trasforma la risposta in JSON
                 const notizie = await response.json();
-
-                // Stampa in console (o fai quello che vuoi con i dati)
-                console.log(notizie);
-
-                // Se vuoi, puoi anche popolare il DOM
                 displayNotizie(notizie);
 
             } catch (error) {
@@ -101,10 +96,10 @@
             }
         }
 
-        //Funzione di esempio per mostrare le case nella pagina
+      
         function displayNotizie(notizie) {
             const container = document.getElementById("box_news");
-            container.innerHTML = ""; // pulisce eventuali contenuti precedenti
+            container.innerHTML = ""; 
 
             notizie.forEach(notizia => {
 
@@ -125,7 +120,6 @@
                 immagine.classList.add("img_news");
 
                 const source = notizia.immagine === undefined ? "Immagini/impianto_placeholder.jpg" : notizia.immagine;
-                //const source = "Immagini/impianto_placeholder.jpg";
                 immagine.src = source;
                 immagine.style.width = "90%";
 

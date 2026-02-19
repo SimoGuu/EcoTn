@@ -97,22 +97,11 @@
             var immagine = document.createElement("img");
             immagine.classList.add("immagine_impianto");
 
-            //const source = house.immagineProfilo === undefined ? "Immagini/Icone_meteo/icona_sole_nuvoloso.png" : house.immagineProfilo;
-            const source = "Immagini/impianto_placeholder.jpg";
+            const source = house.immagineProfilo === undefined ? "Immagini/Icone_meteo/icona_sole_nuvoloso.png" : house.immagineProfilo;
             immagine.src = source;
-
-
-            immagine.alt = "Immagini/Icone_meteo/icona_sole_nuvoloso.png";
 
             var titolo = document.createElement("h2");
             titolo.textContent = `${house.indirizzo}`;
-            
-            /*
-            var indirizzo = document.createElement("p");
-            indirizzo.classList.add("nome_impianto");
-            indirizzo.textContent = `${house.indirizzo}`;
-            div.appendChild(indirizzo);
-            */
 
             div.appendChild(titolo);
             div.appendChild(immagine);

@@ -89,14 +89,14 @@
             <p class="impostazioni">News</p>
         </div>
 
-        <div id="div_impostazioni" class="cardina">
-            <div class="impostazioni" onclick="reindirizzaImpostazioni()" data-lingua="impostazioni"></div>
+        <div id="div_impostazioni" class="cardina" onclick="reindirizzaImpostazioni()">
+            <div class="impostazioni"  data-lingua="impostazioni"></div>
         </div>
     </div>
 
 
 
-    <!-- <script src="scripts/pagina-impianto.js"></script> -->
+
     <script src="scripts/translations.js"></script>
     <script>
         let apiUrl = (window.location.hostname === "localhost") ? "http://localhost:8080" : "https://ecotn-5fc1.onrender.com";
@@ -106,7 +106,7 @@
         caricaConsumi();
         cambiaLingua();
         stampaMeteoCorrente();
-
+        gestisciFotovoltaico();
 
         const idAbitazione = localStorage.getItem("idAbitazione");
         if (!idAbitazione) {
@@ -125,9 +125,9 @@
         }
 
         //gestione visualizzazione produzione
-        gestisciFotovoltaico();
         async function gestisciFotovoltaico() {
             const div_fotovoltaico = document.getElementById("area_fotovoltaico");
+            console.log("Controllo presenza fotovoltaico per abitazione " + localStorage.getItem("idAbitazione"));
             const response = await fetch(apiUrl + "/api/v1/houses/" + localStorage.getItem("idAbitazione") +
                 "/production-stats/?start=" + new Date(2026, 0, 1).toISOString().split('T')[0] + "&end=" + new Date().toISOString().split('T')[0]);
 
@@ -138,7 +138,8 @@
 
             // Trasforma la risposta in JSON
             const data = await response.json();
-            div_fotovoltaico.style.display = data.length > 0 ? "block" : "none";
+            //esiste almeno 1 dato di produzione? se sì, mostro la sezione fotovoltaico, altrimenti la casa non ha il fotovoltaico e nascondo la sezione
+            div_fotovoltaico.style.display = data.labels.length > 0 ? "block" : "none";
         }
 
 
@@ -189,7 +190,7 @@
         async function livelloBatteria() {
             try {
                 // Chiamata all'API completa con URL assoluto
-                const response = await fetch(apiUrl + "/api/v1/productions");
+                const response = await fetch(apiUrl + "/api/v1/houses/" + localStorage.getItem("idAbitazione") + "/battery/latest");
 
                 // Controlla se la risposta è OK
                 if (!response.ok) {
@@ -200,23 +201,15 @@
                 const consumi = await response.json();
 
                 // Stampa in console (o fai quello che vuoi con i dati)
-                livello = consumi[0].lv_batteria;
+                livello = consumi.lv_batteria;
+
+                // Selezione icona corretta in base al livello di batteria
                 let source;
-                if (livello <= 0) {
-                    source = "Immagini/icone_batteria/icona_batteria_0.png";
-                }
-                else if (livello <= 25) {
-                    source = "Immagini/icone_batteria/icona_batteria_25.png";
-                }
-                else if (livello <= 50) {
-                    source = "Immagini/icone_batteria/icona_batteria_50.png";
-                }
-                else if (livello <= 75) {
-                    source = "Immagini/icone_batteria/icona_batteria_75.png";
-                }
-                else {
-                    source = "Immagini/icone_batteria/icona_batteria_100.png";
-                }
+                if (livello <= 0) {         ource = "Immagini/icone_batteria/icona_batteria_0.png";}
+                else if (livello <= 25) {   source = "Immagini/icone_batteria/icona_batteria_25.png";}
+                else if (livello <= 50) {   source = "Immagini/icone_batteria/icona_batteria_50.png";}
+                else if (livello <= 75) {   source = "Immagini/icone_batteria/icona_batteria_75.png";}
+                else {                      source = "Immagini/icone_batteria/icona_batteria_100.png";}
 
                 const icona_batteria = document.createElement("img");
                 icona_batteria.src = source;
@@ -251,6 +244,7 @@
                     return;
                 }
 
+                //Data e ora attuale
                 const now = new Date();
                 const currentHour = now.getHours().toString().padStart(2, '0');
                 const currentTimeKey = `${currentHour}:00`;
@@ -259,6 +253,7 @@
 
                 let source;
 
+                // Selezione icona corretta in base al meteo corrente
                 switch (currentWeather) {
                     case "clear":
                         source = "Immagini/icone_meteo/icona_sole.png";
@@ -379,7 +374,7 @@
             let startDate, endDate;
 
             // Imposta endDate sempre a oggi
-            endDate = new Date(oggi); // copia di oggi
+            endDate = new Date(oggi); 
 
             switch (periodo) {
                 case "oggi":
@@ -418,7 +413,7 @@
                     return null;
             }
 
-            // Formatta in YYYY-MM-DD per comodità (opzionale)
+            // Formatta in YYYY-MM-DD
             const formatDate = (d) => d.toISOString().split('T')[0];
 
             return {

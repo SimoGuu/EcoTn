@@ -28,6 +28,7 @@ body {
     color: black;
     height: 150px;
     margin: auto auto 30px auto;
+    
 }
 
 #decorazione {
@@ -56,39 +57,13 @@ body {
 
 
 
-#i9r7g-2 {
-    padding: 10px;
-    width: auto;
-}
-
-#i9r7g-2-2 {
-    padding: 10px;
-    width: auto;
-}
-
-#i2l31 {
-    color: black;
+.immagine_SPID_CIE {
     display: block;
-    margin: 0px auto 0px auto;
+    margin: 10px auto 10px auto;
     width: 200px;
 }
 
-#i05l6 {
-    color: #a86464;
-    min-height: 100px;
-}
 
-#i6zd8 {
-    color: black;
-    display: block;
-    margin: 10px auto auto auto;
-    width: 200px;
-}
-
-#il86l {
-    color: #003d52;
-    font-weight: 700;
-}
 
 
 @media (max-width: 992px) {
@@ -98,21 +73,8 @@ body {
 }
 
 @media (max-width: 480px) {
-    #ia76a {
-        display: block;
-    }
-
-    #i7shz {
-        border-radius: 0px;
-        margin: 20px auto 20px auto;
-        width: 100%;
-    }
 
     .collegamento {
         margin: 5px -5px 10px -5px;
-    }
-
-    #il86l {
-        margin: 10px 10px 20px 10px;
     }
 }

@@ -20,47 +20,23 @@
 
 
     <div id="blocco_form" class="card">
-        <img id="immagine_login"
-            src="assets/7407996-icona-utente-icona-persona-client-simbolo-login-testa-segno-icona-design-vettoriale.jpg" />
+        <img id="immagine_login" src="Immagini/icona_utente.jpg" />
 
-        <form method="get" id="decorazione">
+        <!-- pulsanti login -->
+        <div id="decorazione">
+                <img class="immagine_SPID_CIE" src="Immagini/LogInSPID.png" onclick="controllaLog()" />
 
-            <div class="divform">
-                <label class="etichetta">
-                    Name
-                </label>
-                <input type="text" id="txt_nome" />
-            </div>
-
-            <div class="divform">
-                <label class="etichetta">
-                    Email
-                </label>
-                <input type="email" id="txt_email" />
-            </div>
-            <div class="divform">
-                <button type="button" id="bottone" onclick="logga()">Send</button>
-            </div>
-
-        </form>
+                <img class="immagine_SPID_CIE" src="Immagini/LogInCIE.png" />
+        </div>
 
     </div>
 
 
-    <div id="i9r7g-2" class="collegamento">
-        <u id="iqvzp" class="collegamento">
-            <b id="iqdft">Non hai un account? Registrati</b>
-        </u>
-    </div>
 
 
-    <div id="i9r7g-2-2" class="collegamento"><u id="il86l" class="collegamento">Password dimenticata?</u><br
-            id="ijjp6" /></div>
-    <div id="i05l6">
-        <img id="i2l31" src="assets/LogInSPID.png" onclick="controllaLog()"/>
 
-        <img id="i6zd8" src="assets/LogInCIE.png" />
-    </div>
+
+
 
 
     <script>
@@ -74,9 +50,11 @@
         }
 
 
-        if(localStorage.getItem("utenteId") != null ){
+        if (localStorage.getItem("utenteId") != null) {
             //window.location.href="selezione-impianto.html";
         }
+
+        
         /**
          * Funzione controllo se utente ha fatto login con SPID.
          * Semplicemente restituisce true se login ok, altrimenti false.
@@ -84,14 +62,14 @@
          * uso:
          */
 
-        //controllaLog();
+
         async function controllaLog() {
             let check = await checkLogin();
             if (check) {
                 let profile = await getUserProfile();
                 console.log(profile);
-                localStorage.setItem("utenteId" , profile["localEntity"]["_id"]);
-                localStorage.setItem("isDipendente" , profile["localEntity"]["isDipendente"]);
+                localStorage.setItem("utenteId", profile["localEntity"]["_id"]);
+                localStorage.setItem("isDipendente", profile["localEntity"]["isDipendente"]);
                 window.location.href = "selezione-impianto.html";
             } else {
                 redirectLogin();
@@ -164,9 +142,6 @@
             });
         }
 
-        function logga() {
-            //! ToDo
-        }
 
 
     </script>

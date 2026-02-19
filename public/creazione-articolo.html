@@ -66,16 +66,16 @@
         }
 
         async function pubblica() {
-            // 1. Raccogli i valori dai campi del form
+            //Raccolta dati dal form
             const titolo = document.getElementById('titolo').value;
             const testo = document.getElementById('corpo').value;
             const immagine = document.getElementById('immagine').value;
 
-            // 2. Raccogli gli ID delle chiavi selezionate
+            // Raccolta ID delle chiavi selezionate
             const checkboxes = document.querySelectorAll('#chiavi-container input[type="checkbox"]:checked');
             const chiavi = Array.from(checkboxes).map(cb => cb.value);
 
-            // 3. Crea l'oggetto da inviare
+            // Crea l'oggetto da inviare
             const nuovaNews = {
                 titolo: titolo,
                 testo: testo,
@@ -83,8 +83,6 @@
                 chiavi: chiavi
             };
 
-            console.log("Dati da inviare:", nuovaNews); // Debug: verifica i dati prima di inviare
-            // 4. Chiamata API
             const url = `${apiUrl}/api/v1/news`;
 
             try {
@@ -97,7 +95,6 @@
                 if (response.ok) {
                     const data = await response.json();
                     alert('News pubblicata con successo! ID: ' + data._id);
-                    // Resetta il form se desideri
                 } else {
                     const errorData = await response.json();
                     alert('Errore: ' + errorData.error);
