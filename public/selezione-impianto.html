@@ -24,7 +24,21 @@
     <div class="titolo_block" data-lingua="titolo_selezione"></div>
 
     <div id="housesContainer"></div>
+
+    <div class="trittica">
+
+        <div id="card_news" class="cardina" onclick="reindirizzaNews()">
+            <p class="impostazioni">News</p>
+        </div>
+
+        <div id="div_impostazioni" class="cardina" onclick="reindirizzaImpostazioni()">
+            <div class="impostazioni" data-lingua="impostazioni"></div>
+        </div>
+    </div>
+
+
     <div id="opzione_amministratori" class="titolo_block" onclick="reindirizzaAmministratore()">posta news</div>
+
 
 </body>
 
@@ -42,8 +56,12 @@
         document.body.classList.remove("dark");
     }
 
-    function reindirizzaAmministratore(){
-        window.location.href="creazione-articolo.html";
+    if (!localStorage.getItem("utenteId")) {
+        window.location.href = 'login.html'
+    } 
+
+    function reindirizzaAmministratore() {
+        window.location.href = "creazione-articolo.html";
     }
 
     getHouses();
@@ -87,7 +105,7 @@
 
             div.addEventListener('click', function () {
 
-                
+
                 localStorage.setItem('idAbitazione', house._id);
                 localStorage.setItem('indirizzoAbitazione', house.indirizzo);
                 window.location.href = 'pagina-impianto.html';
@@ -96,9 +114,9 @@
 
             var immagine = document.createElement("img");
             immagine.classList.add("immagine_impianto");
-
-            //const source = house.immagineProfilo === undefined ? "Immagini/Icone_meteo/icona_sole_nuvoloso.png" : house.immagineProfilo;
-            const source = "Immagini/impianto_placeholder.jpg";
+            console.log(house.immagineProfilo);
+            const source = house.immagineProfilo === undefined ? "Immagini/Icone_meteo/icona_sole_nuvoloso.png" : house.immagineProfilo;
+            //const source = "Immagini/impianto_placeholder.jpg";
             immagine.src = source;
 
             var titolo = document.createElement("h2");
@@ -107,10 +125,20 @@
             div.appendChild(titolo);
             div.appendChild(immagine);
 
-            
+
 
             container.appendChild(div);
         });
+    }
+
+
+
+    function reindirizzaImpostazioni() {
+        window.location.href = "impostazioni.html";
+    }
+
+    function reindirizzaNews() {
+        window.location.href = "news.html";
     }
 
 

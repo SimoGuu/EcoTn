@@ -110,8 +110,8 @@
 
         const idAbitazione = localStorage.getItem("idAbitazione");
         if (!idAbitazione) {
-            window.location.href = 'login.html'
-        } else {
+            window.location.href = 'selezione-impianto.html'
+        }  else {
             document.getElementById("titolo_block").textContent = localStorage.getItem("indirizzoAbitazione");
         }
 
@@ -204,12 +204,18 @@
                 livello = consumi.lv_batteria;
 
                 // Selezione icona corretta in base al livello di batteria
-                let source;
-                if (livello <= 0) {         ource = "Immagini/icone_batteria/icona_batteria_0.png";}
-                else if (livello <= 25) {   source = "Immagini/icone_batteria/icona_batteria_25.png";}
-                else if (livello <= 50) {   source = "Immagini/icone_batteria/icona_batteria_50.png";}
-                else if (livello <= 75) {   source = "Immagini/icone_batteria/icona_batteria_75.png";}
-                else {                      source = "Immagini/icone_batteria/icona_batteria_100.png";}
+                let source = "Immagini/icone_batteria";
+                if(localStorage.getItem("theme") == "dark"){
+                    source += "_bianche/";
+                } else {
+                    source += "/";
+                }
+
+                if (livello <= 0) {         source += "icona_batteria_0.png";}
+                else if (livello <= 25) {   source += "icona_batteria_25.png";}
+                else if (livello <= 50) {   source += "icona_batteria_50.png";}
+                else if (livello <= 75) {   source += "icona_batteria_75.png";}
+                else {                      source += "icona_batteria_100.png";}
 
                 const icona_batteria = document.createElement("img");
                 icona_batteria.src = source;
@@ -251,60 +257,65 @@
                 const timestamps = data.result.timestamps;
                 const currentWeather = timestamps[currentTimeKey] || "unknown";
 
-                let source;
+                let source = "Immagini/icone_meteo"; 
+                if(localStorage.getItem("theme") == "dark"){
+                    source += "_bianche/";
+                } else {
+                    source += "/";
+                }
 
                 // Selezione icona corretta in base al meteo corrente
                 switch (currentWeather) {
                     case "clear":
-                        source = "Immagini/icone_meteo/icona_sole.png";
+                        source += "icona_sole.png";
                         break;
 
                     case "overcast":
-                        source = "Immagini/icone_meteo/icona_nuvola.png";
+                        source += "icona_nuvola.png";
                         break;
 
                     case "fog":
-                        source = "Immagini/icone_meteo/icona_nebbia.png";
+                        source += "icona_nebbia.png";
                         break;
 
                     case "drizzle":
-                        source = "Immagini/icone_meteo/icona_pioggia.png";
+                        source += "icona_pioggia.png";
                         break;
 
                     case "freezing_drizzle":
-                        source = "Immagini/icone_meteo/icona_pioggia.png";
+                        source += "icona_pioggia.png";
                         break;
 
                     case "rain":
-                        source = "Immagini/icone_meteo/icona_pioggia.png";
+                        source += "icona_pioggia.png";
                         break;
 
                     case "freezing_rain":
-                        source = "Immagini/icone_meteo/icona_pioggia.png";
+                        source += "icona_pioggia.png";
                         break;
 
                     case "snow":
-                        source = "Immagini/icone_meteo/icona_neve.png";
+                        source += "icona_neve.png";
                         break;
 
                     case "snow_grains":
-                        source = "Immagini/icone_meteo/icona_neve.png";
+                        source += "icona_neve.png";
                         break;
 
                     case "rain_showers":
-                        source = "Immagini/icone_meteo/icona_acquazzone.png";
+                        source += "icona_acquazzone.png";
                         break;
 
                     case "snow_showers":
-                        source = "Immagini/icone_meteo/icona_neve.png";
+                        source += "icona_neve.png";
                         break;
 
                     case "thunderstorm":
-                        source = "Immagini/icone_meteo/icona_fulmini.png";
+                        source += "icona_fulmini.png";
                         break;
 
                     default:
-                        source = "Immagini/icone_meteo/icona_sole.png";
+                        source = "icona_sole.png";
                         break;
                 }
 
@@ -364,6 +375,8 @@
             let img = creaGrafico(data.labels, data.values, translations[localStorage.getItem("lingua") || "it"].consumi);
             document.getElementById("div_grafico_consumi").innerHTML = "";
             document.getElementById("div_grafico_consumi").appendChild(img);
+
+            
 
         }
 

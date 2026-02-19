@@ -25,6 +25,7 @@
     <div id="div_chiavi">
         <p class="testo_impostazioni" data-lingua="input_chiavi"></p>
     </div>
+    <a href="pagina-impianto.html" class="testo_impostazioni torna_indietro" id="torna_indietro" data-lingua="torna_indietro"></a>
 
 
 
@@ -126,6 +127,7 @@
 
                 var titolo = document.createElement("h2");
                 titolo.textContent = `${notizia.titolo}`;
+                titolo.style.color = "var(--text-main)";
 
                 div.appendChild(titolo);
                 div.appendChild(immagine);
