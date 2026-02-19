@@ -16,9 +16,6 @@ describe("Consumption Controller", () => {
     };
   });
 
-  // =========================
-  // getConsumptions
-  // =========================
   test("getConsumptions - restituisce lista consumi", async () => {
     Consumption.find.mockReturnValue({
       populate: jest.fn().mockResolvedValue([{ value: 100 }])
@@ -40,9 +37,6 @@ describe("Consumption Controller", () => {
     expect(res.json).toHaveBeenCalledWith({ error: "DB error" });
   });
 
-  // =========================
-  // createConsumption
-  // =========================
   test("createConsumption - creazione riuscita", async () => {
   req.body = { value: 200 };
 
@@ -72,9 +66,6 @@ describe("Consumption Controller", () => {
     expect(res.json).toHaveBeenCalledWith({ error: "Validation error" });
   });
 
-  // =========================
-  // getConsumptionById
-  // =========================
   test("getConsumptionById - consumo trovato", async () => {
     req.params.id = "123";
     Consumption.find.mockReturnValue({
@@ -110,9 +101,6 @@ describe("Consumption Controller", () => {
     expect(res.json).toHaveBeenCalledWith({ error: "DB error" });
   });
 
-  // =========================
-  // updateConsumption
-  // =========================
   test("updateConsumption - aggiornamento riuscito", async () => {
     req.params.id = "123";
     req.body = { value: 300 };
@@ -151,9 +139,6 @@ describe("Consumption Controller", () => {
     expect(res.json).toHaveBeenCalledWith({ error: "Validation error" });
   });
 
-  // =========================
-  // deleteConsumption
-  // =========================
   test("deleteConsumption - eliminazione riuscita", async () => {
     req.params.id = "123";
     Consumption.findByIdAndDelete.mockResolvedValue({});

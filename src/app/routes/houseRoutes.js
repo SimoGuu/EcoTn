@@ -11,5 +11,4 @@ router.get('/:id/consumption-stats', houseController.getHouseConsumptionStats);
 router.get('/:id/production-stats', houseController.getHouseProductionStats);
 router.get('/:id/battery/latest', houseController.getLatestBatteryLevel);
 
-
 module.exports = router;

@@ -55,10 +55,8 @@ exports.deletePerson = async (req, res) => {
 
 exports.getHousesByPerson = async (req, res) => {
   try {
-    // Cerchiamo tutte le case che contengono l'ID della persona nell'array 'persone'
     const houses = await House.find({ persone: req.params.id });
     
-    // Se vuoi anche i dettagli della persona dentro l'array, aggiungi .populate('persone')
     res.json(houses);
   } catch (err) {
     res.status(500).json({ error: err.message });

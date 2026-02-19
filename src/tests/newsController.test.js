@@ -26,8 +26,7 @@ describe("News Controller", () => {
   describe("getNews", () => {
     it("should return all news successfully", async () => {
       const mockNews = [{ titolo: "News1" }, { titolo: "News2" }];
-      
-      // Mock per .find().populate()
+
       News.find.mockReturnValue({
         populate: jest.fn().mockResolvedValue(mockNews)
       });
@@ -79,8 +78,7 @@ describe("News Controller", () => {
   describe("getNewsById", () => {
     it("should return news by id", async () => {
       const mockNews = { _id: "123", titolo: "News1" };
-      
-      // Mock per .findById().populate()
+
       News.findById.mockReturnValue({
         populate: jest.fn().mockResolvedValue(mockNews)
       });

@@ -22,10 +22,6 @@ describe("Production Controller", () => {
     jest.clearAllMocks();
   });
 
-  // =========================
-  // getProductions
-  // =========================
-
   test("getProductions - restituisce lista produzioni", async () => {
     Production.find.mockReturnValue({
       populate: jest.fn().mockResolvedValue([{ value: 500 }])
@@ -45,10 +41,6 @@ describe("Production Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(500);
   });
-
-  // =========================
-  // createProduction
-  // =========================
 
   test("createProduction - creazione riuscita", async () => {
     req.body = { value: 300 };

@@ -14,9 +14,6 @@ describe("SpidLoginController", () => {
         jest.clearAllMocks();
     });
 
-    // -------------------------------------------------
-    // doLogin
-    // -------------------------------------------------
     describe("doLogin", () => {
         it("should redirect to SPID authorization endpoint", () => {
             const mockResponse = {
@@ -35,9 +32,6 @@ describe("SpidLoginController", () => {
         });
     });
 
-    // -------------------------------------------------
-    // negotiateUserToken
-    // -------------------------------------------------
     describe("negotiateUserToken", () => {
 
         it("should return access_token when fetch succeeds", async () => {
@@ -62,9 +56,6 @@ describe("SpidLoginController", () => {
         });
     });
 
-    // -------------------------------------------------
-    // getUserScopes
-    // -------------------------------------------------
     describe("getUserScopes", () => {
 
         it("should return user scopes on success", async () => {
@@ -94,9 +85,6 @@ describe("SpidLoginController", () => {
         });
     });
 
-    // -------------------------------------------------
-// handleCallback
-// -------------------------------------------------
 describe("handleCallback", () => {
 
     let mockRequest;

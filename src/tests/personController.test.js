@@ -30,10 +30,6 @@ describe("Person Controller", () => {
     jest.clearAllMocks();
   });
 
-  // =========================
-  // getPersons
-  // =========================
-
   test("getPersons - restituisce lista persone", async () => {
     Person.find.mockResolvedValue([validPersonData]);
 
@@ -51,10 +47,6 @@ describe("Person Controller", () => {
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalled();
   });
-
-  // =========================
-  // createPerson
-  // =========================
 
   test("createPerson - creazione riuscita", async () => {
     req.body = validPersonData;
@@ -74,7 +66,7 @@ describe("Person Controller", () => {
 
 
   test("createPerson - errore validazione", async () => {
-    req.body = {}; // mancano campi required
+    req.body = {};
 
     Person.mockImplementation(() => ({
       save: jest.fn().mockRejectedValue(new Error("Validation error"))
@@ -84,10 +76,6 @@ describe("Person Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
   });
-
-  // =========================
-  // getPersonById
-  // =========================
 
   test("getPersonById - persona trovata", async () => {
     req.params.id = "123";
@@ -106,10 +94,6 @@ describe("Person Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(404);
   });
-
-  // =========================
-  // updatePerson
-  // =========================
 
   test("updatePerson - aggiornamento riuscito", async () => {
     req.params.id = "123";
@@ -134,10 +118,6 @@ describe("Person Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(404);
   });
-
-  // =========================
-  // deletePerson
-  // =========================
 
   test("deletePerson - eliminazione riuscita", async () => {
     req.params.id = "123";

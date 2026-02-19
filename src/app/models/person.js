@@ -9,5 +9,4 @@ const personSchema = new Schema({
   isDipendente: { type: Boolean, required: true, unique: false }
 }, { timestamps: true });
 
-// module.exports = mongoose.model('Person', personSchema);
 module.exports = mongoose.models.Person || mongoose.model('Person', personSchema);

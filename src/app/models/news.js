@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const newsSchema = new Schema({
   titolo: { type: String, required: true, trim: true },
   testo: { type: String, required: true },
-  immagine: { type: String }, // URL o path jpeg
+  immagine: { type: String },
   chiavi: [{ type: Schema.Types.ObjectId, ref: 'Key' }]
 }, { timestamps: true });
 

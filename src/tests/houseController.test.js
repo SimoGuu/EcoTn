@@ -34,10 +34,6 @@ describe("House Controller", () => {
     jest.clearAllMocks();
   });
 
-  // =========================
-  // getHouses
-  // =========================
-
   test("getHouses - restituisce lista case", async () => {
     House.find.mockReturnValue({
       populate: jest.fn().mockResolvedValue([{ address: "Via Roma" }])
@@ -57,10 +53,6 @@ describe("House Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(500);
   });
-
-  // =========================
-  // createHouse
-  // =========================
 
   test("createHouse - creazione riuscita", async () => {
     req.body = { address: "Via Milano" };
@@ -83,10 +75,6 @@ describe("House Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
   });
-
-  // =========================
-  // getHouseById
-  // =========================
 
   test("getHouseById - casa trovata", async () => {
     req.params.id = "123";
@@ -112,10 +100,6 @@ describe("House Controller", () => {
     expect(res.status).toHaveBeenCalledWith(404);
   });
 
-  // =========================
-  // updateHouse
-  // =========================
-
   test("updateHouse - aggiornamento riuscito", async () => {
     req.params.id = "123";
     req.body = { address: "Via Napoli" };
@@ -140,10 +124,6 @@ describe("House Controller", () => {
 
     expect(res.status).toHaveBeenCalledWith(404);
   });
-
-  // =========================
-  // deleteHouse
-  // =========================
 
   test("deleteHouse - eliminazione riuscita", async () => {
     req.params.id = "123";
@@ -187,7 +167,7 @@ describe('House Consumption Stats (Mocked)', () => {
       .query({ start: '2023-10-27', end: '2023-10-27' });
 
     expect(res.statusCode).toBe(200);
-    expect(res.body.labels).toEqual([8, 9]); // Raggruppamento orario ($hour)
+    expect(res.body.labels).toEqual([8, 9]);
     expect(res.body.values).toEqual([0.45, 0.60]);
     spy.mockRestore();
   });
@@ -204,7 +184,7 @@ describe('House Consumption Stats (Mocked)', () => {
       .query({ start: '2023-10-25', end: '2023-10-26' });
 
     expect(res.statusCode).toBe(200);
-    expect(res.body.labels).toEqual(['2023-10-25', '2023-10-26']); // Formato %Y-%m-%d
+    expect(res.body.labels).toEqual(['2023-10-25', '2023-10-26']);
     spy.mockRestore();
   });
 
