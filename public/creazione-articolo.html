@@ -112,7 +112,7 @@
             if (!container) return;
 
             try {
-                const response = await fetch(`${apiUrl}/api/v1/keys`);
+                const response = await fetch(`https://ecotn-5fc1.onrender.com/api/v1/keys`);
                 if (!response.ok) throw new Error('Errore nel caricamento delle chiavi');
 
                 const chiavi = await response.json();
